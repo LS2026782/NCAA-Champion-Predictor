@@ -1,0 +1,69 @@
+---
+description: Backtesting and evaluation protocols
+globs: "**/backtest*.py,**/evaluation/**/*.py"
+alwaysApply: false
+---
+
+# Backtesting Protocol
+
+## Rolling-Year Cross-Validation
+
+```python
+from config.settings import FIRST_TEST_YEAR, MAX_YEAR
+
+for test_year in range(FIRST_TEST_YEAR, MAX_YEAR + 1):
+    # Skip 2020 (no tournament)
+    if test_year == 2020:
+        continue
+        
+    # Strict temporal split
+    train = data[data['YEAR'] < test_year]
+    test = data[data['YEAR'] == test_year]
+    
+    # Train and evaluate
+    model.fit(X_train, y_train)
+    rankings = model.predict_proba(X_test)
+```
+
+## Required Metrics
+
+Report all of these for each backtest:
+
+```python
+results = {
+    'year': test_year,
+    'champion': actual_champion,
+    'champion_rank': rank_of_actual_champion,
+    'top_1_correct': champion_rank == 1,
+    'top_5_inclusion': champion_rank <= 5,
+    'top_10_inclusion': champion_rank <= 10,
+    'predicted_winner': team_with_highest_prob,
+}
+```
+
+## Aggregate Summary
+
+```python
+# Calculate across all test years
+summary = {
+    'mean_champion_rank': np.mean(champion_ranks),
+    'median_champion_rank': np.median(champion_ranks),
+    'top_5_rate': np.mean([r <= 5 for r in champion_ranks]),
+    'top_10_rate': np.mean([r <= 10 for r in champion_ranks]),
+    'top_25_rate': np.mean([r <= 25 for r in champion_ranks]),
+}
+```
+
+## Comparing Models
+
+When testing new features or models:
+
+```python
+# ✅ Compare on same test years
+baseline_ranks = [...]  # From current model
+new_ranks = [...]       # From new model
+
+# Use paired comparison
+improvement = np.mean(baseline_ranks) - np.mean(new_ranks)
+print(f"Improvement: {improvement:.1f} ranks on average")
+```

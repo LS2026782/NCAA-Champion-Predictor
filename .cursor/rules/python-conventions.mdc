@@ -1,0 +1,70 @@
+---
+description: Python coding standards for this project
+globs: "**/*.py"
+alwaysApply: false
+---
+
+# Python Conventions
+
+## Imports
+
+```python
+# Standard library
+from pathlib import Path
+import logging
+
+# Third-party
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LogisticRegressionCV
+
+# Local imports
+from config.settings import MODEL_FEATURES, DATA_DIR
+from src.data.loader import DataLoader
+```
+
+## Type Hints & Docstrings
+
+```python
+def calculate_champion_probability(
+    features: pd.DataFrame,
+    model: LogisticRegressionCV
+) -> pd.Series:
+    """
+    Calculate championship probability for each team.
+    
+    Args:
+        features: Pre-tournament team statistics
+        model: Fitted classification model
+        
+    Returns:
+        Series with team names as index, probabilities as values
+    """
+```
+
+## Pandas Best Practices
+
+```python
+# ✅ Use .loc for explicit indexing
+df.loc[df['YEAR'] == 2024, 'SEED_STRENGTH'] = 17 - df['SEED']
+
+# ❌ Avoid chained assignment
+df[df['YEAR'] == 2024]['SEED_STRENGTH'] = value  # SettingWithCopyWarning!
+
+# ✅ Use .copy() when subsetting
+train_df = full_df[full_df['YEAR'] < test_year].copy()
+```
+
+## Logging Over Print
+
+```python
+import logging
+logger = logging.getLogger(__name__)
+
+# ✅ Use logging
+logger.info(f"Training on {len(train_df)} samples")
+logger.warning(f"Missing features: {missing}")
+
+# ❌ Avoid print in library code
+print(f"Training...")  # Use only in scripts/main.py
+```

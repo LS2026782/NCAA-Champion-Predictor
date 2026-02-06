@@ -1,0 +1,84 @@
+---
+description: Model development and evaluation standards
+globs: "src/models/**/*.py"
+alwaysApply: false
+---
+
+# Model Development Standards
+
+## Supported Models
+
+1. **Logistic Regression** (default) - Interpretable, stable with small data
+2. **Gradient Boosting** - Higher capacity, requires more regularization
+3. **Ensemble** - Combines multiple models
+
+## Key Features
+
+The most predictive features for game/champion prediction:
+- **KADJ EM** - KenPom efficiency margin (most important)
+- **BARTHAG** - Win probability metric
+- **TALENT** - Recruiting composite (roster depth proxy, +1.1% accuracy boost)
+- **SEED** - Tournament seeding
+
+Note: TALENT (recruiting rankings) is more predictive than EXP (experience).
+Champions average 77 TALENT vs 42 for the field.
+
+## Configuration (from settings.py)
+
+```python
+from config.settings import LOGREG_CONFIG, GBM_CONFIG
+
+# Logistic Regression
+model = LogisticRegressionCV(**LOGREG_CONFIG)
+
+# Gradient Boosting
+model = HistGradientBoostingClassifier(**GBM_CONFIG)
+```
+
+## Class Imbalance Handling
+
+Only ~1 champion per 68 tournament teams per year:
+
+```python
+# ✅ Use balanced class weights
+LogisticRegressionCV(class_weight='balanced')
+
+# ✅ For GBM, consider sample weights
+sample_weight = compute_sample_weight('balanced', y_train)
+```
+
+## Probability Calibration
+
+```python
+# Get probabilities, not just predictions
+probs = model.predict_proba(X_test)[:, 1]
+
+# Rank teams by championship probability
+rankings = pd.Series(probs, index=team_names).sort_values(ascending=False)
+```
+
+## Evaluation Metrics
+
+```python
+from config.settings import TOP_K_THRESHOLDS  # [1, 5, 10, 25, 68]
+
+# Primary: Where does actual champion rank?
+champion_rank = (rankings > champion_prob).sum() + 1
+
+# Secondary: Top-K inclusion rates
+for k in TOP_K_THRESHOLDS:
+    in_top_k = champion_rank <= k
+```
+
+## Model Persistence
+
+```python
+import joblib
+from config.settings import RESULTS_DIR
+
+# Save trained model
+joblib.dump(model, RESULTS_DIR / f'model_{year}.joblib')
+
+# Load for predictions
+model = joblib.load(RESULTS_DIR / f'model_{year}.joblib')
+```

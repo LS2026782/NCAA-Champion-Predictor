@@ -1,0 +1,65 @@
+---
+description: Feature engineering standards for builder modules
+globs: "src/features/**/*.py"
+alwaysApply: false
+---
+
+# Feature Engineering Standards
+
+## Feature Categories (from settings.py)
+
+Always import feature lists from config:
+
+```python
+from config.settings import (
+    EFFICIENCY_FEATURES,    # KADJ EM, KADJ O, KADJ D, BARTHAG, etc.
+    FOUR_FACTORS_OFF,       # EFG%, TOV%, OREB%, FTR
+    FOUR_FACTORS_DEF,       # EFG%D, TOV%D, DREB%, FTRD
+    MODEL_FEATURES,         # Final feature set for models
+)
+```
+
+## Derived Features
+
+```python
+# SEED_STRENGTH: Higher = better seed (1-seed gets 16, 16-seed gets 1)
+df['SEED_STRENGTH'] = 17 - df['SEED']
+
+# EM_X_SOS: Efficiency × Schedule Strength interaction
+df['EM_X_SOS'] = df['KADJ EM'] * df['ELITE SOS']
+```
+
+## Scaling Requirements
+
+```python
+from sklearn.preprocessing import StandardScaler
+
+# ✅ Fit scaler on TRAINING data only
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)  # transform only!
+
+# ❌ Never fit on test data
+scaler.fit_transform(X_test)  # LEAKAGE!
+```
+
+## Missing Value Strategy
+
+```python
+# Check for missing before model training
+missing = df[MODEL_FEATURES].isnull().sum()
+if missing.any():
+    logger.warning(f"Missing values:\n{missing[missing > 0]}")
+    
+# Imputation options:
+# 1. Drop rows (if few missing)
+# 2. Median imputation (for numeric)
+# 3. Investigate data source (preferred)
+```
+
+## Adding New Features
+
+1. Add to appropriate list in `config/settings.py`
+2. Implement calculation in feature builder
+3. Verify no data leakage (pre-tournament only!)
+4. Run backtest to measure impact

@@ -37,6 +37,7 @@ env/
 .ipynb_checkpoints/
 
 # Data files (large CSVs)
+data/raw/**/*.csv
 data/raw/*.csv
 data/processed/*.csv
 

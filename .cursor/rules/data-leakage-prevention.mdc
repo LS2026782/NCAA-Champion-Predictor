@@ -1,0 +1,49 @@
+---
+description: Critical rules to prevent data leakage in ML pipeline
+alwaysApply: true
+---
+
+# Data Leakage Prevention
+
+**This is the most critical rule for model integrity.**
+
+## Temporal Split Rules
+
+```python
+# ✅ CORRECT: Train on past, test on future
+train_data = data[data['YEAR'] < test_year]
+test_data = data[data['YEAR'] == test_year]
+
+# ❌ WRONG: Any overlap or future data in training
+train_data = data[data['YEAR'] <= test_year]  # Leaks test year!
+```
+
+## Feature Rules
+
+### Allowed (Pre-Tournament Only)
+- Regular season statistics (KenPom, Barttorvik)
+- Team seed (announced on Selection Sunday)
+- Experience, talent, SOS metrics
+
+### FORBIDDEN (Tournament Results)
+- `POSTSEASON` column - only for labels
+- `ROUND` column - only to identify champions
+- Any derived feature from tournament performance
+
+## Label Extraction
+
+```python
+# ✅ CORRECT: Use POSTSEASON only for labeling
+is_champion = (data['POSTSEASON'] == 'Champions') | (data['ROUND'] == 1)
+
+# ❌ WRONG: Using tournament depth as a feature
+data['tournament_success'] = data['ROUND']  # LEAKAGE!
+```
+
+## Validation Checklist
+
+Before adding any feature, ask:
+1. Was this known BEFORE the tournament started?
+2. Could a bettor have accessed this on Selection Sunday?
+
+If NO to either → **DO NOT USE AS A FEATURE**

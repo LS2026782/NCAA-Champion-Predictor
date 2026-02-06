@@ -134,6 +134,9 @@ MODEL_FEATURES = [
     # Experience (historically important for tournament success)
     'EXP',
     
+    # Recruiting talent (roster depth proxy - champions avg 77 vs field 42)
+    'TALENT',
+    
     # Schedule strength
     'ELITE SOS',
     

@@ -1,0 +1,35 @@
+---
+description: 
+alwaysApply: true
+---
+
+# NCAA Champion Predictor - Project Standards
+
+## Project Structure
+
+- `config/settings.py` - All configuration, feature lists, and constants
+- `src/data/` - Data loading and preprocessing
+- `src/features/` - Feature engineering pipelines
+- `src/models/` - Model definitions (LogReg, GBM, Ensemble)
+- `src/evaluation/` - Backtesting and metrics
+- `src/simulation/` - Monte Carlo bracket simulation
+- `analysis/` - Exploratory analysis scripts
+
+## Key Conventions
+
+1. **Use settings.py for constants** - Never hardcode feature names, paths, or thresholds
+2. **Year range**: Data available 2008-2024 (no 2020 due to COVID cancellation)
+3. **Entry point**: `main.py` handles CLI and orchestration
+
+## Feature Column Names
+
+Use exact column names from KenPom/Barttorvik data:
+- Efficiency: `KADJ EM`, `KADJ O`, `KADJ D`, `BARTHAG`
+- Four Factors: `EFG%`, `TOV%`, `OREB%`, `FTR`, `EFG%D`, `TOV%D`, `DREB%`, `FTRD`
+- Other: `EXP`, `ELITE SOS`, `SEED`
+
+## Testing Requirements
+
+- Run backtests with `python main.py --backtest`
+- Evaluate on years 2012-2024 (MIN_YEAR + MIN_TRAIN_YEARS)
+- Report Top-K inclusion rates and champion rank metrics
