@@ -24,7 +24,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from config.settings import MIN_YEAR, MAX_YEAR, MIN_TRAIN_YEARS, FIRST_TEST_YEAR
 from src.data.loader import DataLoader
 from src.features.builder import FeatureBuilder
-from src.models.champion_model import ChampionPredictor
+from src.models.champion_model import ChampionPredictor, compute_era_weights
 
 
 @dataclass
@@ -144,9 +144,14 @@ class Backtester:
         y_train = train_df_feat['IS_CHAMPION'].values
         y_test = test_df_feat['IS_CHAMPION'].values
         
+        # Build season groups and era weights for temporal CV
+        season_groups = train_df_feat['YEAR'].values if 'YEAR' in train_df_feat.columns else None
+        era_weights = compute_era_weights(season_groups) if season_groups is not None else None
+
         # Train model
         model = ChampionPredictor(model_type=self.model_type, calibrate=self.calibrate)
-        model.fit(X_train, y_train, feature_names=self.builder.get_feature_names())
+        model.fit(X_train, y_train, feature_names=self.builder.get_feature_names(),
+                  season_groups=season_groups, era_weights=era_weights)
         
         # Predict
         probs = model.predict_proba(X_test)

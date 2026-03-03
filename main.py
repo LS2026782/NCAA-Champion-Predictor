@@ -31,7 +31,9 @@ from config.settings import (
 )
 from src.data.loader import DataLoader
 from src.features.builder import FeatureBuilder
-from src.models.champion_model import ChampionPredictor
+from src.models.champion_model import (
+    ChampionPredictor, EnsembleChampionPredictor, compute_era_weights
+)
 from src.evaluation.backtester import Backtester
 from src.simulation.monte_carlo import BracketSimulator
 
@@ -98,10 +100,15 @@ def predict_year(year: int, model_type: str = 'logreg') -> dict:
     
     y_train = train_df_feat['IS_CHAMPION'].values
     
+    # Build season groups and era weights for temporal CV and concept drift
+    season_groups = train_df_feat['YEAR'].values if 'YEAR' in train_df_feat.columns else None
+    era_weights = compute_era_weights(season_groups) if season_groups is not None else None
+    
     # Train model
     print(f"\nTraining {model_type.upper()} model...")
     model = ChampionPredictor(model_type=model_type)
-    model.fit(X_train, y_train, feature_names=builder.get_feature_names())
+    model.fit(X_train, y_train, feature_names=builder.get_feature_names(),
+              season_groups=season_groups, era_weights=era_weights)
     
     # Predict
     probs = model.predict_proba(X_test)

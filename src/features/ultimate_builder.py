@@ -32,6 +32,7 @@ class UltimateFeatureBuilder:
     def __init__(self):
         self.scaler: Optional[StandardScaler] = None
         self._fitted = False
+        self._fit_params: dict = {}
         self._load_auxiliary_data()
         
         # ULTIMATE FEATURE SET
@@ -76,56 +77,71 @@ class UltimateFeatureBuilder:
         ]
         
     def _load_auxiliary_data(self):
-        """Load preseason and resume data."""
-        try:
-            self.preseason_df = pd.read_csv(RAW_DATA_DIR / 'KenPom Preseason.csv')
-        except:
+        """Load preseason and resume data.
+
+        Files are optional — if absent the corresponding features are set to 0
+        and a warning is emitted so the gap is visible rather than silent.
+        """
+        import logging
+        _log = logging.getLogger(__name__)
+
+        preseason_path = RAW_DATA_DIR / 'KenPom Preseason.csv'
+        if preseason_path.exists():
+            try:
+                self.preseason_df = pd.read_csv(preseason_path)
+            except Exception as exc:
+                _log.warning("Could not read %s: %s — MOMENTUM_EM will be 0", preseason_path, exc)
+                self.preseason_df = None
+        else:
+            _log.info("Optional file not found: %s — MOMENTUM_EM will be 0", preseason_path)
             self.preseason_df = None
-            
-        try:
-            self.resume_df = pd.read_csv(RAW_DATA_DIR / 'Resumes.csv')
-        except:
+
+        resume_path = RAW_DATA_DIR / 'Resumes.csv'
+        if resume_path.exists():
+            try:
+                self.resume_df = pd.read_csv(resume_path)
+            except Exception as exc:
+                _log.warning("Could not read %s: %s — Q1_WINS will be 0", resume_path, exc)
+                self.resume_df = None
+        else:
+            _log.info("Optional file not found: %s — Q1_WINS will be 0", resume_path)
             self.resume_df = None
     
     def build_features(
-        self, 
-        df: pd.DataFrame, 
+        self,
+        df: pd.DataFrame,
         fit_scaler: bool = False,
         all_data: Optional[pd.DataFrame] = None
     ) -> Tuple[pd.DataFrame, np.ndarray]:
         """Build ultimate feature matrix."""
         df = df.copy()
-        
-        # Add seed features
+
         df = self._add_seed_features(df)
-        
-        # Add momentum features
         df = self._add_momentum_features(df)
-        
-        # Add resume features (Q1 wins)
         df = self._add_resume_features(df)
-        
-        # Add composite features
-        df = self._add_composite_features(df)
-        
-        # Get available features
-        available = [f for f in self.feature_cols if f in df.columns]
+        df = self._add_composite_features(df, fit=fit_scaler)
+
         missing = [f for f in self.feature_cols if f not in df.columns]
-        
         if missing:
             print(f"  Missing features (will be filled with 0): {missing}")
             for f in missing:
                 df[f] = 0
-        
+
         X = df[self.feature_cols].copy()
-        
-        # Handle missing values
+
+        # Imputation: store medians from training; reuse on test (no leakage)
+        if fit_scaler:
+            self._fit_params['imputation_medians'] = {}
+        medians = self._fit_params.get('imputation_medians', {})
         for col in X.columns:
             if X[col].isnull().any():
-                median = X[col].median()
-                X[col] = X[col].fillna(median if pd.notna(median) else 0)
-        
-        # Scale
+                if fit_scaler:
+                    val = X[col].median()
+                    medians[col] = val if pd.notna(val) else 0.0
+                X[col] = X[col].fillna(medians.get(col, 0.0))
+        if fit_scaler:
+            self._fit_params['imputation_medians'] = medians
+
         if fit_scaler:
             self.scaler = StandardScaler()
             X_scaled = self.scaler.fit_transform(X)
@@ -134,18 +150,20 @@ class UltimateFeatureBuilder:
             X_scaled = self.scaler.transform(X)
         else:
             X_scaled = X.values
-            
+
         self.feature_names = self.feature_cols
         return df, X_scaled
-    
+
     def _add_seed_features(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Add seed-based features."""
+        """Add non-linear seed feature (log of historical championship rate)."""
+        from config.settings import SEED_CHAMPION_RATE
         if df['SEED'].dtype == 'object':
             df['SEED_NUM'] = df['SEED'].astype(str).str.extract(r'(\d+)').astype(float)
         else:
             df['SEED_NUM'] = df['SEED'].astype(float)
-        
-        df['SEED_STRENGTH'] = 17 - df['SEED_NUM']
+
+        rate = df['SEED_NUM'].map(SEED_CHAMPION_RATE).fillna(SEED_CHAMPION_RATE[16])
+        df['SEED_STRENGTH'] = np.log(rate)
         return df
     
     def _add_momentum_features(self, df: pd.DataFrame) -> pd.DataFrame:
@@ -180,26 +198,38 @@ class UltimateFeatureBuilder:
         
         return df
     
-    def _add_composite_features(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Add composite features."""
-        
-        # EM x SOS interaction
+    def _add_composite_features(self, df: pd.DataFrame, fit: bool = False) -> pd.DataFrame:
+        """Add composite features using training-set normalization to prevent leakage."""
+
+        # EM × SOS interaction — store min/max from training set
         if 'KADJ EM' in df.columns and 'ELITE SOS' in df.columns:
-            sos_min = df['ELITE SOS'].min()
-            sos_max = df['ELITE SOS'].max()
+            if fit:
+                self._fit_params['sos_min'] = df['ELITE SOS'].min()
+                self._fit_params['sos_max'] = df['ELITE SOS'].max()
+            sos_min = self._fit_params.get('sos_min', df['ELITE SOS'].min())
+            sos_max = self._fit_params.get('sos_max', df['ELITE SOS'].max())
             sos_norm = (df['ELITE SOS'] - sos_min) / (sos_max - sos_min + 1e-8)
             df['EM_X_SOS'] = df['KADJ EM'] * (0.5 + sos_norm)
         else:
             df['EM_X_SOS'] = 0
-        
-        # Clutch composite: FT% + WAB (both indicate ability to win close games)
+
+        # CLUTCH_COMPOSITE — store FT% and WAB bounds from training set
         if 'FT%' in df.columns and 'WAB' in df.columns:
-            ft_norm = (df['FT%'] - df['FT%'].min()) / (df['FT%'].max() - df['FT%'].min() + 1e-8)
-            wab_norm = (df['WAB'] - df['WAB'].min()) / (df['WAB'].max() - df['WAB'].min() + 1e-8)
+            if fit:
+                self._fit_params['ft_min']  = df['FT%'].min()
+                self._fit_params['ft_max']  = df['FT%'].max()
+                self._fit_params['wab_min'] = df['WAB'].min()
+                self._fit_params['wab_max'] = df['WAB'].max()
+            ft_min  = self._fit_params.get('ft_min',  df['FT%'].min())
+            ft_max  = self._fit_params.get('ft_max',  df['FT%'].max())
+            wab_min = self._fit_params.get('wab_min', df['WAB'].min())
+            wab_max = self._fit_params.get('wab_max', df['WAB'].max())
+            ft_norm  = (df['FT%'] - ft_min)  / (ft_max  - ft_min  + 1e-8)
+            wab_norm = (df['WAB'] - wab_min) / (wab_max - wab_min + 1e-8)
             df['CLUTCH_COMPOSITE'] = 0.5 * ft_norm + 0.5 * wab_norm
         else:
             df['CLUTCH_COMPOSITE'] = 0
-            
+
         return df
     
     def get_feature_names(self) -> List[str]:

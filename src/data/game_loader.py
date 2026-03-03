@@ -65,6 +65,12 @@ class GameLoader:
     
     def _load_matchups(self) -> None:
         """Load raw tournament matchup data."""
+        if not TOURNAMENT_MATCHUPS_FILE.exists():
+            raise FileNotFoundError(
+                f"Tournament Matchups file not found: {TOURNAMENT_MATCHUPS_FILE}\n"
+                "Game-by-game bracket simulation requires this file."
+            )
+        
         print(f"Loading Tournament Matchups from {TOURNAMENT_MATCHUPS_FILE}")
         
         self._raw_matchups = pd.read_csv(TOURNAMENT_MATCHUPS_FILE)

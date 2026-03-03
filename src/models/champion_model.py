@@ -3,29 +3,34 @@ Champion prediction models.
 
 This module implements:
 - Logistic Regression with L2 regularization (interpretable baseline)
-- Gradient Boosting with strict regularization (optional ensemble)
+- Gradient Boosting with strict regularization (non-linear interactions)
 - Probability calibration for well-calibrated outputs
+- Temporal cross-validation (GroupKFold by season) to prevent leakage
+- Cinderella detection via the Talent-Experience interaction
+- Concept-drift-aware training with optional era weighting
 
 DESIGN PHILOSOPHY:
 - Interpretability over marginal accuracy gains
-- Strong regularization to prevent overfitting on small champion sample
+- Strong regularization to prevent overfitting on small champion sample (~22 positives)
 - Class balancing to handle extreme imbalance (~1:67 ratio)
+- Temporal integrity: training data NEVER leaks future season statistics
+- Longitudinal learning: the model sees the full 2002-2025 evolution of the game
 """
 
 import numpy as np
 import pandas as pd
-from typing import Dict, Any, Optional, Tuple
+from typing import Dict, Any, Optional, Tuple, List
 from sklearn.linear_model import LogisticRegressionCV, LogisticRegression
 from sklearn.ensemble import HistGradientBoostingClassifier, GradientBoostingClassifier
 from sklearn.calibration import CalibratedClassifierCV
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_val_score, GroupKFold
 import warnings
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from config.settings import LOGREG_CONFIG, GBM_CONFIG
+from config.settings import LOGREG_CONFIG, GBM_CONFIG, OPTUNA_CONFIG
 
 
 class ChampionPredictor:
@@ -61,12 +66,16 @@ class ChampionPredictor:
         self.calibrated_model = None
         self.feature_names = None
         self._fitted = False
+        self._season_groups = None
+        self._era_weights = None
         
     def fit(
         self, 
         X: np.ndarray, 
         y: np.ndarray,
-        feature_names: Optional[list] = None
+        feature_names: Optional[list] = None,
+        season_groups: Optional[np.ndarray] = None,
+        era_weights: Optional[np.ndarray] = None
     ) -> 'ChampionPredictor':
         """
         Fit the model on training data.
@@ -75,11 +84,18 @@ class ChampionPredictor:
             X: Feature matrix (n_samples, n_features)
             y: Binary labels (1 = champion, 0 = not champion)
             feature_names: Names of features for interpretability
+            season_groups: Season year for each row, used for GroupKFold CV
+                          to prevent temporal leakage within cross-validation
+            era_weights: Optional per-sample weights for concept drift.
+                        More recent seasons can be up-weighted to prioritize
+                        the modern game's characteristics.
             
         Returns:
             self
         """
         self.feature_names = feature_names
+        self._season_groups = season_groups
+        self._era_weights = era_weights
         
         if self.model_type == 'logreg':
             self._fit_logistic_regression(X, y)
@@ -99,14 +115,38 @@ class ChampionPredictor:
         Fit logistic regression with cross-validated regularization.
         
         Uses L2 regularization with automatic strength selection via CV.
-        Class weights are balanced to handle imbalance.
+        Class weights are balanced to handle the ~1:67 champion imbalance.
+        
+        When season groups are provided, uses GroupKFold to prevent temporal
+        leakage (teams from the same season never appear in both train and
+        validation within the CV loop).
         """
         print(f"Fitting Logistic Regression (n={len(y)}, positives={y.sum()})")
         
-        # Use LogisticRegressionCV for automatic regularization tuning
+        n_folds = min(LOGREG_CONFIG['cv'], int(y.sum()))
+        
+        cv_strategy = n_folds
+        if self._season_groups is not None:
+            unique_seasons = np.unique(self._season_groups)
+            n_groups = len(unique_seasons)
+            if n_groups >= 3:
+                cv_strategy = GroupKFold(n_splits=min(n_folds, n_groups))
+                print(f"  Using GroupKFold with {min(n_folds, n_groups)} season groups")
+
+        # Pre-compute GroupKFold splits into a list of (train, test) tuples so we
+        # don't need to pass groups= to fit() (requires metadata routing in newer sklearn).
+        # IMPORTANT: use pre-computed splits only when NOT calibrating — CalibratedClassifierCV
+        # creates subsets of X and will call fit() on those subsets, where the original
+        # index-based splits would be out of bounds.  When calibrating, fall back to an
+        # integer CV count so LogisticRegressionCV creates fresh splits for each subset.
+        if self._season_groups is not None and isinstance(cv_strategy, GroupKFold) and not self.calibrate:
+            cv_param = list(cv_strategy.split(X, y, groups=self._season_groups))
+        else:
+            cv_param = n_folds  # plain integer; safe to reuse inside CalibratedClassifierCV
+
         self.model = LogisticRegressionCV(
-            Cs=np.logspace(-4, 2, LOGREG_CONFIG['Cs']),
-            cv=min(LOGREG_CONFIG['cv'], int(y.sum())),  # CV folds <= positives
+            Cs=np.logspace(-6, 4, LOGREG_CONFIG['Cs']),
+            cv=cv_param,
             penalty=LOGREG_CONFIG['penalty'],
             class_weight=LOGREG_CONFIG['class_weight'],
             scoring=LOGREG_CONFIG['scoring'],
@@ -123,45 +163,154 @@ class ChampionPredictor:
         
     def _fit_gradient_boosting(self, X: np.ndarray, y: np.ndarray) -> None:
         """
-        Fit gradient boosting with strict regularization.
-        
-        Uses shallow trees and strong regularization to prevent overfitting.
-        Uses sample_weight for class balancing to preserve feature_importances_.
-        
-        NOTE: While sklearn >= 0.24 supports class_weight='balanced' natively,
-        using it disables feature_importances_. We use sample_weight instead
-        to maintain interpretability.
+        Fit gradient boosting with optional Optuna hyperparameter tuning.
+
+        When OPTUNA_CONFIG['enabled'] is True, runs a short Optuna study
+        (n_trials / timeout from config) using temporal GroupKFold CV to find
+        the best regularization / depth / learning-rate combination for the
+        current training window.  Because the optimal hyperparameters can shift
+        between eras (one-and-done vs. transfer-portal), per-fit tuning is
+        more robust than a single hardcoded configuration.
+
+        Sample weights combine:
+        1. Class balancing — upweights the rare champion class (~1:87)
+        2. Era weighting (optional) — upweights recent seasons
         """
-        print(f"Fitting Gradient Boosting (n={len(y)}, positives={y.sum()})")
-        
-        # Calculate class weight for balancing
+        print(f"Fitting Gradient Boosting (n={len(y)}, positives={int(y.sum())})")
+
         n_neg = (y == 0).sum()
         n_pos = (y == 1).sum()
         scale_pos_weight = n_neg / max(n_pos, 1)
-        
-        # Use HistGradientBoostingClassifier for efficiency
-        # NOTE: We use sample_weight instead of class_weight to preserve
-        # feature_importances_ attribute for interpretability
+
+        sample_weight = np.where(y == 1, scale_pos_weight, 1.0)
+        if self._era_weights is not None:
+            sample_weight = sample_weight * self._era_weights
+            print(f"  Applied era weights "
+                  f"(range: {self._era_weights.min():.2f}–{self._era_weights.max():.2f})")
+
+        # ---- Optuna tuning ---------------------------------------------------
+        best_params = self._tune_gbm_optuna(X, y, sample_weight)
+
+        # ---- Final fit with best params on full training set -----------------
         self.model = HistGradientBoostingClassifier(
-            max_iter=GBM_CONFIG['max_iter'],
-            max_depth=GBM_CONFIG['max_depth'],
-            min_samples_leaf=GBM_CONFIG['min_samples_leaf'],
-            l2_regularization=GBM_CONFIG['l2_regularization'],
-            learning_rate=GBM_CONFIG['learning_rate'],
+            max_iter=best_params['max_iter'],
+            max_depth=best_params['max_depth'],
+            min_samples_leaf=best_params['min_samples_leaf'],
+            l2_regularization=best_params['l2_regularization'],
+            learning_rate=best_params['learning_rate'],
             early_stopping=GBM_CONFIG['early_stopping'],
             validation_fraction=GBM_CONFIG['validation_fraction'],
             n_iter_no_change=GBM_CONFIG['n_iter_no_change'],
-            random_state=GBM_CONFIG['random_state']
+            random_state=GBM_CONFIG['random_state'],
         )
-        
-        # Create sample weights for class balancing
-        sample_weight = np.where(y == 1, scale_pos_weight, 1.0)
-        
+
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             self.model.fit(X, y, sample_weight=sample_weight)
-            
+
         print(f"  Iterations used: {self.model.n_iter_}")
+
+    def _tune_gbm_optuna(
+        self,
+        X: np.ndarray,
+        y: np.ndarray,
+        sample_weight: np.ndarray,
+    ) -> Dict[str, Any]:
+        """
+        Run an Optuna study to find optimal GBM hyperparameters.
+
+        Uses temporal GroupKFold (seasons as groups) so no future-season data
+        contaminates validation during tuning.  Falls back to GBM_CONFIG
+        defaults if Optuna is disabled or tuning fails.
+
+        Returns
+        -------
+        dict  Best hyperparameter values (keys match HistGradientBoosting args).
+        """
+        if not OPTUNA_CONFIG.get('enabled', True):
+            return {
+                'max_iter':          GBM_CONFIG['max_iter'],
+                'max_depth':         GBM_CONFIG['max_depth'],
+                'min_samples_leaf':  GBM_CONFIG['min_samples_leaf'],
+                'l2_regularization': GBM_CONFIG['l2_regularization'],
+                'learning_rate':     GBM_CONFIG['learning_rate'],
+            }
+
+        try:
+            import optuna
+            optuna.logging.set_verbosity(optuna.logging.WARNING)
+        except ImportError:
+            print("  [Optuna] Not installed — using default GBM hyperparameters.")
+            return {k: GBM_CONFIG[k] for k in
+                    ('max_iter', 'max_depth', 'min_samples_leaf',
+                     'l2_regularization', 'learning_rate')}
+
+        groups = self._season_groups
+        n_folds = OPTUNA_CONFIG.get('cv_folds', 4)
+        if groups is not None and len(np.unique(groups)) >= 3:
+            cv = GroupKFold(n_splits=min(n_folds, len(np.unique(groups))))
+            splits = list(cv.split(X, y, groups=groups))
+        else:
+            from sklearn.model_selection import StratifiedKFold
+            skf = StratifiedKFold(n_splits=n_folds, shuffle=True,
+                                  random_state=GBM_CONFIG['random_state'])
+            splits = list(skf.split(X, y))
+
+        def objective(trial: 'optuna.Trial') -> float:
+            params = {
+                'max_iter':          trial.suggest_int(
+                    'max_iter', *OPTUNA_CONFIG['max_iter']),
+                'max_depth':         trial.suggest_int(
+                    'max_depth', *OPTUNA_CONFIG['max_depth']),
+                'min_samples_leaf':  trial.suggest_int(
+                    'min_samples_leaf', *OPTUNA_CONFIG['min_samples_leaf']),
+                'l2_regularization': trial.suggest_float(
+                    'l2_regularization', *OPTUNA_CONFIG['l2_regularization'], log=True),
+                'learning_rate':     trial.suggest_float(
+                    'learning_rate', *OPTUNA_CONFIG['learning_rate'], log=True),
+            }
+
+            fold_scores = []
+            for tr_idx, val_idx in splits:
+                clf = HistGradientBoostingClassifier(
+                    **params,
+                    early_stopping=False,
+                    random_state=GBM_CONFIG['random_state'],
+                )
+                sw_tr = sample_weight[tr_idx]
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    clf.fit(X[tr_idx], y[tr_idx], sample_weight=sw_tr)
+
+                from sklearn.metrics import brier_score_loss
+                prob = clf.predict_proba(X[val_idx])[:, 1]
+                fold_scores.append(brier_score_loss(y[val_idx], prob))
+
+            return float(np.mean(fold_scores))
+
+        try:
+            study = optuna.create_study(
+                direction='minimize',
+                sampler=optuna.samplers.TPESampler(
+                    seed=GBM_CONFIG['random_state'], n_startup_trials=10),
+            )
+            study.optimize(
+                objective,
+                n_trials=OPTUNA_CONFIG.get('n_trials', 40),
+                timeout=OPTUNA_CONFIG.get('timeout', 60),
+                show_progress_bar=False,
+            )
+            best = study.best_params
+            print(f"  [Optuna] Best Brier={study.best_value:.4f}  "
+                  f"lr={best['learning_rate']:.4f}  "
+                  f"depth={best['max_depth']}  "
+                  f"l2={best['l2_regularization']:.2f}")
+            return best
+        except Exception as exc:
+            print(f"  [Optuna] Tuning failed ({exc}) — using defaults.")
+            return {k: GBM_CONFIG[k] for k in
+                    ('max_iter', 'max_depth', 'min_samples_leaf',
+                     'l2_regularization', 'learning_rate')}
         
     def _calibrate_probabilities(self, X: np.ndarray, y: np.ndarray) -> None:
         """
@@ -399,6 +548,66 @@ class ChampionPredictor:
         return normalized
 
 
+def compute_era_weights(season_years: np.ndarray, decay: float = 0.03) -> np.ndarray:
+    """
+    Compute per-sample weights that prioritize recent seasons.
+    
+    Uses exponential decay from the most recent season so that
+    the 2024 season has weight 1.0, 2023 has ~0.97, 2014 has ~0.74,
+    and 2002 has ~0.51. This addresses concept drift (3-point revolution,
+    transfer portal, etc.) without discarding valuable historical data.
+    
+    Args:
+        season_years: Array of season years per sample
+        decay: Decay rate per year (default 0.03 = ~3% per year)
+    
+    Returns:
+        Array of weights (0-1), most recent season = 1.0
+    """
+    max_year = season_years.max()
+    years_ago = max_year - season_years
+    return np.exp(-decay * years_ago)
+
+
+def detect_cinderella_profile(
+    talent: np.ndarray,
+    experience: np.ndarray,
+    efficiency: np.ndarray,
+    talent_threshold_pct: float = 40.0,
+    exp_threshold: float = 2.0,
+    em_threshold_pct: float = 70.0
+) -> np.ndarray:
+    """
+    Identify teams with the "Cinderella" profile: Low Talent / High Experience / High Efficiency.
+    
+    Historical analysis shows mid-major deep runs (George Mason 2006, VCU 2011,
+    Butler 2010) share this profile. The model benefits from a binary flag that
+    captures this non-linear interaction rather than relying on the model to
+    discover it from raw features alone.
+    
+    Args:
+        talent: TALENT scores
+        experience: EXP scores
+        efficiency: KADJ EM values
+        talent_threshold_pct: Percentile below which talent is "low"
+        exp_threshold: Minimum EXP for "high experience"
+        em_threshold_pct: Percentile above which efficiency is "high"
+    
+    Returns:
+        Binary array (1 = Cinderella profile, 0 = not)
+    """
+    talent_cutoff = np.nanpercentile(talent, talent_threshold_pct)
+    em_cutoff = np.nanpercentile(efficiency, em_threshold_pct)
+    
+    is_cinderella = (
+        (talent <= talent_cutoff) &
+        (experience >= exp_threshold) &
+        (efficiency >= em_cutoff)
+    ).astype(int)
+    
+    return is_cinderella
+
+
 class EnsembleChampionPredictor:
     """
     Ensemble predictor that combines Logistic Regression and Gradient Boosting.
@@ -450,7 +659,9 @@ class EnsembleChampionPredictor:
         self,
         X: np.ndarray,
         y: np.ndarray,
-        feature_names: Optional[list] = None
+        feature_names: Optional[list] = None,
+        season_groups: Optional[np.ndarray] = None,
+        era_weights: Optional[np.ndarray] = None
     ) -> 'EnsembleChampionPredictor':
         """
         Fit both base models on training data.
@@ -459,6 +670,8 @@ class EnsembleChampionPredictor:
             X: Feature matrix (n_samples, n_features)
             y: Binary labels (1 = champion, 0 = not champion)
             feature_names: Names of features for interpretability
+            season_groups: Season year per row for temporal CV
+            era_weights: Per-sample weights for concept drift handling
             
         Returns:
             self
@@ -468,14 +681,17 @@ class EnsembleChampionPredictor:
         print("="*60)
         print("ENSEMBLE CHAMPION PREDICTOR")
         print(f"Weights: LR={self.weight_lr:.2f}, GBM={self.weight_gbm:.2f}")
+        if season_groups is not None:
+            print(f"Seasons: {int(np.min(season_groups))}-{int(np.max(season_groups))}")
         print("="*60)
         
-        # Fit both models
         print("\n[1/2] Training Logistic Regression component...")
-        self.lr_model.fit(X, y, feature_names=feature_names)
+        self.lr_model.fit(X, y, feature_names=feature_names,
+                          season_groups=season_groups, era_weights=era_weights)
         
         print("\n[2/2] Training Gradient Boosting component...")
-        self.gbm_model.fit(X, y, feature_names=feature_names)
+        self.gbm_model.fit(X, y, feature_names=feature_names,
+                          season_groups=season_groups, era_weights=era_weights)
         
         self._fitted = True
         print("\nEnsemble training complete.")

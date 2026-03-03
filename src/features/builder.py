@@ -3,15 +3,18 @@ Feature engineering for NCAA Championship Prediction.
 
 This module handles:
 - Selecting and validating feature columns
-- Creating derived features (interactions, composites)
+- Creating derived features (interactions, composites, era-relative stats)
 - Handling missing values
 - Feature scaling (for logistic regression)
+- Concept-drift normalization (3-point revolution, transfer portal era)
+- Cinderella detection (Low Talent / High Experience / High Efficiency)
 
 INTERPRETABILITY NOTE:
 Features are chosen to be meaningful to basketball analysts:
 - Efficiency metrics explain team quality
 - Four factors explain HOW teams win
 - Experience/SOS explain tournament readiness
+- Talent-Experience interaction captures the Blue Blood vs Cinderella dynamic
 """
 
 import pandas as pd
@@ -30,6 +33,7 @@ from config.settings import (
     FOUR_FACTORS_DEF,
     EXPERIENCE_FEATURES,
     SOS_FEATURES,
+    SEED_CHAMPION_RATE,
 )
 
 
@@ -58,6 +62,10 @@ class FeatureBuilder:
         self.feature_cols = feature_cols or MODEL_FEATURES
         self.scaler: Optional[StandardScaler] = None
         self._fitted = False
+        # Stores all normalization parameters learned from the training set so
+        # they can be reused without modification on the test set, preventing
+        # data leakage from the test distribution into feature computation.
+        self._fit_params: dict = {}
         
     def build_features(
         self, 
@@ -77,11 +85,11 @@ class FeatureBuilder:
         # Create a copy to avoid modifying original
         df = df.copy()
         
-        # Add derived features
-        df = self._add_derived_features(df)
+        # Add derived features — pass fit flag so normalization params are
+        # learned from training data and reused on test data (no leakage).
+        df = self._add_derived_features(df, fit=fit_scaler)
         
         # Select feature columns
-        available_features = [f for f in self.feature_cols if f in df.columns]
         missing_features = [f for f in self.feature_cols if f not in df.columns]
         
         if missing_features:
@@ -91,10 +99,10 @@ class FeatureBuilder:
                 
         X = df[self.feature_cols].copy()
         
-        # Handle missing values
-        X = self._handle_missing(X)
+        # Handle missing values — store medians from training; reuse on test
+        X = self._handle_missing(X, fit=fit_scaler)
         
-        # Scale features if requested
+        # Scale features
         if fit_scaler:
             self.scaler = StandardScaler()
             X_scaled = self.scaler.fit_transform(X)
@@ -106,70 +114,144 @@ class FeatureBuilder:
             
         return df, X_scaled
     
-    def _add_derived_features(self, df: pd.DataFrame) -> pd.DataFrame:
+    def _add_derived_features(self, df: pd.DataFrame, fit: bool = False) -> pd.DataFrame:
         """
         Add derived features to the DataFrame.
-        
-        Derived features:
-        - SEED_STRENGTH: Inverted seed (17 - seed) so higher = better
-        - EM_X_SOS: Efficiency margin * SOS interaction
-        - FOUR_FACTOR_OFF_COMPOSITE: Weighted offensive four factors
-        - FOUR_FACTOR_DEF_COMPOSITE: Weighted defensive four factors
+
+        When fit=True (training), normalization parameters (sos_min/max, fill
+        medians for TALENT/EXP) are computed from the training distribution and
+        stored in self._fit_params.  When fit=False (test/predict), the stored
+        training-set parameters are reused, preventing test-set leakage.
+
+        Features:
+        - SEED_STRENGTH: Non-linear seed → historical champion rate (log-scaled)
+        - EM_X_SOS: Efficiency margin × SOS interaction (training-normalized)
+        - FOUR_FACTOR_OFF/DEF: Dean Oliver weighted composites
+        - TALENT_X_EXP: Talent × Experience interaction
+        - CINDERELLA: Binary flag for low-talent / high-exp / high-EM profile
+        - EFG_MARGIN: EFG% offensive minus defensive
+        - RELATIVE_3PR: 3-point rate relative to within-season average
         """
-        # Seed strength (higher is better seed)
-        # Convert seed string to numeric if needed
+        # --- Non-linear seed mapping -------------------------------------------
+        # Replace (17 - seed) with log of historical championship win-rate.
+        # This correctly encodes the enormous jump from seed 1 → 2, and the
+        # near-zero difference between seeds 8-16.
         if df['SEED'].dtype == 'object':
-            # Handle seeds like "11a" or "11b" (First Four)
             df['SEED_NUM'] = df['SEED'].astype(str).str.extract(r'(\d+)').astype(float)
         else:
             df['SEED_NUM'] = df['SEED'].astype(float)
-            
-        df['SEED_STRENGTH'] = 17 - df['SEED_NUM']
-        
-        # Efficiency margin * SOS interaction
-        # Teams with high EM against strong schedules are more impressive
+
+        def _seed_to_log_prob(seed_series: pd.Series) -> pd.Series:
+            rate = seed_series.map(SEED_CHAMPION_RATE).fillna(SEED_CHAMPION_RATE[16])
+            return np.log(rate)   # log-probability; negative, higher = better seed
+
+        df['SEED_STRENGTH'] = _seed_to_log_prob(df['SEED_NUM'])
+
+        # --- EM × SOS interaction (training-set normalization) -----------------
         if 'KADJ EM' in df.columns and 'ELITE SOS' in df.columns:
-            # Normalize SOS to 0-1 range for the interaction
-            sos_min = df['ELITE SOS'].min()
-            sos_max = df['ELITE SOS'].max()
-            sos_normalized = (df['ELITE SOS'] - sos_min) / (sos_max - sos_min + 1e-8)
-            df['EM_X_SOS'] = df['KADJ EM'] * (0.5 + sos_normalized)
+            if fit:
+                self._fit_params['sos_min'] = df['ELITE SOS'].min()
+                self._fit_params['sos_max'] = df['ELITE SOS'].max()
+            sos_min = self._fit_params.get('sos_min', df['ELITE SOS'].min())
+            sos_max = self._fit_params.get('sos_max', df['ELITE SOS'].max())
+            sos_norm = (df['ELITE SOS'] - sos_min) / (sos_max - sos_min + 1e-8)
+            df['EM_X_SOS'] = df['KADJ EM'] * (0.5 + sos_norm)
         else:
             df['EM_X_SOS'] = 0
-            
-        # Four factors composite (offensive)
-        # Weights based on Dean Oliver's research: eFG% most important
+
+        # --- Four factors composites (Dean Oliver weights) ----------------------
         if all(f in df.columns for f in ['EFG%', 'TOV%', 'OREB%', 'FTR']):
             df['FOUR_FACTOR_OFF'] = (
                 0.40 * df['EFG%'] +
-                0.25 * (100 - df['TOV%']) +  # Invert: lower TO% is better
+                0.25 * (100 - df['TOV%']) +
                 0.20 * df['OREB%'] +
                 0.15 * df['FTR']
             )
-        
-        # Four factors composite (defensive)
+
         if all(f in df.columns for f in ['EFG%D', 'TOV%D', 'DREB%', 'FTRD']):
             df['FOUR_FACTOR_DEF'] = (
-                0.40 * (100 - df['EFG%D']) +  # Invert: lower opponent eFG% is better
-                0.25 * df['TOV%D'] +           # Higher opponent TO% is better
+                0.40 * (100 - df['EFG%D']) +
+                0.25 * df['TOV%D'] +
                 0.20 * df['DREB%'] +
-                0.15 * (100 - df['FTRD'])     # Invert: lower opponent FTR is better
+                0.15 * (100 - df['FTRD'])
             )
-            
+
+        # --- Talent × Experience interaction (training-median fill) -------------
+        if 'TALENT' in df.columns and 'EXP' in df.columns:
+            if fit:
+                t_med = df['TALENT'].median() if df['TALENT'].notna().any() else 30.0
+                e_med = df['EXP'].median()    if df['EXP'].notna().any()    else 1.8
+                self._fit_params['talent_median'] = t_med
+                self._fit_params['exp_median']    = e_med
+            talent_safe = df['TALENT'].fillna(self._fit_params.get('talent_median', 30.0))
+            exp_safe    = df['EXP'].fillna(self._fit_params.get('exp_median',    1.8))
+            df['TALENT_X_EXP'] = talent_safe * exp_safe
+        else:
+            df['TALENT_X_EXP'] = 0
+
+        # --- Cinderella detector ------------------------------------------------
+        if 'TALENT' in df.columns and 'EXP' in df.columns and 'KADJ EM' in df.columns:
+            from src.models.champion_model import detect_cinderella_profile
+            df['CINDERELLA'] = detect_cinderella_profile(
+                talent=df['TALENT'].values,
+                experience=df['EXP'].values,
+                efficiency=df['KADJ EM'].values
+            )
+        else:
+            df['CINDERELLA'] = 0
+
+        # --- Shooting differential ----------------------------------------------
+        if 'EFG%' in df.columns and 'EFG%D' in df.columns:
+            df['EFG_MARGIN'] = df['EFG%'] - df['EFG%D']
+        else:
+            df['EFG_MARGIN'] = 0
+
+        # --- Relative 3-point rate (within-season; no cross-season leakage) -----
+        # Normalising within each season is the correct transform: we want to
+        # know whether a team shoots more threes than its contemporaries, not
+        # vs. the historical average (which would be contaminated by era drift).
+        if '3PR' in df.columns and 'YEAR' in df.columns:
+            season_avg = df.groupby('YEAR')['3PR'].transform('mean')
+            season_std = df.groupby('YEAR')['3PR'].transform('std')
+            df['RELATIVE_3PR'] = (df['3PR'] - season_avg) / (season_std + 1e-8)
+        elif '3PT%' in df.columns and 'YEAR' in df.columns:
+            season_avg = df.groupby('YEAR')['3PT%'].transform('mean')
+            season_std = df.groupby('YEAR')['3PT%'].transform('std')
+            df['RELATIVE_3PR'] = (df['3PT%'] - season_avg) / (season_std + 1e-8)
+        else:
+            df['RELATIVE_3PR'] = 0
+
         return df
     
-    def _handle_missing(self, X: pd.DataFrame) -> pd.DataFrame:
+    def _handle_missing(self, X: pd.DataFrame, fit: bool = False) -> pd.DataFrame:
         """
         Handle missing values in feature matrix.
-        
-        Strategy: Fill with column median (robust to outliers)
+
+        When fit=True: compute column medians from training data and store them
+        in self._fit_params['imputation_medians'].
+        When fit=False: reuse the stored training medians, preventing any
+        information from the test distribution leaking into imputation.
         """
+        if fit:
+            self._fit_params['imputation_medians'] = {}
+
+        medians = self._fit_params.get('imputation_medians', {})
+
         for col in X.columns:
             if X[col].isnull().any():
-                median_val = X[col].median()
-                X[col] = X[col].fillna(median_val)
-                print(f"  Filled {X[col].isnull().sum()} missing values in {col} with median {median_val:.2f}")
-                
+                if fit:
+                    val = X[col].median()
+                    if pd.isna(val):
+                        val = 0.0
+                    medians[col] = val
+                else:
+                    val = medians.get(col, 0.0)
+
+                X[col] = X[col].fillna(val)
+
+        if fit:
+            self._fit_params['imputation_medians'] = medians
+
         return X
     
     def get_feature_names(self) -> List[str]:

@@ -76,30 +76,37 @@ class DataLoader:
         """
         Load KenPom/Barttorvik efficiency metrics.
         
-        This file contains pre-tournament team statistics including:
-        - Adjusted offensive/defensive efficiency
-        - Four factors (eFG%, TO%, ORB%, FTR)
-        - Experience and talent metrics
-        - Strength of schedule
+        Checks for the extended dataset (2002-2025) first, then falls back
+        to the standard file. The extended dataset is produced by the
+        reconstruction pipeline (run_reconstruction.py --run).
         """
-        print(f"Loading KenPom/Barttorvik data from {KENPOM_BARTTORVIK_FILE}")
+        from config.settings import RAW_DATA_DIR
         
-        self.kenpom_df = pd.read_csv(KENPOM_BARTTORVIK_FILE)
+        extended_file = RAW_DATA_DIR / "KenPom Barttorvik Extended.csv"
+        if extended_file.exists():
+            source_file = extended_file
+            print(f"Loading EXTENDED dataset from {extended_file.name}")
+        else:
+            source_file = KENPOM_BARTTORVIK_FILE
+            print(f"Loading KenPom/Barttorvik data from {source_file}")
         
-        # Filter to valid year range
+        self.kenpom_df = pd.read_csv(source_file)
+        
+        # Filter to valid year range, excluding COVID year
         self.kenpom_df = self.kenpom_df[
             (self.kenpom_df['YEAR'] >= MIN_YEAR) & 
-            (self.kenpom_df['YEAR'] <= MAX_YEAR)
+            (self.kenpom_df['YEAR'] <= MAX_YEAR) &
+            (self.kenpom_df['YEAR'] != 2020)
         ].copy()
         
         # Only keep tournament teams (have a seed)
-        # This is key: we only predict on tournament teams
         self.kenpom_df = self.kenpom_df[
             self.kenpom_df['SEED'].notna()
         ].copy()
         
-        print(f"  Loaded {len(self.kenpom_df)} team-seasons ({MIN_YEAR}-{MAX_YEAR})")
-        print(f"  Years: {sorted(self.kenpom_df['YEAR'].unique())}")
+        years = sorted(self.kenpom_df['YEAR'].unique())
+        print(f"  Loaded {len(self.kenpom_df)} team-seasons ({min(years)}-{max(years)})")
+        print(f"  Years: {years}")
         
     def _load_tournament_matchups(self) -> None:
         """
@@ -108,7 +115,15 @@ class DataLoader:
         Used to identify:
         - Which teams won the championship
         - How far each team progressed
+        
+        Optional: ROUND column in the main KenPom data is the primary source
+        for champion labels, so this file is only supplementary.
         """
+        if not TOURNAMENT_MATCHUPS_FILE.exists():
+            print(f"Tournament Matchups file not found — skipping (ROUND column in main data is used instead)")
+            self.matchups_df = None
+            return
+            
         print(f"Loading Tournament Matchups from {TOURNAMENT_MATCHUPS_FILE}")
         
         self.matchups_df = pd.read_csv(TOURNAMENT_MATCHUPS_FILE)

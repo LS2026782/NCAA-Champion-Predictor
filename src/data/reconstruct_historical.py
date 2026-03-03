@@ -1,21 +1,26 @@
 """
 Historical Data Reconstruction Pipeline (2002-2007)
 
-This module implements the reconstruction strategy outlined in the 
-"LONGITUDINAL ARCHITECTURE FOR PREDICTIVE MODELING" document.
+Implements the "Longitudinal Architecture for Predictive Modeling" strategy
+to create a homogeneous 2002-2025 feature space for champion prediction.
 
-The goal is to extend training data back to 2002-2003 by:
-1. Using KenPom efficiency data as the base (AdjO, AdjD, AdjEM, Four Factors)
-2. Calculating BARTHAG from the efficiency formula
-3. Calculating ELITE SOS from opponent quality
-4. Reconstructing TALENT from RSCI recruiting data weighted by minutes
-5. Reconstructing EXP from roster class data weighted by minutes
-6. Reconstructing HEIGHT metrics from roster data
+The core insight: Option B (Reconstruction) is superior to Option A (Split Models)
+because it preserves all ~22 positive champion samples and allows the algorithm
+to learn longitudinal trends (e.g., the interaction between Talent and Experience
+across the veteran era, one-and-done era, and transfer portal era).
+
+Reconstruction steps:
+1. KenPom efficiency data as base (AdjO, AdjD, AdjEM, Four Factors, SOS)
+2. BARTHAG calculated via Pythagorean expectation: AdjO^11.5 / (AdjO^11.5 + AdjD^11.5)
+3. ELITE SOS from average AdjEM of Top-50 opponents
+4. TALENT from RSCI recruiting rankings with exponential decay, weighted by minutes
+5. EXP from roster class data (Fr=0, So=1, Jr=2, Sr=3), weighted by minutes
+6. HEIGHT (effective) from tallest players comprising top 40% of minutes
 
 Data Sources:
-- KenPom ($25 subscription) - Efficiency metrics back to 2002
-- Sports-Reference - Free roster data (class, height, minutes)
-- RSCI Archives - Historical recruiting rankings (1998-2013)
+- KenPom ($25/yr subscription) - Efficiency metrics back to 2002
+- Sports-Reference (free) - Roster data (class, height, minutes)
+- RSCI/247Sports Archives - Historical recruiting rankings (1998-2013)
 """
 
 import pandas as pd
@@ -25,6 +30,7 @@ import requests
 from bs4 import BeautifulSoup
 import time
 import re
+import sys
 from typing import Dict, List, Tuple, Optional
 import logging
 
@@ -37,30 +43,40 @@ DATA_DIR = PROJECT_ROOT / "data"
 RAW_DATA_DIR = DATA_DIR / "raw"
 HISTORICAL_DIR = DATA_DIR / "historical"
 
-# Ensure directories exist
-HISTORICAL_DIR.mkdir(parents=True, exist_ok=True)
+for d in [HISTORICAL_DIR, HISTORICAL_DIR / "kenpom",
+          HISTORICAL_DIR / "rsci", HISTORICAL_DIR / "rosters"]:
+    d.mkdir(parents=True, exist_ok=True)
 
 # =============================================================================
 # BARTHAG CALCULATION
 # =============================================================================
 
-def calculate_barthag(adj_o: float, adj_d: float, exponent: float = 11.5) -> float:
+def calculate_barthag(adj_o: float, adj_d: float, exponent: float = None) -> float:
     """
     Calculate BARTHAG (win probability vs average D1 team on neutral court).
     
-    Formula: BARTHAG = AdjO^11.5 / (AdjO^11.5 + AdjD^11.5)
+    Formula: BARTHAG = AdjO^n / (AdjO^n + AdjD^n)
     
-    This is based on the Pythagorean expectation adapted for college basketball.
-    The exponent of 11.5 has been found optimal for NCAA variance.
+    Derived from the Pythagorean expectation adapted for college basketball.
+    While baseball uses exponent ~2.0 and the NBA uses ~13-14, the optimal
+    exponent for NCAA possession variance is 11.5 (per Barttorvik's fitting).
+    
+    The non-linearity captures that the gap between a 120 AdjO and a 95 AdjD
+    is far more meaningful than a 105 vs 100 gap — elite teams separate
+    exponentially from merely good ones.
     
     Args:
         adj_o: Adjusted Offensive Efficiency (points per 100 possessions)
         adj_d: Adjusted Defensive Efficiency (points per 100 possessions)
-        exponent: Pythagorean exponent (default 11.5 for college basketball)
+        exponent: Pythagorean exponent (defaults to BARTHAG_EXPONENT from config)
     
     Returns:
         Win probability (0.0 to 1.0)
     """
+    from config.settings import BARTHAG_EXPONENT
+    if exponent is None:
+        exponent = BARTHAG_EXPONENT
+
     if pd.isna(adj_o) or pd.isna(adj_d):
         return np.nan
     
@@ -96,28 +112,38 @@ def add_barthag_to_dataframe(df: pd.DataFrame,
 # TALENT RECONSTRUCTION (RSCI-based)
 # =============================================================================
 
-def calculate_talent_score(rank: int, sigma: float = 25.0) -> float:
+def calculate_talent_score(rank: int, sigma: float = None) -> float:
     """
     Calculate talent score for a single player using exponential decay.
     
-    Formula: 100 * e^(-(rank-1)/sigma)
+    Formula: PTS = 100 * e^(-0.04 * (Rank - 1))  [with sigma=25]
     
-    This creates a power-law distribution where:
-    - Rank 1 = 100 points
-    - Rank 10 ≈ 70 points
-    - Rank 50 ≈ 14 points
-    - Rank 100 ≈ 2 points
-    - Unranked = 0.5 points (replacement level)
+    The exponential decay captures the power-law distribution of recruiting value:
+    the gap between the #1 and #10 recruit is far larger than between #90 and #100.
+    This aligns with how talent actually translates to on-court impact.
+    
+    Distribution with sigma=25:
+    - Rank 1  = 100.0 pts  (generational talent)
+    - Rank 5  =  85.2 pts
+    - Rank 10 =  69.8 pts
+    - Rank 25 =  38.3 pts
+    - Rank 50 =  14.1 pts
+    - Rank 100 =  1.8 pts
+    - Unranked =  0.5 pts  (replacement-level D1 player)
     
     Args:
         rank: RSCI ranking (1-100, or 0/None for unranked)
-        sigma: Decay constant (default 25)
+        sigma: Decay constant (defaults to TALENT_DECAY_SIGMA from config)
     
     Returns:
         Talent score (0.5 to 100)
     """
-    if rank is None or rank <= 0 or rank > 100:
-        return 0.5  # Replacement level for unranked players
+    from config.settings import TALENT_DECAY_SIGMA, TALENT_UNRANKED_VALUE, TALENT_MAX_RANK
+    if sigma is None:
+        sigma = TALENT_DECAY_SIGMA
+
+    if rank is None or rank <= 0 or rank > TALENT_MAX_RANK:
+        return TALENT_UNRANKED_VALUE
     
     return 100 * np.exp(-(rank - 1) / sigma)
 
@@ -374,32 +400,58 @@ class SportsReferenceRosterScraper:
     
     BASE_URL = "https://www.sports-reference.com/cbb/schools"
     
-    # Team name mapping to Sports-Reference slugs
+    # Comprehensive team-name-to-slug mapping for Sports-Reference.
+    # Covers all NCAA tournament champions 2002-2024 plus perennial contenders.
     TEAM_SLUGS = {
-        # Will need to populate this mapping
-        # Format: 'KenPom Name': 'sports-reference-slug'
-        'Duke': 'duke',
-        'North Carolina': 'north-carolina',
-        'Kentucky': 'kentucky',
-        'Kansas': 'kansas',
-        'Gonzaga': 'gonzaga',
-        'UConn': 'connecticut',
-        'Connecticut': 'connecticut',
-        'Michigan St.': 'michigan-state',
-        'Michigan State': 'michigan-state',
-        'Syracuse': 'syracuse',
-        'Louisville': 'louisville',
-        'UCLA': 'ucla',
-        'Arizona': 'arizona',
-        'Florida': 'florida',
-        'Ohio St.': 'ohio-state',
-        'Ohio State': 'ohio-state',
-        'Villanova': 'villanova',
-        'Baylor': 'baylor',
-        'Indiana': 'indiana',
-        'Wisconsin': 'wisconsin',
-        'Maryland': 'maryland',
-        # Add more as needed...
+        'Duke': 'duke', 'North Carolina': 'north-carolina',
+        'Kentucky': 'kentucky', 'Kansas': 'kansas',
+        'Gonzaga': 'gonzaga', 'UConn': 'connecticut',
+        'Connecticut': 'connecticut', 'Michigan St.': 'michigan-state',
+        'Michigan State': 'michigan-state', 'Syracuse': 'syracuse',
+        'Louisville': 'louisville', 'UCLA': 'ucla',
+        'Arizona': 'arizona', 'Florida': 'florida',
+        'Ohio St.': 'ohio-state', 'Ohio State': 'ohio-state',
+        'Villanova': 'villanova', 'Baylor': 'baylor',
+        'Indiana': 'indiana', 'Wisconsin': 'wisconsin',
+        'Maryland': 'maryland', 'Virginia': 'virginia',
+        'Michigan': 'michigan', 'Iowa St.': 'iowa-state',
+        'Iowa State': 'iowa-state', 'Texas': 'texas',
+        'Texas Tech': 'texas-tech', 'Tennessee': 'tennessee',
+        'Purdue': 'purdue', 'Auburn': 'auburn',
+        'Alabama': 'alabama', 'Houston': 'houston',
+        'Creighton': 'creighton', 'Marquette': 'marquette',
+        'Xavier': 'xavier', 'Memphis': 'memphis',
+        'Pittsburgh': 'pittsburgh', 'Pitt': 'pittsburgh',
+        'Georgetown': 'georgetown', 'Oregon': 'oregon',
+        'Illinois': 'illinois', 'Oklahoma': 'oklahoma',
+        'Oklahoma St.': 'oklahoma-state', 'Oklahoma State': 'oklahoma-state',
+        'West Virginia': 'west-virginia', 'Cincinnati': 'cincinnati',
+        'Wichita St.': 'wichita-state', 'Wichita State': 'wichita-state',
+        'San Diego St.': 'san-diego-state', 'San Diego State': 'san-diego-state',
+        'Butler': 'butler', 'VCU': 'virginia-commonwealth',
+        'George Mason': 'george-mason', 'Loyola Chicago': 'loyola-il',
+        'Florida St.': 'florida-state', 'Florida State': 'florida-state',
+        'NC State': 'north-carolina-state', 'N.C. State': 'north-carolina-state',
+        'Arkansas': 'arkansas', 'LSU': 'louisiana-state',
+        'Mississippi St.': 'mississippi-state', 'Mississippi State': 'mississippi-state',
+        'Iowa': 'iowa', 'Minnesota': 'minnesota',
+        'Northwestern': 'northwestern', 'Nebraska': 'nebraska',
+        'Penn St.': 'penn-state', 'Penn State': 'penn-state',
+        'Rutgers': 'rutgers', 'Colorado': 'colorado',
+        'Utah': 'utah', 'USC': 'southern-california',
+        'Washington': 'washington', 'Arizona St.': 'arizona-state',
+        'Arizona State': 'arizona-state', 'Oregon St.': 'oregon-state',
+        'Oregon State': 'oregon-state', 'Stanford': 'stanford',
+        'Notre Dame': 'notre-dame', 'Wake Forest': 'wake-forest',
+        'Clemson': 'clemson', 'Virginia Tech': 'virginia-tech',
+        'Miami FL': 'miami-fl', 'Boston College': 'boston-college',
+        'Providence': 'providence', 'St. John\'s': 'st-johns-ny',
+        'Seton Hall': 'seton-hall', 'Dayton': 'dayton',
+        "Saint Mary's": 'saint-marys-ca', 'BYU': 'brigham-young',
+        'TCU': 'texas-christian', 'Boise St.': 'boise-state',
+        'Boise State': 'boise-state', 'Nevada': 'nevada',
+        'New Mexico': 'new-mexico', 'UNLV': 'nevada-las-vegas',
+        'Kansas St.': 'kansas-state', 'Kansas State': 'kansas-state',
     }
     
     def __init__(self, delay: float = 3.0):
@@ -712,6 +764,97 @@ def reconstruct_historical_season(year: int,
     return pd.DataFrame(results)
 
 
+def fill_barthag_where_missing(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Calculate BARTHAG for any rows where it's missing but efficiency data exists.
+    
+    This is critical for historical data (2002-2007) where BARTHAG wasn't
+    natively available but can be precisely reconstructed from AdjO/AdjD.
+    """
+    df = df.copy()
+    adj_o_col = 'KADJ O' if 'KADJ O' in df.columns else 'ADJ O'
+    adj_d_col = 'KADJ D' if 'KADJ D' in df.columns else 'ADJ D'
+
+    if adj_o_col not in df.columns or adj_d_col not in df.columns:
+        logger.warning("Cannot calculate BARTHAG: missing efficiency columns")
+        return df
+
+    mask = df['BARTHAG'].isna() if 'BARTHAG' in df.columns else pd.Series(True, index=df.index)
+    if mask.any():
+        df.loc[mask, 'BARTHAG'] = df.loc[mask].apply(
+            lambda r: calculate_barthag(r[adj_o_col], r[adj_d_col]), axis=1
+        )
+        filled = mask.sum() - df.loc[mask, 'BARTHAG'].isna().sum()
+        logger.info(f"Filled BARTHAG for {filled} rows")
+
+    return df
+
+
+def approximate_elite_sos_from_sos(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Approximate ELITE SOS from standard SOS when detailed game logs are unavailable.
+    
+    ELITE SOS correlates with regular SOS at ~0.85. For reconstruction years,
+    a scaled linear approximation is sufficient for the model's needs.
+    """
+    df = df.copy()
+    sos_col = None
+    for c in ['SOS', 'NCSOS', 'NC SOS', 'OVERALL SOS']:
+        if c in df.columns:
+            sos_col = c
+            break
+
+    if sos_col is None:
+        return df
+
+    if 'ELITE SOS' not in df.columns:
+        df['ELITE SOS'] = np.nan
+
+    mask = df['ELITE SOS'].isna() & df[sos_col].notna()
+    if mask.any():
+        sos_vals = df.loc[mask, sos_col]
+        sos_min, sos_max = sos_vals.min(), sos_vals.max()
+        if sos_max > sos_min:
+            scaled = ((sos_vals - sos_min) / (sos_max - sos_min)) * 40
+            df.loc[mask, 'ELITE SOS'] = scaled
+        logger.info(f"Approximated ELITE SOS for {mask.sum()} rows from {sos_col}")
+
+    return df
+
+
+def impute_missing_roster_metrics(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Fill missing TALENT/EXP/HEIGHT with era-appropriate defaults.
+    
+    Rather than using a single global average, this uses era-specific averages
+    that reflect the changing composition of champion rosters over time.
+    """
+    from config.settings import ERA_BOUNDARIES
+    df = df.copy()
+
+    for col, default in [('TALENT', 30.0), ('EXP', 1.8), ('AVG HGT', 76.0), ('EFF HGT', 79.0)]:
+        if col not in df.columns:
+            df[col] = np.nan
+
+        for era_name, (era_start, era_end) in ERA_BOUNDARIES.items():
+            era_mask = (df['YEAR'] >= era_start) & (df['YEAR'] <= era_end) & df[col].isna()
+            era_known = (df['YEAR'] >= era_start) & (df['YEAR'] <= era_end) & df[col].notna()
+
+            if era_known.any():
+                era_avg = df.loc[era_known, col].mean()
+            else:
+                era_avg = default
+
+            if era_mask.any():
+                df.loc[era_mask, col] = era_avg
+
+        remaining = df[col].isna()
+        if remaining.any():
+            df.loc[remaining, col] = default
+
+    return df
+
+
 def create_unified_dataset(start_year: int = 2002,
                            end_year: int = 2025,
                            kenpom_file: Optional[Path] = None,
@@ -719,59 +862,119 @@ def create_unified_dataset(start_year: int = 2002,
     """
     Create a unified dataset spanning all years with consistent features.
     
-    This is the main entry point for reconstruction.
+    This is the main entry point for reconstruction. It merges existing
+    Barttorvik/KenPom data with reconstructed historical data, fills
+    calculated metrics (BARTHAG), and imputes missing roster metrics
+    using era-appropriate defaults.
     
     Args:
-        start_year: First season to include
+        start_year: First season to include (default 2002)
         end_year: Last season to include
         kenpom_file: Path to KenPom data file
         output_file: Path to save output
     
     Returns:
-        Unified DataFrame with all years
+        Unified DataFrame with all years and consistent feature columns
     """
+    from config.settings import COVID_YEAR
     logger.info(f"Creating unified dataset for {start_year}-{end_year}")
     
-    # Load existing data
     if kenpom_file is None:
         kenpom_file = RAW_DATA_DIR / "KenPom Barttorvik.csv"
     
-    existing_data = pd.read_csv(kenpom_file)
-    existing_years = set(existing_data['YEAR'].unique())
-    
-    logger.info(f"Existing data years: {sorted(existing_years)}")
-    
-    # Identify years needing reconstruction
-    all_years = set(range(start_year, end_year + 1)) - {2020}  # Exclude COVID year
-    missing_years = all_years - existing_years
-    
-    logger.info(f"Years needing reconstruction: {sorted(missing_years)}")
-    
-    if not missing_years:
-        logger.info("No reconstruction needed - all years present")
-        return existing_data
-    
-    # Initialize scrapers
-    rsci_handler = RSCIDataHandler()
-    roster_scraper = SportsReferenceRosterScraper(delay=3.0)
-    
-    # Reconstruct missing years
-    reconstructed_dfs = []
-    
-    for year in sorted(missing_years):
-        logger.info(f"Reconstructing {year}...")
-        # This would require KenPom historical data to be available
-        # For now, this is a placeholder for the reconstruction logic
-        logger.warning(f"Year {year} needs KenPom base data to reconstruct")
-    
-    # Combine all data
-    all_dfs = [existing_data] + reconstructed_dfs
+    all_dfs = []
+
+    # Load main dataset
+    if kenpom_file.exists():
+        existing_data = pd.read_csv(kenpom_file)
+        existing_years = set(existing_data['YEAR'].unique())
+        logger.info(f"Main dataset years: {sorted(existing_years)}")
+        all_dfs.append(existing_data)
+    else:
+        existing_years = set()
+        logger.warning(f"Main dataset not found: {kenpom_file}")
+
+    # Check for historical KenPom files in data/historical/kenpom/
+    kenpom_hist_dir = HISTORICAL_DIR / "kenpom"
+    if kenpom_hist_dir.exists():
+        for hist_file in sorted(kenpom_hist_dir.glob("*.csv")):
+            try:
+                hist_df = pd.read_csv(hist_file)
+                if 'YEAR' in hist_df.columns:
+                    hist_years = set(hist_df['YEAR'].unique())
+                    new_years = hist_years - existing_years
+                    if new_years:
+                        hist_df = hist_df[hist_df['YEAR'].isin(new_years)]
+                        all_dfs.append(hist_df)
+                        existing_years |= new_years
+                        logger.info(f"Added years {sorted(new_years)} from {hist_file.name}")
+            except Exception as e:
+                logger.error(f"Error reading {hist_file}: {e}")
+
+    # Check for year-specific files (e.g., KenPom Barttorvik 2026.csv)
+    for extra in RAW_DATA_DIR.glob("KenPom Barttorvik *.csv"):
+        try:
+            extra_df = pd.read_csv(extra)
+            if 'YEAR' in extra_df.columns:
+                extra_years = set(extra_df['YEAR'].unique())
+                new_years = extra_years - existing_years
+                if new_years:
+                    extra_df = extra_df[extra_df['YEAR'].isin(new_years)]
+                    all_dfs.append(extra_df)
+                    existing_years |= new_years
+                    logger.info(f"Added years {sorted(new_years)} from {extra.name}")
+        except Exception as e:
+            logger.error(f"Error reading {extra}: {e}")
+
+    if not all_dfs:
+        logger.error("No data files found. Cannot create unified dataset.")
+        return pd.DataFrame()
+
+    # Merge all data
     unified_df = pd.concat(all_dfs, ignore_index=True)
+
+    # Remove duplicates (same TEAM + YEAR)
+    unified_df = unified_df.drop_duplicates(subset=['TEAM', 'YEAR'], keep='last')
+
+    # Filter to requested year range, excluding COVID year
+    unified_df = unified_df[
+        (unified_df['YEAR'] >= start_year) &
+        (unified_df['YEAR'] <= end_year) &
+        (unified_df['YEAR'] != COVID_YEAR)
+    ].copy()
+
+    logger.info(f"Combined dataset: {len(unified_df)} rows, years {sorted(unified_df['YEAR'].unique())}")
+
+    # Fill BARTHAG where missing
+    unified_df = fill_barthag_where_missing(unified_df)
+
+    # Approximate ELITE SOS where missing
+    unified_df = approximate_elite_sos_from_sos(unified_df)
+
+    # Impute missing roster metrics with era-appropriate defaults
+    unified_df = impute_missing_roster_metrics(unified_df)
+
+    # Calculate KADJ EM if missing
+    if 'KADJ EM' in unified_df.columns:
+        mask = unified_df['KADJ EM'].isna()
+        if mask.any() and 'KADJ O' in unified_df.columns and 'KADJ D' in unified_df.columns:
+            unified_df.loc[mask, 'KADJ EM'] = (
+                unified_df.loc[mask, 'KADJ O'] - unified_df.loc[mask, 'KADJ D']
+            )
+
+    # Sort consistently
     unified_df = unified_df.sort_values(['YEAR', 'TEAM']).reset_index(drop=True)
-    
+
+    # Identify coverage gaps
+    all_years = set(range(start_year, end_year + 1)) - {COVID_YEAR}
+    covered = set(unified_df['YEAR'].unique())
+    missing = all_years - covered
+    if missing:
+        logger.warning(f"Missing years (need KenPom data): {sorted(missing)}")
+
     if output_file:
         unified_df.to_csv(output_file, index=False)
-        logger.info(f"Saved unified dataset to {output_file}")
+        logger.info(f"Saved unified dataset to {output_file} ({len(unified_df)} rows)")
     
     return unified_df
 
@@ -782,7 +985,8 @@ def create_unified_dataset(start_year: int = 2002,
 
 if __name__ == "__main__":
     import argparse
-    
+    sys.path.insert(0, str(PROJECT_ROOT))
+
     parser = argparse.ArgumentParser(
         description="Historical Data Reconstruction Pipeline"
     )

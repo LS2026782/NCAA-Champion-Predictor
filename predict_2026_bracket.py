@@ -12,6 +12,8 @@ from sklearn.linear_model import LogisticRegressionCV
 from sklearn.preprocessing import StandardScaler
 from config.settings import MODEL_FEATURES
 from src.models.game_predictor import GamePredictor, GAME_FEATURES
+from src.features.builder import FeatureBuilder
+from src.models.champion_model import ChampionPredictor, compute_era_weights
 
 # Andy Katz's 2026 bracket predictions (from NCAA.com Feb 3, 2026)
 BRACKET_2026 = {
@@ -60,36 +62,45 @@ NAME_MAP = {
     'Miami': 'Miami FL',
     'Miami (Ohio)': 'Miami OH',
     'SMU': 'SMU',
+    'Iowa State': 'Iowa St.',
+    'Michigan State': 'Michigan St.',
+    'East Tennessee State': 'ETSU',
+    'Stephen F. Austin': 'SF Austin',
+    'North Dakota State': 'North Dakota St.',
+    'Utah Valley': 'Utah Valley St.',
+    'Maryland Eastern Shore': 'Md.-Eastern Shore',
 }
 
 def get_team_name(bracket_name, available_teams):
-    """Map bracket name to available team name."""
+    """Map bracket name to available team name — exact and close matches only."""
     if bracket_name in NAME_MAP:
         mapped = NAME_MAP[bracket_name]
         if mapped in available_teams:
             return mapped
     if bracket_name in available_teams:
         return bracket_name
-    # Try partial match
+    # Partial match: only accept if one is a strict prefix/suffix of the other (not a substring)
+    bracket_lower = bracket_name.lower()
     for team in available_teams:
-        if bracket_name.lower() in team.lower() or team.lower() in bracket_name.lower():
-            return team
+        team_lower = team.lower()
+        # Require the match to be at word boundaries — both must be ≥ 6 chars to avoid false positives
+        if len(team_lower) >= 6 and len(bracket_lower) >= 6:
+            if team_lower == bracket_lower:
+                return team
+            if bracket_lower.startswith(team_lower) or team_lower.startswith(bracket_lower):
+                return team
     return None
 
 # Load 2026 data (actual current season stats!)
 kp = pd.read_csv('data/raw/KenPom Barttorvik 2026.csv')
 kp_2025 = kp.copy()  # Use 2026 data directly
 
-# Add derived features
-if kp_2025['SEED'].dtype == 'object':
-    kp_2025['SEED_NUM'] = kp_2025['SEED'].astype(str).str.extract(r'(\d+)').astype(float)
-else:
-    kp_2025['SEED_NUM'] = kp_2025['SEED'].fillna(16).astype(float)
+# Add seed strength from projected seeds (will be overwritten per team below)
+kp_2025['SEED_NUM'] = kp_2025['SEED'].fillna(16).astype(float)
 kp_2025['SEED_STRENGTH'] = 17 - kp_2025['SEED_NUM']
 
-sos_min = kp_2025['ELITE SOS'].min()
-sos_max = kp_2025['ELITE SOS'].max()
-kp_2025['EM_X_SOS'] = kp_2025['KADJ EM'] * (0.5 + (kp_2025['ELITE SOS'] - sos_min) / (sos_max - sos_min + 1e-8))
+# EM_X_SOS will be recomputed after loading training data to ensure consistent normalization
+kp_2025['EM_X_SOS'] = 0  # placeholder
 
 available_teams = set(kp_2025['TEAM'].values)
 
@@ -120,38 +131,37 @@ print('\n' + '='*70)
 print('CHAMPION PREDICTOR: Who looks most "champion-like"?')
 print('='*70)
 
-# Train on historical data (all years before 2025) from main file
-kp_historical = pd.read_csv('data/raw/KenPom Barttorvik.csv')
-kp_train = kp_historical[kp_historical['YEAR'] < 2025].copy()
+# Train on historical data using Extended CSV (complete features, 2002-2025)
+kp_historical = pd.read_csv('data/raw/KenPom Barttorvik Extended.csv')
+kp_train = kp_historical[kp_historical['YEAR'] < 2026].copy()
 kp_train['IS_CHAMPION'] = (kp_train['ROUND'] == 1).astype(int)
-kp_train = kp_train[kp_train['SEED'].notna()]
+kp_train = kp_train[kp_train['SEED'].notna()].copy()
 
-# Add derived features to training
-if kp_train['SEED'].dtype == 'object':
-    kp_train['SEED_NUM'] = kp_train['SEED'].astype(str).str.extract(r'(\d+)').astype(float)
-else:
-    kp_train['SEED_NUM'] = kp_train['SEED'].astype(float)
-kp_train['SEED_STRENGTH'] = 17 - kp_train['SEED_NUM']
-sos_min_t = kp_train['ELITE SOS'].min()
-sos_max_t = kp_train['ELITE SOS'].max()
-kp_train['EM_X_SOS'] = kp_train['KADJ EM'] * (0.5 + (kp_train['ELITE SOS'] - sos_min_t) / (sos_max_t - sos_min_t + 1e-8))
+# Add YEAR to bracket_df so FeatureBuilder can compute RELATIVE_3PR per-season
+bracket_df['YEAR'] = 2026
+bracket_df['ROUND'] = 64  # placeholder (unknown)
+bracket_df['IS_CHAMPION'] = 0
 
-# Build features
-available_features = [f for f in MODEL_FEATURES if f in kp_train.columns]
-X_train = kp_train[available_features].fillna(0)
-y_train = kp_train['IS_CHAMPION']
+# Combine train + bracket so FeatureBuilder sees 2026 teams when computing season averages
+combined = pd.concat([kp_train, bracket_df], ignore_index=True)
 
-# Scale and train
-scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
+# Use the proper FeatureBuilder (handles EM_X_SOS normalization, RELATIVE_3PR, etc.)
+builder = FeatureBuilder()
+_, X_combined = builder.build_features(combined, fit_scaler=True)
 
-model = LogisticRegressionCV(Cs=20, cv=5, class_weight='balanced', max_iter=1000, random_state=42)
-model.fit(X_train_scaled, y_train)
+n_train = len(kp_train)
+X_train_scaled = X_combined[:n_train]
+X_bracket_scaled = X_combined[n_train:]
+y_train = kp_train['IS_CHAMPION'].values
 
-# Predict on 2026 bracket
-X_bracket = bracket_df[available_features].fillna(0)
-X_bracket_scaled = scaler.transform(X_bracket)
-bracket_df['CHAMP_PROB'] = model.predict_proba(X_bracket_scaled)[:, 1]
+# Train calibrated model
+season_groups = kp_train['YEAR'].values
+era_weights = compute_era_weights(season_groups)
+model = ChampionPredictor(model_type='logreg', calibrate=True)
+model.fit(X_train_scaled, y_train, feature_names=builder.get_feature_names(),
+          season_groups=season_groups, era_weights=era_weights)
+
+bracket_df['CHAMP_PROB'] = model.predict_proba(X_bracket_scaled)
 
 # Rank and display
 champ_ranked = bracket_df.sort_values('CHAMP_PROB', ascending=False)
@@ -171,8 +181,13 @@ print('='*70)
 
 # Train game predictor on all historical games
 from src.data.game_loader import GameLoader
-loader = GameLoader()
-games_df, team_stats = loader.load_all()
+try:
+    loader = GameLoader()
+    games_df, team_stats = loader.load_all()
+except FileNotFoundError as e:
+    print(f"\nBracket simulation skipped: {e}")
+    print("(Champion probability rankings above are the primary prediction output.)")
+    import sys; sys.exit(0)
 
 predictor = GamePredictor(model_type='logreg')
 predictor.fit(games_df, team_stats)

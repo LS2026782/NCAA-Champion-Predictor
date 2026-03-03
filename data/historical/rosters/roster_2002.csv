@@ -1,0 +1,328 @@
+TEAM,YEAR,EXP,AVG HGT,EFF HGT,roster_size
+Air Force,2002,1.154,76.1,79.0,13.0
+Akron,2002,0.933,77.4,80.8,15.0
+Alabama,2002,1.273,76.3,79.6,11.0
+Alabama A&M,2002,1.625,75.4,78.3,16.0
+Alabama St.,2002,1.4,76.1,80.0,15.0
+Albany,2002,1.4,76.0,79.3,15.0
+Alcorn St.,2002,1.786,76.9,80.0,14.0
+American,2002,1.6,75.4,79.3,15.0
+Appalachian St.,2002,1.667,74.5,78.5,15.0
+Arizona,2002,0.786,77.0,81.0,14.0
+Arizona St.,2002,1.75,77.4,81.0,16.0
+Arkansas,2002,1.667,76.8,80.0,15.0
+Arkansas Little Rock,2002,1.143,77.1,80.0,14.0
+Arkansas Pine Bluff,2002,1.368,75.5,78.4,19.0
+Arkansas St.,2002,1.692,76.5,80.5,13.0
+Army,2002,1.867,76.0,79.0,15.0
+Auburn,2002,1.467,77.1,80.0,15.0
+Austin Peay,2002,1.308,76.7,79.7,13.0
+BYU,2002,1.0,78.2,81.7,13.0
+Ball St.,2002,1.615,77.0,80.5,13.0
+Baylor,2002,1.571,77.5,81.2,14.0
+Belmont,2002,1.083,76.2,79.4,12.0
+Bethune Cookman,2002,1.467,75.9,79.5,15.0
+Binghamton,2002,1.615,76.2,79.7,13.0
+Birmingham Southern,2002,1.385,76.9,80.2,13.0
+Boise St.,2002,1.615,77.0,80.5,13.0
+Boston College,2002,1.25,77.4,81.6,12.0
+Boston University,2002,1.643,77.1,80.0,14.0
+Bowling Green,2002,1.462,76.7,80.0,13.0
+Bradley,2002,1.0,77.5,80.8,12.0
+Brown,2002,1.312,77.4,79.7,16.0
+Bucknell,2002,1.438,77.0,79.4,16.0
+Buffalo,2002,1.75,76.5,79.7,16.0
+Butler,2002,1.857,77.3,81.3,14.0
+Cal Poly,2002,1.462,77.2,80.5,13.0
+Cal St. Fullerton,2002,1.583,76.6,80.0,12.0
+Cal St. Northridge,2002,1.375,77.1,80.4,16.0
+California,2002,1.571,77.2,81.2,14.0
+Campbell,2002,1.833,76.1,78.6,12.0
+Canisius,2002,1.462,76.3,79.3,13.0
+Centenary,2002,1.385,76.9,79.7,13.0
+Central Connecticut,2002,1.154,77.2,80.0,13.0
+Central Michigan,2002,1.357,77.2,80.8,14.0
+Charleston Southern,2002,1.692,77.5,80.2,13.0
+Charlotte,2002,1.333,78.0,80.6,12.0
+Chattanooga,2002,2.308,77.4,79.7,13.0
+Chicago St.,2002,2.25,75.2,79.2,12.0
+Cincinnati,2002,1.714,77.4,80.7,14.0
+Clemson,2002,1.133,77.1,80.7,15.0
+Cleveland St.,2002,1.2,77.3,81.8,15.0
+Coastal Carolina,2002,1.077,76.1,79.3,13.0
+Colgate,2002,1.75,76.6,79.4,16.0
+College of Charleston,2002,1.312,75.8,78.9,16.0
+Colorado,2002,1.533,77.1,80.7,15.0
+Colorado St.,2002,1.308,77.9,81.0,13.0
+Columbia,2002,1.611,76.7,79.2,18.0
+Connecticut,2002,1.25,76.9,80.4,16.0
+Coppin St.,2002,1.615,77.3,81.2,13.0
+Cornell,2002,1.0,75.9,79.8,14.0
+Creighton,2002,1.154,77.5,80.0,13.0
+Dartmouth,2002,1.0,77.5,80.2,13.0
+Davidson,2002,1.5,76.5,80.3,16.0
+Dayton,2002,1.5,76.9,80.2,12.0
+DePaul,2002,1.385,76.8,79.8,13.0
+Delaware,2002,1.143,77.3,80.2,14.0
+Delaware St.,2002,1.467,75.6,79.2,15.0
+Denver,2002,1.583,75.5,79.2,12.0
+Detroit,2002,1.846,77.2,80.2,13.0
+Drake,2002,1.462,77.2,80.2,13.0
+Drexel,2002,1.083,76.7,79.0,12.0
+Duke,2002,1.5,77.4,81.2,14.0
+Duquesne,2002,1.143,77.1,79.8,14.0
+East Carolina,2002,1.5,77.1,80.0,14.0
+East Tennessee St.,2002,1.286,76.1,79.0,14.0
+Eastern Illinois,2002,1.267,76.1,79.8,15.0
+Eastern Kentucky,2002,1.286,76.2,80.2,14.0
+Eastern Michigan,2002,1.167,77.6,80.8,12.0
+Eastern Washington,2002,1.462,77.6,80.5,13.0
+Elon,2002,1.133,76.4,78.7,15.0
+Evansville,2002,1.357,77.2,79.8,14.0
+FIU,2002,,,,
+Fairfield,2002,1.5,76.8,80.7,14.0
+Fairleigh Dickinson,2002,1.143,76.1,80.0,14.0
+Florida,2002,1.25,76.9,80.6,12.0
+Florida A&M,2002,1.75,76.4,79.8,12.0
+Florida Atlantic,2002,1.923,76.4,80.5,13.0
+Florida St.,2002,1.647,77.9,81.6,17.0
+Fordham,2002,1.071,77.9,80.7,14.0
+Fresno St.,2002,1.455,77.7,81.0,11.0
+Furman,2002,1.385,77.5,80.2,13.0
+Gardner Webb,2002,,,,
+George Mason,2002,1.545,77.5,80.2,11.0
+George Washington,2002,1.067,76.7,80.2,15.0
+Georgetown,2002,1.25,77.2,80.8,12.0
+Georgia,2002,1.067,76.0,78.7,15.0
+Georgia Southern,2002,1.833,77.4,79.6,12.0
+Georgia St.,2002,2.182,77.5,80.0,11.0
+Georgia Tech,2002,1.077,77.2,80.0,13.0
+Gonzaga,2002,1.583,75.5,80.2,12.0
+Grambling St.,2002,,,,
+Green Bay,2002,1.538,75.6,78.7,13.0
+Hampton,2002,1.538,75.9,79.2,13.0
+Hartford,2002,1.462,76.6,80.0,13.0
+Harvard,2002,1.455,77.0,79.8,11.0
+Hawaii,2002,1.467,77.0,81.0,15.0
+High Point,2002,1.5,75.8,78.6,12.0
+Hofstra,2002,1.0,76.9,80.6,12.0
+Holy Cross,2002,1.25,76.5,80.8,12.0
+Houston,2002,1.533,76.8,80.7,15.0
+Howard,2002,1.643,76.3,79.3,14.0
+IPFW,2002,,,,
+IUPUI,2002,1.857,75.9,79.0,14.0
+Idaho,2002,1.818,75.5,77.6,11.0
+Idaho St.,2002,1.467,75.7,78.5,15.0
+Illinois,2002,1.667,78.0,81.7,15.0
+Illinois Chicago,2002,1.647,75.9,79.4,17.0
+Illinois St.,2002,1.846,76.7,79.8,13.0
+Indiana,2002,1.364,77.4,80.8,11.0
+Indiana St.,2002,1.455,77.7,81.0,11.0
+Iona,2002,1.462,76.5,80.2,13.0
+Iowa,2002,1.909,77.5,80.4,11.0
+Iowa St.,2002,1.333,77.1,80.7,15.0
+Jackson St.,2002,1.941,74.9,78.9,17.0
+Jacksonville,2002,2.0,77.1,79.7,13.0
+Jacksonville St.,2002,1.214,75.4,78.8,14.0
+James Madison,2002,1.5,77.1,80.3,14.0
+Kansas,2002,1.786,77.3,81.0,14.0
+Kansas St.,2002,1.692,78.2,80.8,13.0
+Kent St.,2002,1.538,76.4,79.3,13.0
+Kentucky,2002,1.267,77.5,80.8,15.0
+LIU Brooklyn,2002,,,,
+LSU,2002,1.75,77.5,79.6,12.0
+La Salle,2002,1.364,76.5,79.0,11.0
+Lafayette,2002,1.467,77.9,81.5,15.0
+Lamar,2002,1.333,77.3,79.2,12.0
+Lehigh,2002,1.062,76.8,79.3,16.0
+Liberty,2002,1.357,77.6,80.0,14.0
+Lipscomb,2002,1.133,75.5,78.8,15.0
+Long Beach St.,2002,1.833,77.2,80.0,12.0
+Louisiana Lafayette,2002,1.5,77.1,80.2,14.0
+Louisiana Monroe,2002,1.714,76.4,79.3,14.0
+Louisiana Tech,2002,1.727,77.6,80.4,11.0
+Louisville,2002,1.143,77.9,80.5,14.0
+Loyola Chicago,2002,1.429,77.1,80.3,14.0
+Loyola MD,2002,0.857,76.1,80.2,14.0
+Loyola Marymount,2002,2.0,76.5,79.8,13.0
+Maine,2002,1.5,78.2,81.4,12.0
+Manhattan,2002,1.5,76.3,79.8,12.0
+Marist,2002,1.692,76.4,79.7,13.0
+Marquette,2002,1.333,77.3,79.8,12.0
+Marshall,2002,1.538,77.7,80.3,
+Maryland,2002,1.917,76.9,80.6,
+Maryland Eastern Shore,2002,1.533,76.1,79.5,
+Massachusetts,2002,1.462,76.7,80.2,
+McNeese St.,2002,1.857,77.2,81.5,
+Mercer,2002,1.125,76.6,80.4,
+Miami FL,2002,1.643,77.5,80.5,
+Michigan,2002,1.714,77.4,80.7,
+Miami OH,2002,1.692,76.8,78.5,
+Michigan St.,2002,1.0,77.2,80.4,
+Middle Tennessee,2002,1.8,76.3,79.8,
+Milwaukee,2002,1.267,75.1,79.3,
+Minnesota,2002,1.5,77.0,80.2,
+Mississippi,2002,1.077,75.9,79.7,
+Old Dominion,2002,1.214,77.1,80.5,
+Oral Roberts,2002,1.714,76.6,81.0,
+Oregon,2002,2.0,78.2,82.3,
+Oregon St.,2002,1.071,76.8,80.2,
+Pacific,2002,2.067,76.8,80.8,
+Penn,2002,1.312,78.4,81.3,
+Penn St.,2002,1.385,77.9,81.2,
+Pepperdine,2002,1.615,77.9,81.0,
+Portland,2002,1.182,76.3,78.2,
+South Carolina,2002,1.267,77.7,81.0,
+South Alabama,2002,1.167,76.7,80.4,
+South Florida,2002,1.308,78.4,81.5,
+Southeast Missouri St.,2002,1.214,76.8,79.3,
+Southeastern Louisiana,2002,1.667,75.5,78.4,
+Southern,2002,1.231,75.4,78.2,
+Southern Illinois,2002,1.769,76.2,79.3,
+Southern Miss,2002,1.538,76.5,78.8,
+Southwest Missouri St.,2002,1.615,76.3,79.5,
+Southern Utah,2002,2.167,77.4,80.4,
+St. Bonaventure,2002,1.714,75.9,80.0,
+St. Francis NY,2002,1.7,76.5,80.5,
+St. Francis PA,2002,,,,
+St. John's,2002,1.4,78.2,82.2,
+Stanford,2002,1.214,78.2,81.2,
+Stephen F. Austin,2002,1.267,75.6,79.3,
+Stony Brook,2002,1.25,76.7,79.8,
+Syracuse,2002,1.385,78.0,82.0,
+TCU,2002,1.417,77.8,81.2,
+Temple,2002,1.385,77.3,79.7,
+Tennessee,2002,1.562,77.2,80.3,
+Villanova,2002,1.462,77.5,81.3,
+Virginia,2002,1.308,77.8,80.5,
+Virginia Tech,2002,1.786,78.1,81.0,
+Wagner,2002,1.786,75.9,79.3,
+Wake Forest,2002,1.733,77.3,80.0,
+Washington,2002,0.867,77.3,81.2,
+Washington St.,2002,1.75,78.2,80.4,
+Weber St.,2002,1.909,77.5,80.6,
+Western Carolina,2002,1.727,77.6,80.4,
+Western Illinois,2002,2.077,76.3,79.0,
+Western Kentucky,2002,1.538,77.6,81.2,
+Western Michigan,2002,1.308,76.3,78.8,
+Wichita St.,2002,1.25,76.8,79.6,
+William & Mary,2002,1.462,78.3,81.3,
+Memphis,2002,,,,
+Mississippi St.,2002,,,,
+Mississippi Valley St.,2002,,,,
+Missouri,2002,,,,
+Monmouth,2002,,,,
+Montana,2002,,,,
+Montana St.,2002,,,,
+Morehead St.,2002,,,,
+Morgan St.,2002,,,,
+Morris Brown,2002,,,,
+Mount St. Mary's,2002,,,,
+Murray St.,2002,,,,
+N.C. State,2002,,,,
+Navy,2002,,,,
+Nebraska,2002,,,,
+Nevada,2002,,,,
+New Hampshire,2002,,,,
+New Mexico,2002,,,,
+New Mexico St.,2002,,,,
+New Orleans,2002,,,,
+Niagara,2002,,,,
+Nicholls St.,2002,,,,
+Norfolk St.,2002,,,,
+North Carolina,2002,,,,
+North Carolina A&T,2002,,,,
+North Texas,2002,,,,
+Northeastern,2002,,,,
+Northern Arizona,2002,,,,
+Northern Illinois,2002,,,,
+Northern Iowa,2002,,,,
+Northwestern St.,2002,,,,
+Oakland,2002,,,,
+Ohio,2002,,,,
+Oklahoma,2002,,,,
+Oklahoma St.,2002,,,,
+Portland St.,2002,,,,
+Prairie View A&M,2002,,,,
+Pittsburgh,2002,,,,
+Princeton,2002,,,,
+Providence,2002,,,,
+Purdue,2002,,,,
+Quinnipiac,2002,,,,
+Radford,2002,,,,
+Rhode Island,2002,,,,
+Rice,2002,,,,
+Richmond,2002,,,,
+Rider,2002,,,,
+Robert Morris,2002,,,,
+SMU,2002,,,,
+Rutgers,2002,,,,
+Sacramento St.,2002,,,,
+Sacred Heart,2002,,,,
+Saint Joseph's,2002,,,,
+Saint Louis,2002,,,,
+Saint Mary's,2002,,,,
+Saint Peter's,2002,,,,
+Sam Houston St.,2002,,,,
+Samford,2002,,,,
+San Diego,2002,,,,
+San Diego St.,2002,,,,
+San Francisco,2002,,,,
+San Jose St.,2002,,,,
+Santa Clara,2002,,,,
+Savannah St.,2002,,,,
+Seton Hall,2002,,,,
+Siena,2002,,,,
+South Carolina St.,2002,,,,
+Southwest Texas St.,2002,,,,
+Stetson,2002,,,,
+Tennessee St.,2002,,,,
+Tennessee Tech,2002,,,,
+Texas,2002,,,,
+Texas Pan American,2002,,,,
+Texas Southern,2002,,,,
+Texas Tech,2002,,,,
+The Citadel,2002,,,,
+Toledo,2002,,,,
+Towson,2002,,,,
+Troy St.,2002,,,,
+Tulane,2002,,,,
+Tulsa,2002,,,,
+UAB,2002,,,,
+UC Irvine,2002,,,,
+UC Riverside,2002,,,,
+UC Santa Barbara,2002,,,,
+UCF,2002,,,,
+UCLA,2002,,,,
+UMBC,2002,,,,
+UMKC,2002,,,,
+UNC Asheville,2002,,,,
+UNC Greensboro,2002,,,,
+UNC Wilmington,2002,,,,
+UNLV,2002,,,,
+USC,2002,,,,
+UT Arlington,2002,,,,
+UTEP,2002,,,,
+UTSA,2002,,,,
+Utah,2002,,,,
+Utah St.,2002,,,,
+VCU,2002,,,,
+VMI,2002,,,,
+Valparaiso,2002,,,,
+Vanderbilt,2002,,,,
+Vermont,2002,,,,
+West Virginia,2002,,,,
+Winthrop,2002,,,,
+Wisconsin,2002,,,,
+Wofford,2002,,,,
+Wyoming,2002,,,,
+Xavier,2002,,,,
+Yale,2002,,,,
+Northwestern,2002,,,,
+Ohio St.,2002,,,,
+Tennessee Martin,2002,,,,
+Texas A&M,2002,,,,
+Texas A&M Corpus Chris,2002,,,,
+Wright St.,2002,,,,
+Youngstown St.,2002,,,,
+Notre Dame,2002,,,,
