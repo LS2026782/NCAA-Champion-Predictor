@@ -1,179 +1,242 @@
 # NCAA Championship Prediction Pipeline
 
-A machine learning pipeline to predict NCAA Men's Basketball Tournament champions using pre-tournament team statistics. The system backtests "champion-likeness" using only data available before Selection Sunday.
+A machine learning pipeline for predicting NCAA Men's Basketball Tournament champions using pre-tournament team statistics. The system trains on 23 years of historical data (2002–2025) and backtests champion-likeness using only data available before Selection Sunday.
+
+---
+
+## Backtest Results (2006–2025, 19 seasons)
+
+| Metric | Logistic Regression | Gradient Boosting |
+|---|---|---|
+| Mean Champion Rank | **3.5** | **3.3** |
+| Median Champion Rank | 2.0 | 2.0 |
+| Top-1 Accuracy | 36.8% | 36.8% |
+| Top-5 Accuracy | **89.5%** | **89.5%** |
+| Top-10 Accuracy | 89.5% | 89.5% |
+| Top-25 Accuracy | 100% | 100% |
+| Mean Brier Score | 0.044 | 0.046 |
+
+**Year-by-year highlights (2006–2025):**
+
+| Year | Champion | Seed | Model Rank |
+|---|---|---|---|
+| 2006 | Florida | 3 | **1** ✓ |
+| 2008 | Kansas | 1 | **1** ✓ |
+| 2012 | Kentucky | 1 | **1** ✓ |
+| 2015 | Duke | 1 | 2 |
+| 2018 | Villanova | 1 | **1** ✓ |
+| 2022 | Kansas | 1 | **1** ✓ |
+| 2023 | Connecticut | 4 | **1** ✓ |
+| 2024 | Connecticut | 1 | **1** ✓ |
+| 2025 | Florida | 1 | **1** ✓ (GBM) |
+| 2014 | Connecticut | 7 | 13 (hardest miss) |
+| 2017 | North Carolina | 1 | 11 (hardest miss) |
+
+---
+
+## 2026 Predictions
+
+Based on current season statistics (as of March 2026) and Andy Katz's projected bracket:
+
+| Rank | Seed | Team | Champion Probability |
+|---|---|---|---|
+| 1 | 1 | **Michigan** | 47.1% |
+| 2 | 2 | **Illinois** | 30.8% |
+| 3 | 1 | **Duke** | 26.1% |
+| 4 | 4 | **Florida** | 25.5% |
+| 5 | 1 | **Arizona** | 21.5% |
+| 6 | 2 | **Houston** | 19.8% |
+| 7 | 6 | **Alabama** | 14.2% |
+| 8 | 4 | **Texas Tech** | 12.3% |
+| 9 | 3 | **Kansas** | 10.1% |
+| 10 | 1 | **UConn** | 9.7% |
+
+*Trained on 2002–2025 (23 champions). Michigan's +38.0 adjusted efficiency margin is historically exceptional — comparable to 2025 Duke's +39.3. The model also flags Florida (defending champion, Seed 4) as a significant Cinderella-profile risk.*
+
+---
 
 ## Features
 
-- **Data Pipeline**: Automated loading from Kaggle datasets (KenPom/Barttorvik metrics)
-- **Feature Engineering**: Efficiency metrics, Four Factors, experience, strength of schedule
-- **Models**: Logistic Regression (interpretable) and Gradient Boosting (ensemble)
-- **Backtesting**: Rolling-year cross-validation (train on <Year, test on Year)
+- **Extended Dataset**: 23 years of training data (2002–2025), including reconstructed historical features for pre-2008 seasons
+- **Leakage-Free Pipeline**: All normalization parameters (medians, SOS bounds) are learned exclusively from the training set and reused unchanged on test data
+- **Diverse Ensemble**: LogReg + GBM with Brier-score-derived dynamic weights (better model per training window gets more influence)
+- **Optuna Hyperparameter Tuning**: GBM parameters are tuned per rolling-year fit via 40-trial TPE search with temporal GroupKFold CV
+- **Non-Linear Seed Feature**: Replaces linear `(17 - seed)` with log of historical championship win-rate — correctly encodes the massive 1→2 seed gap
+- **Era-Weighted Training**: Recent seasons are upweighted to account for concept drift (one-and-done era → transfer portal era)
 - **Monte Carlo Simulation**: Bracket simulation for championship odds
-- **Interpretability**: Feature importance and team-level explanations
+- **Calibrated Probabilities**: Platt scaling for well-calibrated output
 
-## Backtest Results (2013-2024)
-
-| Metric | Logistic Regression |
-|--------|---------------------|
-| Mean Champion Rank | 7.9 |
-| Median Champion Rank | 4.0 |
-| Top-5 Inclusion Rate | 54.5% |
-| Top-10 Inclusion Rate | 72.7% |
-| Top-25 Inclusion Rate | 100% |
-
-**Notable Predictions:**
-- Correctly predicted Virginia 2019 as #1
-- Correctly predicted Kansas 2022 as #1
-- All champions ranked in Top-25
+---
 
 ## Installation
 
 ```bash
-# Clone repository
-cd "NCAA Champion Predictor"
-
-# Install dependencies
+git clone https://github.com/LS2026782/NCAA-Champion-Predictor.git
+cd NCAA-Champion-Predictor
 pip install -r requirements.txt
-
-# Setup Kaggle credentials (see below)
 ```
 
-### Kaggle API Setup
+**Dependencies:** `scikit-learn`, `pandas`, `numpy`, `optuna`, `playwright` (for data collection)
 
-1. Create account at [kaggle.com](https://www.kaggle.com)
-2. Go to Profile → Settings → API → Create New Token
-3. Place `kaggle.json` in `~/.kaggle/` (Linux/Mac) or `C:\Users\<username>\.kaggle\` (Windows)
+---
 
 ## Usage
 
-### Run Full Pipeline
+### Run full pipeline (backtest + 2025 predictions + Monte Carlo)
 ```bash
 python main.py
 ```
 
-### Run Backtest Only
+### Backtest only
 ```bash
-python main.py --backtest
-python main.py --backtest --model gbm  # Use gradient boosting
+python main.py --backtest                  # Logistic Regression
+python main.py --backtest --model gbm      # Gradient Boosting
 ```
 
-### Predict Specific Year
+### Predict a specific year
 ```bash
-python main.py --predict 2024
-python main.py --predict 2024 --model logreg
+python main.py --predict 2025
+python main.py --predict 2025 --model logreg
 ```
 
-### Run Monte Carlo Simulation
+### 2026 bracket predictions
 ```bash
-python main.py --simulate 2024 --simulations 10000
+python predict_2026_bracket.py
 ```
+
+### Monte Carlo simulation
+```bash
+python main.py --simulate 2025 --simulations 10000
+```
+
+---
 
 ## Project Structure
 
 ```
-NCAA Champion Predictor/
+NCAA-Champion-Predictor/
 ├── config/
-│   └── settings.py           # Configuration and feature definitions
+│   └── settings.py              # Features, model configs, Optuna config, SEED_CHAMPION_RATE
 ├── data/
-│   ├── raw/                   # Downloaded Kaggle data
-│   ├── processed/             # Cleaned datasets
-│   └── snapshots/             # Pre-tournament snapshots
+│   ├── raw/
+│   │   ├── KenPom Barttorvik Extended.csv   ← Primary training dataset (2002–2025)
+│   │   ├── KenPom Barttorvik 2026.csv        ← Current season stats
+│   │   └── KenPom Barttorvik.csv             ← Base dataset
+│   └── historical/
+│       ├── kenpom/              # Per-year KenPom CSVs (2002–2025)
+│       ├── barttorvik/          # ELITE SOS data (2002–2025)
+│       ├── stathead/            # Scraped EXP/class data (2003–2007)
+│       └── talent/              # Recruiting data per year
 ├── src/
 │   ├── data/
-│   │   └── loader.py          # Data loading and preprocessing
+│   │   ├── loader.py            # Loads Extended CSV, creates champion labels
+│   │   └── reconstruct_historical.py  # Builds Extended CSV from raw sources
 │   ├── features/
-│   │   └── builder.py         # Feature engineering
+│   │   ├── builder.py           # Primary feature engineering (leakage-free)
+│   │   └── ultimate_builder.py  # Extended builder with WAB, FT%, momentum
 │   ├── models/
-│   │   └── champion_model.py  # Prediction models
+│   │   ├── champion_model.py    # LogReg + GBM with Optuna tuning
+│   │   └── ensemble_model.py    # LogReg+GBM ensemble with dynamic Brier weights
 │   ├── evaluation/
-│   │   ├── backtester.py      # Rolling-year CV
-│   │   └── metrics.py         # Evaluation metrics
+│   │   ├── backtester.py        # Rolling-year temporal CV
+│   │   └── metrics.py           # Champion rank, Brier score, Top-K rates
 │   └── simulation/
-│       └── monte_carlo.py     # Bracket simulation
-├── results/                   # Output files
-├── main.py                    # Entry point
-├── requirements.txt
-└── README.md
+│       └── monte_carlo.py       # Bracket simulation
+├── results/                     # Saved backtest JSONs and prediction CSVs
+├── main.py                      # Entry point
+├── predict_2026_bracket.py      # 2026 championship predictions
+├── run_reconstruction.py        # Rebuild the Extended CSV from raw data
+└── requirements.txt
 ```
+
+---
 
 ## Features Used
 
-### Core Efficiency (Most Predictive)
-- `KADJ EM` - KenPom Adjusted Efficiency Margin
-- `KADJ O` - Adjusted Offensive Efficiency  
-- `KADJ D` - Adjusted Defensive Efficiency
-- `BARTHAG` - Barttorvik's win probability metric
+### Core Efficiency
+| Feature | Description |
+|---|---|
+| `KADJ EM` | KenPom Adjusted Efficiency Margin |
+| `KADJ O` | Adjusted Offensive Efficiency |
+| `KADJ D` | Adjusted Defensive Efficiency |
+| `BARTHAG` | Barttorvik win probability |
 
-### Four Factors
-- `EFG%` / `EFG%D` - Effective Field Goal %
-- `TOV%` / `TOV%D` - Turnover Rate
-- `OREB%` / `DREB%` - Rebound Rates
-- `FTR` / `FTRD` - Free Throw Rate
+### Four Factors (Offense + Defense)
+`EFG%`, `TOV%`, `OREB%`, `FTR` and their defensive counterparts
 
-### Other
-- `EXP` - Team experience
-- `ELITE SOS` - Strength of Schedule
-- `SEED_STRENGTH` - Derived from tournament seed
-- `EM_X_SOS` - Efficiency × SOS interaction
+### Experience & Talent
+| Feature | Description |
+|---|---|
+| `EXP` | Minutes-weighted class year (0=Fr, 3=Sr) — real data from Stathead for 2003–2007 |
+| `TALENT` | Exponential-decay composite from RSCI recruiting rankings |
+| `TALENT_X_EXP` | Interaction term — captures Blue Blood vs Cinderella dynamic |
+
+### Derived Features
+| Feature | Description |
+|---|---|
+| `SEED_STRENGTH` | `log(historical_champion_rate[seed])` — non-linear encoding |
+| `EM_X_SOS` | Efficiency × SOS interaction, normalized to training-set bounds |
+| `ELITE SOS` | Opponents ranked in top 50 |
+| `EFG_MARGIN` | Shooting differential (offense − defense) |
+| `RELATIVE_3PR` | 3-point rate relative to within-season average (concept-drift safe) |
+| `CINDERELLA` | Binary: low talent + high experience + high efficiency |
+
+---
 
 ## Leakage Prevention
 
-**Critical**: The pipeline strictly prevents data leakage:
-- ✅ Only pre-tournament statistics used as features
-- ✅ Tournament results used ONLY for labels (champion identification)
-- ✅ Strict temporal splits: train on years < test_year
-- ✅ No future data ever leaks into training
+The pipeline enforces strict temporal integrity at every level:
 
-## Model Interpretability
+| Check | Implementation |
+|---|---|
+| Temporal splits | Train on `year < test_year`; never the reverse |
+| Imputation | Column medians stored from training set; reused unchanged on test |
+| Normalization | `sos_min/max`, `talent_median`, `exp_median` learned from training only |
+| CV strategy | GroupKFold by season — no same-season leakage within cross-validation |
+| Labels | Tournament results used only as binary `IS_CHAMPION` label, never as features |
 
-### Why a Team Grades as "Champion-Like"
+---
 
-The logistic regression model provides interpretable coefficients:
+## Model Details
 
-| Feature | Coefficient | Interpretation |
-|---------|-------------|----------------|
-| KADJ O | +1.30 | Higher offensive efficiency → more champion-like |
-| EM_X_SOS | +1.28 | High efficiency vs tough schedule → more champion-like |
-| DREB% | -1.21 | Lower defensive rebounding correlates (counterintuitive - warrants investigation) |
-| EFG%D | -1.02 | Better defensive shooting % → more champion-like |
+### Logistic Regression
+- L2 regularization with cross-validated `C` selection (30-point log grid)
+- `class_weight='balanced'` to handle ~1:87 champion imbalance
+- GroupKFold CV grouped by season (no same-year train/val contamination)
 
-### Team-Level Explanations
+### Gradient Boosting (`HistGradientBoostingClassifier`)
+- **Optuna tuning**: 40-trial TPE search per rolling-year fit
+  - Tunes `learning_rate`, `max_depth`, `min_samples_leaf`, `l2_regularization`
+  - Objective: Brier score via temporal GroupKFold CV
+- Era weights: recent seasons upweighted to handle concept drift
+- Class balancing via `sample_weight`
 
-```python
-from src.models.champion_model import ChampionPredictor
-# After fitting model...
-model.explain_team(team_features, "Connecticut")
-```
+### Ensemble
+- LogReg + GBM (diverse algorithms, not two identical models)
+- Weights derived dynamically from leave-one-season Brier scores: better model per window gets proportionally higher influence
 
-## Evaluation Metrics
-
-- **Champion Rank**: Where actual champion falls in probability ranking
-- **Top-K Inclusion**: % of years champion was in top K predictions
-- **Brier Score**: Probability calibration (lower is better)
-- **Log Loss**: Penalizes confident wrong predictions
-
-## Limitations & Caveats
-
-1. **Tournament Randomness**: Single-elimination format has inherent variance. Even a perfect model would miss ~30% of champions.
-
-2. **Sample Size**: Only 16 champions (2008-2024, excluding 2020). Small positive class limits model complexity.
-
-3. **Cinderella Runs**: Low-seeded champions (2014 UConn as 7-seed) are hard to predict.
-
-4. **Injuries**: Pre-tournament stats don't capture mid-season injuries.
+---
 
 ## Data Sources
 
-- **Primary**: [Kaggle March Madness Data](https://www.kaggle.com/datasets/nishaanamin/march-madness-data) - KenPom/Barttorvik metrics
-- **Secondary**: [538 Team Ratings](https://www.kaggle.com/datasets/raddar/ncaa-men-538-team-ratings)
+| Source | Coverage | Use |
+|---|---|---|
+| [KenPom](https://kenpom.com) | 2002–2025 | Efficiency metrics (KADJ EM/O/D), EXP, TALENT, SOS |
+| [Barttorvik](https://barttorvik.com) | 2008–2025 | BARTHAG, ELITE SOS, Four Factors, Height |
+| [Sports-Reference Stathead](https://stathead.com) | 2003–2007 | Real EXP/class data for pre-Barttorvik years |
+| RSCI Recruiting Rankings | 2002–2025 | TALENT composite |
+
+---
+
+## Limitations
+
+1. **Tournament variance**: Single-elimination has inherent randomness. A theoretically perfect model would still miss ~25% of champions.
+2. **Cinderella floors**: Low-seeded champions (2014 UConn as a 7-seed) are near-impossible to predict from regular season stats alone.
+3. **Injuries**: Pre-tournament stats don't capture roster changes between Selection Sunday and tipoff.
+4. **Early era uncertainty**: 2002–2007 `EXP`, `TALENT`, and `ELITE SOS` values are partially reconstructed from approximation formulas or era averages.
+
+---
 
 ## License
 
-MIT License - See LICENSE file for details.
-
-## Contributing
-
-Pull requests welcome! Please ensure:
-- No data leakage in new features
-- Tests pass with `python -m pytest`
-- Code follows existing style
+MIT — see LICENSE for details.
