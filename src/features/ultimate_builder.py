@@ -15,6 +15,9 @@ Features included:
 import pandas as pd
 import numpy as np
 from typing import List, Tuple, Optional
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.pipeline import Pipeline as SKPipeline
 from sklearn.preprocessing import StandardScaler
 import sys
 from pathlib import Path
@@ -30,9 +33,20 @@ class UltimateFeatureBuilder:
     """
     
     def __init__(self):
-        self.scaler: Optional[StandardScaler] = None
+        # sklearn Pipeline (SimpleImputer → StandardScaler) fitted on training data.
+        # Replaced manual self.scaler + self._fit_params['imputation_medians'] tracking.
+        self.preprocessor: Optional[ColumnTransformer] = None
         self._fitted = False
-        self._fit_params: dict = {}
+
+        # Composite-feature engineering bounds — stored as named attrs rather
+        # than in an opaque dict so type-checkers and readers can see them.
+        self._sos_min: Optional[float] = None
+        self._sos_max: Optional[float] = None
+        self._ft_min:  Optional[float] = None
+        self._ft_max:  Optional[float] = None
+        self._wab_min: Optional[float] = None
+        self._wab_max: Optional[float] = None
+
         self._load_auxiliary_data()
         
         # ULTIMATE FEATURE SET
@@ -123,36 +137,73 @@ class UltimateFeatureBuilder:
 
         missing = [f for f in self.feature_cols if f not in df.columns]
         if missing:
-            print(f"  Missing features (will be filled with 0): {missing}")
+            # Use np.nan instead of 0 so that HistGradientBoostingClassifier
+            # can learn native missing-value splits.  Filling with 0 conflates
+            # "feature absent" with "feature = 0", which biases tree thresholds
+            # downward and degrades split quality on the remaining data.
+            print(f"  Missing features (mapped to NaN for native missing splits): {missing}")
             for f in missing:
-                df[f] = 0
+                df[f] = np.nan
 
         X = df[self.feature_cols].copy()
 
-        # Imputation: store medians from training; reuse on test (no leakage)
+        # Preprocessing: sklearn Pipeline replaces the old manual imputation
+        # loop and manual StandardScaler calls.  fit_transform() is called
+        # only on training data; transform()-only is enforced on test/inference
+        # data so no test-set statistics bleed into the pipeline parameters.
         if fit_scaler:
-            self._fit_params['imputation_medians'] = {}
-        medians = self._fit_params.get('imputation_medians', {})
-        for col in X.columns:
-            if X[col].isnull().any():
-                if fit_scaler:
-                    val = X[col].median()
-                    medians[col] = val if pd.notna(val) else 0.0
-                X[col] = X[col].fillna(medians.get(col, 0.0))
-        if fit_scaler:
-            self._fit_params['imputation_medians'] = medians
-
-        if fit_scaler:
-            self.scaler = StandardScaler()
-            X_scaled = self.scaler.fit_transform(X)
+            self._fit_preprocessor(X)
+            X_processed = self.preprocessor.transform(X)
             self._fitted = True
-        elif self.scaler is not None:
-            X_scaled = self.scaler.transform(X)
+        elif self.preprocessor is not None:
+            X_processed = self.preprocessor.transform(X)
         else:
-            X_scaled = X.values
+            X_processed = X.values
 
         self.feature_names = self.feature_cols
-        return df, X_scaled
+        return df, X_processed
+
+    def _fit_preprocessor(self, X: pd.DataFrame) -> None:
+        """
+        Build and fit the sklearn ColumnTransformer preprocessing pipeline.
+
+        Columns are split into two groups based on their missingness pattern
+        in the training data:
+
+        - Partially missing (some rows NaN, some not): receive median imputation
+          followed by standard scaling.  Both statistics are learned exclusively
+          from the training data and frozen for inference.
+        - Entirely absent (all rows NaN): passed through as-is.  Keeping them as
+          NaN lets HistGradientBoostingClassifier route on missingness natively
+          rather than conflating absence with a zero value.
+
+        Fully present columns (no NaN) skip the imputer and go straight to the
+        scaler — SimpleImputer is a no-op on them and would pass through
+        unchanged, so we include them in the same transformer group for
+        simplicity.
+        """
+        absent_cols       = [c for c in X.columns if X[c].isna().all()]
+        impute_scale_cols = [c for c in X.columns if c not in absent_cols]
+
+        transformers: list = []
+        if impute_scale_cols:
+            transformers.append((
+                'impute_scale',
+                SKPipeline([
+                    ('imputer', SimpleImputer(strategy='median')),
+                    ('scaler',  StandardScaler()),
+                ]),
+                impute_scale_cols,
+            ))
+        if absent_cols:
+            # passthrough preserves NaN — native HistGBM missing-value splits
+            transformers.append(('passthrough_nan', 'passthrough', absent_cols))
+
+        self.preprocessor = ColumnTransformer(
+            transformers=transformers,
+            remainder='drop',
+        )
+        self.preprocessor.fit(X)
 
     def _add_seed_features(self, df: pd.DataFrame) -> pd.DataFrame:
         """Add non-linear seed feature (log of historical championship rate)."""
@@ -199,36 +250,41 @@ class UltimateFeatureBuilder:
         return df
     
     def _add_composite_features(self, df: pd.DataFrame, fit: bool = False) -> pd.DataFrame:
-        """Add composite features using training-set normalization to prevent leakage."""
+        """Add composite features using training-set normalization to prevent leakage.
 
-        # EM × SOS interaction — store min/max from training set
+        Normalization bounds are stored as typed instance attributes (not in a
+        generic dict) so callers and type-checkers have clear visibility of the
+        fitted state without the opacity of self._fit_params.
+        """
+
+        # EM × SOS interaction — store min/max bounds from training set only
         if 'KADJ EM' in df.columns and 'ELITE SOS' in df.columns:
             if fit:
-                self._fit_params['sos_min'] = df['ELITE SOS'].min()
-                self._fit_params['sos_max'] = df['ELITE SOS'].max()
-            sos_min = self._fit_params.get('sos_min', df['ELITE SOS'].min())
-            sos_max = self._fit_params.get('sos_max', df['ELITE SOS'].max())
+                self._sos_min = float(df['ELITE SOS'].min())
+                self._sos_max = float(df['ELITE SOS'].max())
+            sos_min = self._sos_min if self._sos_min is not None else df['ELITE SOS'].min()
+            sos_max = self._sos_max if self._sos_max is not None else df['ELITE SOS'].max()
             sos_norm = (df['ELITE SOS'] - sos_min) / (sos_max - sos_min + 1e-8)
             df['EM_X_SOS'] = df['KADJ EM'] * (0.5 + sos_norm)
         else:
-            df['EM_X_SOS'] = 0
+            df['EM_X_SOS'] = np.nan
 
-        # CLUTCH_COMPOSITE — store FT% and WAB bounds from training set
+        # CLUTCH_COMPOSITE — store FT% and WAB bounds from training set only
         if 'FT%' in df.columns and 'WAB' in df.columns:
             if fit:
-                self._fit_params['ft_min']  = df['FT%'].min()
-                self._fit_params['ft_max']  = df['FT%'].max()
-                self._fit_params['wab_min'] = df['WAB'].min()
-                self._fit_params['wab_max'] = df['WAB'].max()
-            ft_min  = self._fit_params.get('ft_min',  df['FT%'].min())
-            ft_max  = self._fit_params.get('ft_max',  df['FT%'].max())
-            wab_min = self._fit_params.get('wab_min', df['WAB'].min())
-            wab_max = self._fit_params.get('wab_max', df['WAB'].max())
+                self._ft_min  = float(df['FT%'].min())
+                self._ft_max  = float(df['FT%'].max())
+                self._wab_min = float(df['WAB'].min())
+                self._wab_max = float(df['WAB'].max())
+            ft_min  = self._ft_min  if self._ft_min  is not None else df['FT%'].min()
+            ft_max  = self._ft_max  if self._ft_max  is not None else df['FT%'].max()
+            wab_min = self._wab_min if self._wab_min is not None else df['WAB'].min()
+            wab_max = self._wab_max if self._wab_max is not None else df['WAB'].max()
             ft_norm  = (df['FT%'] - ft_min)  / (ft_max  - ft_min  + 1e-8)
             wab_norm = (df['WAB'] - wab_min) / (wab_max - wab_min + 1e-8)
             df['CLUTCH_COMPOSITE'] = 0.5 * ft_norm + 0.5 * wab_norm
         else:
-            df['CLUTCH_COMPOSITE'] = 0
+            df['CLUTCH_COMPOSITE'] = np.nan
 
         return df
     

@@ -315,24 +315,44 @@ class ChampionPredictor:
     def _calibrate_probabilities(self, X: np.ndarray, y: np.ndarray) -> None:
         """
         Apply probability calibration using Platt Scaling (sigmoid).
-        
-        NOTE: We use 'sigmoid' instead of 'isotonic' because:
-        - Isotonic regression requires hundreds of samples per class for stability
-        - With only ~40 champions in our dataset, isotonic overfits severely
-        - Sigmoid (Platt Scaling) fits only 2 parameters (slope + intercept),
-          making it much more robust for rare event prediction
-        
-        Reference: Niculescu-Mizil & Caruana (2005) demonstrate sigmoid
-        outperforms isotonic on small datasets.
+
+        We intentionally do NOT wrap LogisticRegressionCV inside
+        CalibratedClassifierCV.  That combination creates nested cross-
+        validation: the outer calibrator splits the (already small) dataset
+        into folds, then the inner LogisticRegressionCV runs its own CV on
+        each fold's training subset.  With only ~20–25 champions per training
+        window, the inner folds can end up with 0–1 positive samples, causing
+        degenerate C selection and erratic calibration.
+
+        Instead, we extract the best C found during the earlier full-data
+        LogisticRegressionCV fit and pass it to a plain LogisticRegression.
+        This gives CalibratedClassifierCV a stable base estimator whose
+        single fit per fold cannot over-fragment the positive class.
         """
         print("Applying probability calibration (sigmoid/Platt scaling)...")
-        
+
+        # Extract the best regularization strength discovered by LogisticRegressionCV.
+        # Fall back to C=1.0 for GBM or any model without C_.
+        if hasattr(self.model, 'C_'):
+            best_C = float(self.model.C_[0])
+            print(f"  Calibration base: LogisticRegression(C={best_C:.4f})")
+            base_estimator = LogisticRegression(
+                C=best_C,
+                penalty=LOGREG_CONFIG['penalty'],
+                class_weight=LOGREG_CONFIG['class_weight'],
+                max_iter=LOGREG_CONFIG['max_iter'],
+                random_state=LOGREG_CONFIG['random_state'],
+                solver='lbfgs',
+            )
+        else:
+            base_estimator = self.model
+
         self.calibrated_model = CalibratedClassifierCV(
-            estimator=self.model,
-            method='sigmoid',  # CRITICAL: sigmoid >> isotonic for rare events
-            cv=min(5, int(y.sum()))  # Can use more folds with sigmoid's stability
+            estimator=base_estimator,
+            method='sigmoid',
+            cv=min(5, int(y.sum())),
         )
-        
+
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             self.calibrated_model.fit(X, y)
@@ -357,6 +377,29 @@ class ChampionPredictor:
             
         # Return probability of positive class (champion)
         return probs[:, 1]
+
+    def predict_proba_normalized(self, X: np.ndarray) -> np.ndarray:
+        """
+        Predict championship probabilities normalized to sum to 1.0.
+
+        Since exactly one team wins the tournament each year, the raw model
+        probabilities should be treated as un-normalized scores.  Dividing by
+        their sum converts them into a proper probability distribution over
+        the field, which produces better-calibrated Brier Scores and Log Loss
+        values than raw sigmoid outputs.
+
+        Args:
+            X: Feature matrix (all teams in a single tournament year)
+
+        Returns:
+            Array of probabilities summing to 1.0
+        """
+        probs = self.predict_proba(X)
+        total = probs.sum()
+        if total > 0:
+            return probs / total
+        # Degenerate fallback: uniform distribution
+        return np.full(len(probs), 1.0 / len(probs))
     
     def predict(self, X: np.ndarray, threshold: float = 0.5) -> np.ndarray:
         """

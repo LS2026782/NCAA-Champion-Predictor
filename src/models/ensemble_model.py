@@ -11,11 +11,17 @@ benefit.
 
 Weighting strategy
 ------------------
-Instead of hardcoded 50/50 weights, each model's contribution is inversely
-proportional to its leave-one-season-out Brier score on the training data.
-Lower Brier score → lower average error → higher weight.  This gives more
-influence to whichever model happens to fit the training periods better, and
-adapts automatically when the dataset grows.
+Weights are derived from Brier Skill Scores (BSS) relative to a naive baseline
+(predicting uniform 1/n probability for all teams).  BSS = 1 - BS/BS_naive,
+so a model that perfectly beats the baseline scores 1.0 and a model that does
+no better scores 0.0.  Negative skill is clamped to zero so a catastrophically
+bad model receives zero weight rather than a negative one.
+
+The skill scores are then passed through a temperature-scaled softmax.
+Temperature < 1 concentrates weight on the stronger model; temperature > 1
+moves toward equal 50/50 weights; temperature = 1 is standard softmax.
+This approach penalises a poor performer more than simple inverse-Brier and
+avoids weight instability near zero Brier scores.
 """
 
 import warnings
@@ -31,6 +37,46 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from src.features.builder import FeatureBuilder
 from src.models.champion_model import ChampionPredictor, compute_era_weights
+
+
+def _naive_brier(n_teams: int) -> float:
+    """
+    Brier score of the dumbest possible model: predict 1/n for every team.
+
+    For a field of n_teams where exactly one wins:
+        BS_naive = (1/n) * (1 - 1/n)^2 + (n-1)/n * (0 - 1/n)^2
+                 = (1/n) * (n-1)^2/n^2 + (n-1)/n * 1/n^2
+                 = (n-1) / n^2
+
+    This serves as the denominator for Brier Skill Score (BSS).
+    """
+    if n_teams <= 0:
+        return 1.0
+    return (n_teams - 1) / (n_teams ** 2)
+
+
+def _softmax_weights(scores: np.ndarray, temperature: float = 0.5) -> np.ndarray:
+    """
+    Temperature-scaled softmax over an array of skill scores.
+
+    A temperature below 1 sharpens the distribution (more weight to the
+    stronger model); temperature above 1 softens it toward equal weighting.
+
+    Parameters
+    ----------
+    scores : array of skill scores (higher is better, ≥ 0)
+    temperature : float > 0
+
+    Returns
+    -------
+    weights : array summing to 1.0
+    """
+    temperature = max(temperature, 1e-6)
+    shifted = scores / temperature
+    # Subtract max for numerical stability before exp
+    shifted -= shifted.max()
+    exp_s = np.exp(shifted)
+    return exp_s / exp_s.sum()
 
 
 def _brier_cv(model_type: str, X: np.ndarray, y: np.ndarray,
@@ -63,7 +109,7 @@ def _brier_cv(model_type: str, X: np.ndarray, y: np.ndarray,
 
 class EnsemblePredictor:
     """
-    LogReg + GBM ensemble with Brier-score-based dynamic weighting.
+    LogReg + GBM ensemble with skill-score + softmax dynamic weighting.
 
     Both base learners share the same FeatureBuilder (and therefore the same
     feature set and imputation parameters), so the only source of diversity
@@ -75,16 +121,32 @@ class EnsemblePredictor:
     weights : list[float]
         [logreg_weight, gbm_weight] after fitting.  Sum to 1.
     logreg_brier, gbm_brier : float
-        CV Brier scores computed during fit, used to derive weights.
+        CV Brier scores computed during fit.
+    logreg_skill, gbm_skill : float
+        Brier Skill Scores = 1 - brier / naive_brier.
+    weight_temperature : float
+        Softmax temperature used to derive weights from skill scores.
+        < 1 concentrates weight on the stronger model; > 1 equalises.
     """
 
-    def __init__(self):
-        self.builder       = FeatureBuilder()
-        self.logreg_model  = ChampionPredictor(model_type='logreg', calibrate=False)
-        self.gbm_model     = ChampionPredictor(model_type='gbm',    calibrate=False)
-        self.weights: List[float] = [0.5, 0.5]
-        self.logreg_brier: float  = 0.5
-        self.gbm_brier:    float  = 0.5
+    def __init__(self, weight_temperature: float = 0.5):
+        """
+        Parameters
+        ----------
+        weight_temperature : float
+            Softmax temperature for converting skill scores to weights.
+            Default 0.5 — moderately favours the stronger model without
+            collapsing to a winner-take-all regime.
+        """
+        self.builder            = FeatureBuilder()
+        self.logreg_model       = ChampionPredictor(model_type='logreg', calibrate=False)
+        self.gbm_model          = ChampionPredictor(model_type='gbm',    calibrate=False)
+        self.weight_temperature = weight_temperature
+        self.weights: List[float]  = [0.5, 0.5]
+        self.logreg_brier: float   = 0.5
+        self.gbm_brier:    float   = 0.5
+        self.logreg_skill: float   = 0.0
+        self.gbm_skill:    float   = 0.0
         self._fitted = False
 
     # ------------------------------------------------------------------
@@ -121,17 +183,24 @@ class EnsemblePredictor:
         else:
             self.logreg_brier = self.gbm_brier = 0.25  # equal weight fallback
 
-        # Inverse-Brier weights: better model (lower Brier) gets higher weight.
-        # Add small epsilon to avoid division-by-zero if a model is perfect.
-        eps = 1e-6
-        inv_logreg = 1.0 / (self.logreg_brier + eps)
-        inv_gbm    = 1.0 / (self.gbm_brier    + eps)
-        total      = inv_logreg + inv_gbm
-        self.weights = [inv_logreg / total, inv_gbm / total]
+        # Convert raw Brier scores to Brier Skill Scores (BSS) relative to a
+        # naive uniform-probability baseline.  BSS = 1 - BS / BS_naive, so a
+        # model that beats the naive baseline scores > 0 and one that does not
+        # scores ≤ 0.  We clamp to [0, ∞) so a poor model gets zero weight
+        # rather than pulling the ensemble in the wrong direction.
+        n_teams   = int(y.shape[0] / max(len(np.unique(groups)), 1)) if groups is not None else 68
+        bs_naive  = _naive_brier(n_teams)
+        self.logreg_skill = max(0.0, 1.0 - self.logreg_brier / bs_naive)
+        self.gbm_skill    = max(0.0, 1.0 - self.gbm_brier    / bs_naive)
 
-        print(f"  [Ensemble] LogReg Brier={self.logreg_brier:.4f}  "
-              f"GBM Brier={self.gbm_brier:.4f}  "
-              f"→ weights {self.weights[0]:.2f} / {self.weights[1]:.2f}")
+        # Temperature-scaled softmax over skill scores → ensemble weights.
+        skills       = np.array([self.logreg_skill, self.gbm_skill])
+        self.weights = _softmax_weights(skills, temperature=self.weight_temperature).tolist()
+
+        print(f"  [Ensemble] LogReg Brier={self.logreg_brier:.4f} skill={self.logreg_skill:.3f}  "
+              f"GBM Brier={self.gbm_brier:.4f} skill={self.gbm_skill:.3f}  "
+              f"→ weights {self.weights[0]:.2f} / {self.weights[1]:.2f}  "
+              f"(T={self.weight_temperature})")
 
         # --- 2. Final fit on the full training set ----------------------------
         with warnings.catch_warnings():

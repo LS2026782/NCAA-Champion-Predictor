@@ -153,8 +153,11 @@ class Backtester:
         model.fit(X_train, y_train, feature_names=self.builder.get_feature_names(),
                   season_groups=season_groups, era_weights=era_weights)
         
-        # Predict
-        probs = model.predict_proba(X_test)
+        # Predict — use normalized probabilities so the field sums to 1.0.
+        # Since exactly one team wins per year, normalization converts raw
+        # model scores into a proper probability distribution, giving more
+        # meaningful Brier Score and Log Loss values.
+        probs = model.predict_proba_normalized(X_test)
         test_df_feat = test_df_feat.copy()
         test_df_feat['PROB'] = probs
         test_df_feat['RANK'] = test_df_feat['PROB'].rank(ascending=False).astype(int)
@@ -173,7 +176,7 @@ class Backtester:
         top_5_teams = sorted_df.head(5)['TEAM'].tolist()
         top_10_teams = sorted_df.head(10)['TEAM'].tolist()
         
-        # Calculate metrics
+        # Calculate metrics against normalized probabilities
         brier_score = np.mean((probs - y_test) ** 2)
         
         # Log loss with clipping to avoid log(0)

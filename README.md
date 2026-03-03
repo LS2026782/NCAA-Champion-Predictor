@@ -58,13 +58,16 @@ Based on current season statistics (as of March 2026) and Andy Katz's projected 
 ## Features
 
 - **Extended Dataset**: 23 years of training data (2002–2025), including reconstructed historical features for pre-2008 seasons
-- **Leakage-Free Pipeline**: All normalization parameters (medians, SOS bounds) are learned exclusively from the training set and reused unchanged on test data
-- **Diverse Ensemble**: LogReg + GBM with Brier-score-derived dynamic weights (better model per training window gets more influence)
+- **Leakage-Free Pipeline**: Imputation and scaling handled by sklearn `Pipeline` / `ColumnTransformer` — all statistics learned exclusively from training data and frozen for inference
+- **Probability Normalization**: Championship probabilities are normalized to sum to 1.0 per tournament field before computing Brier Score and Log Loss — consistent with exactly one winner per year
+- **Diverse Ensemble**: LogReg + GBM with skill-score + softmax dynamic weighting (see Model Details)
 - **Optuna Hyperparameter Tuning**: GBM parameters are tuned per rolling-year fit via 40-trial TPE search with temporal GroupKFold CV
 - **Non-Linear Seed Feature**: Replaces linear `(17 - seed)` with log of historical championship win-rate — correctly encodes the massive 1→2 seed gap
 - **Era-Weighted Training**: Recent seasons are upweighted to account for concept drift (one-and-done era → transfer portal era)
+- **Stable Calibration**: `CalibratedClassifierCV` now wraps a fixed-C `LogisticRegression` (C extracted from prior `LogisticRegressionCV` fit) instead of re-running nested CV on an already-tiny positive sample
+- **Native Missing-Value Splits**: Entirely absent features are mapped to `NaN` (not `0`) so `HistGradientBoostingClassifier` can route on missingness natively
 - **Monte Carlo Simulation**: Bracket simulation for championship odds
-- **Calibrated Probabilities**: Platt scaling for well-calibrated output
+- **Type-Safe API**: `main.py` functions return typed `TypedDict` payloads; `results_dir` is an explicit argument (no hidden global state); unavailable years raise `ValueError` immediately
 
 ---
 
@@ -190,8 +193,10 @@ The pipeline enforces strict temporal integrity at every level:
 | Check | Implementation |
 |---|---|
 | Temporal splits | Train on `year < test_year`; never the reverse |
-| Imputation | Column medians stored from training set; reused unchanged on test |
-| Normalization | `sos_min/max`, `talent_median`, `exp_median` learned from training only |
+| Imputation | `SimpleImputer(strategy='median')` inside sklearn `Pipeline` — medians fitted on training data only, frozen for inference |
+| Scaling | `StandardScaler` inside the same `Pipeline` — mean/std from training set, applied read-only to test |
+| Composite features | `EM_X_SOS` and `CLUTCH_COMPOSITE` normalization bounds stored as typed instance attributes on fit, reused on transform |
+| Missing columns | Entirely absent features → `NaN` (not `0`); partially missing columns → median-imputed via the pipeline |
 | CV strategy | GroupKFold by season — no same-season leakage within cross-validation |
 | Labels | Tournament results used only as binary `IS_CHAMPION` label, never as features |
 
@@ -213,7 +218,8 @@ The pipeline enforces strict temporal integrity at every level:
 
 ### Ensemble
 - LogReg + GBM (diverse algorithms, not two identical models)
-- Weights derived dynamically from leave-one-season Brier scores: better model per window gets proportionally higher influence
+- **Brier Skill Score weighting**: each model's raw Brier score is first converted to a skill score relative to a naive uniform-probability baseline (`BSS = 1 − BS/BS_naive`). A model no better than guessing scores 0; negative skill is clamped to 0 so a poor model receives zero weight
+- **Temperature-scaled softmax** (`T = 0.5` default) converts skill scores to weights — concentrates influence on the stronger model more aggressively than simple inverse-Brier while remaining numerically stable near zero Brier scores
 
 ---
 
