@@ -1,51 +1,265 @@
 TEAM,TALENT_SCORE,TALENT_RANK,YEAR
-Duke,,1,2016
-Kentucky,,2,2016
-Florida,,3,2016
-North Carolina,,4,2016
-Stanford,,5,2016
-Virginia,,6,2016
-Kansas,,7,2016
-Indiana,,8,2016
-USC,,9,2016
-NC State,,10,2016
-Illinois,,11,2016
-Harvard,,12,2016
-Michigan State,,13,2016
-Nebraska,,14,2016
-St. John's,,15,2016
-Oregon,,16,2016
-UConn,,17,2016
-Florida State,,18,2016
-Michigan,,19,2016
-UCLA,,20,2016
-Gonzaga,,21,2016
-Alabama,,22,2016
-Villanova,,23,2016
-Maryland,,24,2016
-Arizona,,25,2016
-Auburn,,26,2016
-Texas,,27,2016
-Virginia Tech,,28,2016
-Syracuse,,29,2016
-Louisville,,30,2016
-Ohio State,,31,2016
-Notre Dame,,32,2016
-California,,33,2016
-Mississippi State,,34,2016
-Penn State,,35,2016
-Marquette,,36,2016
-Baylor,,37,2016
-Wisconsin,,38,2016
-Cincinnati,,39,2016
-San Diego State,,40,2016
-LSU,,41,2016
-West Virginia,,42,2016
-Georgetown,,43,2016
-Texas A&M,,44,2016
-Minnesota,,45,2016
-Miami,,46,2016
-Tennessee,,47,2016
-Georgia,,48,2016
-Northwestern,,49,2016
-Washington,,50,2016
+Kentucky,70.38,1,2016
+North Carolina,57.11,14,2016
+Texas,59.91,7,2016
+Villanova,49.86,34,2016
+UCLA,63.33,5,2016
+Arizona,66.75,3,2016
+Kansas,64.81,4,2016
+Connecticut,55.13,19,2016
+Florida State,58.59,10,2016
+Minnesota,46.68,48,2016
+Georgia Tech,33.59,89,2016
+Marquette,54.26,21,2016
+Oklahoma,48.98,36,2016
+Miami,53.38,25,2016
+Clemson,29.13,103,2016
+Alabama,48.69,40,2016
+N.C. State,59.12,8,2016
+Indiana,59.06,9,2016
+Oregon,58.2,11,2016
+Duke,69.49,2,2016
+Iowa State,41.26,65,2016
+Mississippi State,51.32,29,2016
+Louisville,53.56,22,2016
+Oklahoma State,49.67,35,2016
+Arkansas,46.34,49,2016
+Pittsburgh,33.06,94,2016
+Washington,51.78,27,2016
+Ole Miss,36.82,78,2016
+Illinois,44.32,56,2016
+Illinois State,18.33,153,2016
+Kansas State,41.58,62,2016
+Nebraska,44.49,55,2016
+Charlotte,21.03,131,2016
+Michigan,46.78,46,2016
+Auburn,56.96,15,2016
+Oregon State,45.52,53,2016
+Virginia Tech,47.27,45,2016
+West Virginia,45.56,52,2016
+Marshall,17.38,161,2016
+St. Mary's,33.13,92,2016
+Western Kentucky,32.23,96,2016
+Michigan State,56.4,16,2016
+Southern Miss,15.47,175,2016
+Missouri,51.07,30,2016
+Cincinnati,48.36,41,2016
+Valparaiso,16.03,171,2016
+San Diego,14.49,187,2016
+South Alabama,25.96,111,2016
+Wake Forest,40.5,66,2016
+Bowling Green,9.13,243,2016
+UAB,18.95,147,2016
+Central Michigan,5.33,258,2016
+Lipscomb,11.68,229,2016
+UCF,30.37,99,2016
+St. John's,45.7,51,2016
+Northern Colorado,25.72,115,2016
+Florida,53.39,24,2016
+Middle Tennessee State,20.03,141,2016
+Vanderbilt,45.47,54,2016
+Liberty,14.28,190,2016
+USF,41.55,63,2016
+Texas Tech,28.16,106,2016
+La Salle,14.68,186,2016
+Western Michigan,12.94,216,2016
+Akron,13.48,200,2016
+Cleveland State,12.53,219,2016
+Tennessee,47.62,44,2016
+San Diego State,48.73,39,2016
+Lehigh,13.33,201,2016
+Wright State,24.88,117,2016
+Northern Iowa,13.68,197,2016
+Kent State,13.95,193,2016
+North Dakota State,6.67,251,2016
+New Mexico State,14.92,181,2016
+Pacific,17.45,159,2016
+Weber State,12.01,224,2016
+Wisconsin-Green Bay,14.85,183,2016
+Tennessee Tech,8.69,245,2016
+Long Beach State,19.8,143,2016
+Oral Roberts,14.88,182,2016
+Western Illinois,3.33,259,2016
+UC Irvine,18.05,155,2016
+Dartmouth,15.0,179,2016
+Xavier,44.21,57,2016
+Brown,10.34,236,2016
+George Mason,34.35,87,2016
+Georgia,43.36,59,2016
+Buffalo,26.37,110,2016
+Northern Arizona,9.15,242,2016
+Illinois Chicago,18.84,149,2016
+Rider,11.73,227,2016
+Hofstra,20.98,133,2016
+South Carolina,48.94,37,2016
+Tennessee State,21.59,128,2016
+TCU,39.44,71,2016
+Florida Gulf Coast,25.75,114,2016
+North Texas,23.89,121,2016
+Siena,13.6,199,2016
+Rice,34.75,86,2016
+James Madison,12.0,225,2016
+Howard,14.0,191,2016
+Baylor,48.87,38,2016
+Murray State,16.9,165,2016
+Virginia,53.46,23,2016
+Colorado,32.68,95,2016
+Maryland,55.72,18,2016
+Missouri State,13.81,194,2016
+Utah,40.32,68,2016
+Iowa,37.11,77,2016
+Arizona State,50.54,31,2016
+UNLV,56.38,17,2016
+Mount St. Mary's,10.37,235,2016
+FIU,14.35,188,2016
+Eastern Washington,3.33,259,2016
+Navy,10.62,234,2016
+Stephen F. Austin,14.35,188,2016
+Mercer,11.69,228,2016
+Bryant University,10.7,233,2016
+Morehead State,12.91,217,2016
+Dayton,36.36,81,2016
+Gonzaga,39.86,70,2016
+Bradley,14.76,184,2016
+Brigham Young,43.56,58,2016
+Loyola (MD),13.33,201,2016
+Fordham,20.68,136,2016
+Montana State,6.67,251,2016
+SMU,48.23,42,2016
+Cal State Northridge,18.0,156,2016
+North Carolina Central,17.0,163,2016
+Iona,15.0,179,2016
+Boise State,28.34,105,2016
+Idaho,16.27,170,2016
+Evansville,8.19,247,2016
+Long Island,12.06,223,2016
+IUPUI,18.44,152,2016
+George Washington,33.58,90,2016
+Houston,26.43,109,2016
+St. Bonaventure,12.14,222,2016
+Virginia Military Institute,6.0,256,2016
+Southern Illinois,18.84,149,2016
+Eastern Kentucky,25.4,116,2016
+Southeast Missouri State,19.19,145,2016
+Lafayette,3.33,259,2016
+Alabama State,13.75,195,2016
+Princeton,17.71,157,2016
+Georgia Southern,17.55,158,2016
+New Orleans,13.33,201,2016
+Youngstown State,9.0,244,2016
+Fresno State,37.64,75,2016
+Bucknell,13.33,201,2016
+Cal Poly,13.33,201,2016
+Towson,13.33,201,2016
+Memphis,50.01,32,2016
+Georgetown,41.47,64,2016
+Georgia State,20.79,135,2016
+Rhode Island,33.12,93,2016
+New Mexico,34.95,84,2016
+UNC Wilmington,12.3,221,2016
+Utah State,26.63,108,2016
+Hawaii,13.33,201,2016
+UC Riverside,11.26,232,2016
+Charleston Southern,13.22,215,2016
+Saint Peter's,18.23,154,2016
+Norfolk State,13.33,201,2016
+Fairleigh Dickinson,10.04,239,2016
+Tennessee-Martin,28.41,104,2016
+Nevada,24.67,118,2016
+Yale,23.78,122,2016
+Rutgers,35.5,83,2016
+Vermont,16.52,168,2016
+High Point,20.84,134,2016
+Seton Hall,41.61,61,2016
+DePaul,36.4,80,2016
+UC Santa Barbara,21.0,132,2016
+Indiana State,13.74,196,2016
+Penn State,46.01,50,2016
+California,40.26,69,2016
+Wyoming,27.72,107,2016
+VCU,46.74,47,2016
+Florida Atlantic,14.74,185,2016
+UTEP,30.36,100,2016
+Massachusetts,35.92,82,2016
+Creighton,38.66,74,2016
+Manhattan,23.52,124,2016
+Appalachian State,16.91,164,2016
+William & Mary,5.5,257,2016
+Miami (OH),29.25,102,2016
+Saint Louis,25.8,112,2016
+Saint Joseph's,25.79,113,2016
+Providence,48.1,43,2016
+Belmont,23.63,123,2016
+Wichita State,37.33,76,2016
+Colorado State,33.32,91,2016
+Tulsa,20.47,138,2016
+Pennsylvania,18.86,148,2016
+Ohio,11.59,231,2016
+East Carolina,31.39,97,2016
+Drake,18.69,151,2016
+San Jose State,23.17,126,2016
+Syracuse,61.09,6,2016
+Robert Morris,6.67,251,2016
+Duquesne,15.81,173,2016
+Wisconsin,34.91,85,2016
+Louisiana Tech,19.89,142,2016
+Butler,38.97,73,2016
+Tulane,33.73,88,2016
+Stanford,51.37,28,2016
+Wisconsin-Milwaukee,6.67,251,2016
+Northern Illinois,19.44,144,2016
+Loyola Chicago,15.33,176,2016
+Old Dominion,16.42,169,2016
+Jacksonville,9.81,241,2016
+LSU,55.01,20,2016
+USC,52.4,26,2016
+Fairfield,17.25,162,2016
+Louisiana,13.33,201,2016
+Texas A&M,57.66,12,2016
+Winthrop,16.0,172,2016
+Purdue,43.08,60,2016
+Gardner-Webb,10.12,238,2016
+Northwestern,40.42,67,2016
+Temple,36.52,79,2016
+Richmond,21.45,129,2016
+Washington State,29.65,101,2016
+Notre Dame,50.01,32,2016
+Harvard,39.43,72,2016
+Montana,20.57,137,2016
+Toledo,17.42,160,2016
+Eastern Illinois,13.23,214,2016
+Holy Cross,13.68,197,2016
+Boston University,8.33,246,2016
+Samford,10.19,237,2016
+Chattanooga,11.79,226,2016
+East Tennessee State,16.8,166,2016
+Elon,15.01,178,2016
+Davidson,20.3,139,2016
+UNC Greensboro,15.19,177,2016
+Ohio State,57.47,13,2016
+Campbell,3.33,259,2016
+Western Carolina,10.0,240,2016
+South Dakota State,13.33,201,2016
+Northeastern,21.07,130,2016
+Southern Utah,3.33,259,2016
+UNC Asheville,24.45,119,2016
+SIU Edwardsville,2.22,264,2016
+Southeastern Louisiana,8.0,248,2016
+New Hampshire,13.33,201,2016
+Boston College,30.84,98,2016
+Missouri-Kansas City,16.73,167,2016
+Portland,8.0,248,2016
+San Francisco,6.67,251,2016
+Wofford,12.81,218,2016
+Pepperdine,15.56,174,2016
+Stetson,20.28,140,2016
+Maine,11.63,230,2016
+Monmouth,24.3,120,2016
+Savannah State,14.0,191,2016
+Arkansas-Little Rock,19.0,146,2016
+Loyola Marymount,13.33,201,2016
+Ball State,23.29,125,2016
+Presbyterian,8.0,248,2016
+Cal State Bakersfield,13.33,201,2016
+Northern Kentucky,12.43,220,2016
+Sacred Heart,22.65,127,2016

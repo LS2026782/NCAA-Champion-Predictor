@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>2026 NCAA Tournament &mdash; Predicted Bracket</title>
+<style>
+:root {
+  --navy: #0a2240;
+  --gold: #ffc72c;
+  --win: #155724;
+  --win-bg: #e8f5e9;
+  --lose: #aaa;
+  --line: #90a4ae;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background:#f5f6fa; color:#212529; }
+h1 { text-align:center; padding:14px 0 2px; font-size:20px; color:var(--navy); letter-spacing:1px; }
+.subtitle { text-align:center; color:#78909c; font-size:11px; margin-bottom:8px; }
+
+/* ── First Four ─────────────────────────────────────────── */
+.first-four-section { text-align:center; margin:6px auto 10px; max-width:780px; }
+.first-four-section h3 { font-size:13px; color:var(--navy); margin-bottom:6px; letter-spacing:1px; }
+.first-four-grid { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
+.ff-game { background:#fff; border:1px solid #ddd; border-radius:6px; padding:6px 10px;
+  min-width:160px; font-size:11px; }
+.ff-day { display:block; font-size:9px; color:#78909c; margin-bottom:3px; }
+.ff-game .team { padding:2px 4px; }
+.ff-dest { font-size:9px; color:#78909c; margin-top:3px; }
+
+/* ── Bracket Layout ─────────────────────────────────────── */
+.bracket-half { display:flex; justify-content:center; gap:0; padding:0 6px; }
+.region { display:flex; align-items:stretch; }
+.region-left { flex-direction:row; }
+.region-right { flex-direction:row-reverse; }
+.region-title {
+  writing-mode:vertical-lr; text-orientation:mixed;
+  font-size:12px; font-weight:800; color:#fff; background:var(--navy);
+  padding:6px 3px; display:flex; align-items:center; justify-content:center;
+  letter-spacing:2px; min-width:20px;
+}
+.region-right .region-title { writing-mode:vertical-rl; transform:rotate(180deg); }
+
+.round { display:flex; flex-direction:column; justify-content:space-around; min-width:125px; }
+.round-0 .matchup { padding:0; }
+.round-1 .matchup { padding:8px 0; }
+.round-2 .matchup { padding:28px 0; }
+.round-3 .matchup { padding:58px 0; }
+.round-4 { display:flex; align-items:center; justify-content:center; min-width:100px; }
+
+.matchup { border-left:2px solid var(--line); margin-left:1px; }
+.region-right .matchup { border-left:none; border-right:2px solid var(--line); margin-left:0; margin-right:1px; }
+
+/* ── Team cells ─────────────────────────────────────────── */
+.team {
+  padding:1px 5px; font-size:10.5px; white-space:nowrap; cursor:pointer;
+  display:flex; align-items:center; gap:3px;
+  border-bottom:1px solid #cfd8dc; min-height:18px;
+  transition:background .12s;
+}
+.team:last-child { border-bottom:1px solid var(--line); }
+.team:hover { background:#fff9c4; }
+.team.winner { font-weight:700; color:var(--win); background:var(--win-bg); }
+.team.loser { color:var(--lose); }
+.team.region-winner {
+  font-weight:800; color:#b71c1c; font-size:11px; background:#fce4ec;
+  border:1px solid #e57373; border-radius:3px; padding:3px 7px;
+}
+.seed {
+  background:#eceff1; border-radius:2px; padding:0 2px; font-size:8.5px;
+  font-weight:700; min-width:14px; text-align:center; color:#546e7a;
+}
+.name { flex:1; }
+
+/* ── Final Four ─────────────────────────────────────────── */
+.final-four {
+  text-align:center; padding:10px 0; background:var(--navy); color:#fff;
+  margin:4px 6px; border-radius:6px;
+}
+.final-four h2 { font-size:15px; margin-bottom:6px; letter-spacing:2px; }
+.ff-matchup { display:flex; justify-content:center; align-items:center; gap:16px; }
+.ff-semi { background:rgba(255,255,255,.08); border-radius:6px; padding:6px 10px; min-width:150px; }
+.ff-semi .team { color:#ccc; border-bottom-color:rgba(255,255,255,.15); }
+.ff-semi .team.winner { color:var(--gold); background:rgba(255,215,0,.08); }
+.ff-semi .team.loser { color:#667; }
+.ff-semi .seed { background:rgba(255,255,255,.15); color:#ccc; }
+.ff-label { font-size:9px; color:#667; margin-top:3px; }
+.vs { font-size:9px; color:#667; padding:1px 0; }
+
+.championship { background:rgba(255,255,255,.12); border-radius:8px; padding:8px 14px; }
+.championship .team { color:#ccc; border-bottom-color:rgba(255,255,255,.15); }
+.championship .team.winner { color:var(--gold); background:rgba(255,215,0,.12); }
+.championship .team.loser { color:#667; }
+.championship .seed { background:rgba(255,255,255,.15); color:#ccc; }
+.champ-label { font-size:10px; letter-spacing:2px; color:#8899aa; margin-bottom:4px; }
+.champion-box {
+  margin-top:6px; padding:8px; border-radius:6px;
+  background:linear-gradient(135deg,#b71c1c,#e53935);
+}
+.champion-name { font-size:17px; font-weight:800; }
+.champion-prob { font-size:10px; opacity:.85; }
+
+/* ── Tooltip ────────────────────────────────────────────── */
+#tooltip {
+  position:fixed; background:#fff; border:1px solid #ccc; border-radius:6px;
+  padding:10px 14px; box-shadow:0 4px 20px rgba(0,0,0,.15); z-index:1000;
+  pointer-events:none; display:none; font-size:12px; max-width:280px; min-width:220px;
+}
+#tooltip h3 { margin-bottom:5px; color:var(--navy); font-size:13px; border-bottom:1px solid #eee; padding-bottom:3px; }
+#tooltip .row { display:flex; justify-content:space-between; padding:1.5px 0; }
+#tooltip .label { color:#78909c; font-size:11px; }
+#tooltip .value { font-weight:600; font-size:11px; }
+#tooltip .section { margin-top:6px; border-top:1px solid #eee; padding-top:4px; }
+#tooltip .prob-bar { height:5px; background:#eceff1; border-radius:3px; margin-top:5px; }
+#tooltip .prob-fill { height:100%; border-radius:3px;
+  background:linear-gradient(90deg,#43a047,#fdd835,#e53935); }
+
+/* ── Print ──────────────────────────────────────────────── */
+@media print {
+  body { background:#fff; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .bracket-half { page-break-inside:avoid; }
+  .final-four { page-break-inside:avoid; }
+  #tooltip { display:none!important; }
+}
+@page { size:landscape; margin:.25in; }
+</style>
+</head>
+<body>
+<h1>2026 NCAA TOURNAMENT &mdash; PREDICTED BRACKET</h1>
+<div class="subtitle">ML Simulation &bull; Logistic Regression + Historical Game Data (2009&ndash;2025) &bull; Hover any team for full breakdown</div>
+
+<div class="first-four-section">
+  <h3>FIRST FOUR</h3>
+  <div class="first-four-grid">
+    <div class="ff-game">
+  <span class="ff-day">Tue 3/17</span>
+  <div class="team winner" data-team="UMBC" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">16</span><span class="name">UMBC</span></div>
+  <div class="vs">vs</div>
+  <div class="team loser" data-team="Howard" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">16</span><span class="name">Howard</span></div>
+  <div class="ff-dest">Winner ? Midwest</div>
+</div>
+<div class="ff-game">
+  <span class="ff-day">Tue 3/17</span>
+  <div class="team winner" data-team="Texas" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">11</span><span class="name">Texas</span></div>
+  <div class="vs">vs</div>
+  <div class="team loser" data-team="N.C. State" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">11</span><span class="name">N.C. State</span></div>
+  <div class="ff-dest">Winner ? West</div>
+</div>
+<div class="ff-game">
+  <span class="ff-day">Wed 3/18</span>
+  <div class="team loser" data-team="Prairie View A&M" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">16</span><span class="name">Prairie View A&M</span></div>
+  <div class="vs">vs</div>
+  <div class="team winner" data-team="Lehigh" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">16</span><span class="name">Lehigh</span></div>
+  <div class="ff-dest">Winner ? South</div>
+</div>
+<div class="ff-game">
+  <span class="ff-day">Wed 3/18</span>
+  <div class="team winner" data-team="Miami OH" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">11</span><span class="name">Miami OH</span></div>
+  <div class="vs">vs</div>
+  <div class="team loser" data-team="SMU" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">11</span><span class="name">SMU</span></div>
+  <div class="ff-dest">Winner ? Midwest</div>
+</div>
+
+  </div>
+</div>
+
+<div class="bracket-half">
+<div class="region region-left">
+<div class="region-title">EAST</div>
+<div class="round round-0">
+<div class="matchup">
+<div class="team winner" data-team="Duke" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Duke</span></div>
+<div class="team loser" data-team="Siena" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">16</span><span class="name">Siena</span></div>
+</div>
+<div class="matchup">
+<div class="team loser" data-team="Ohio St." onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">8</span><span class="name">Ohio St.</span></div>
+<div class="team winner" data-team="TCU" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">9</span><span class="name">TCU</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="St. John\'s" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">5</span><span class="name">St. John's</span></div>
+<div class="team loser" data-team="Northern Iowa" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">12</span><span class="name">Northern Iowa</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Kansas" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">4</span><span class="name">Kansas</span></div>
+<div class="team loser" data-team="Cal Baptist" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">13</span><span class="name">Cal Baptist</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Louisville" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">6</span><span class="name">Louisville</span></div>
+<div class="team loser" data-team="South Florida" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">11</span><span class="name">South Florida</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Michigan St." onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">3</span><span class="name">Michigan St.</span></div>
+<div class="team loser" data-team="North Dakota St." onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">14</span><span class="name">North Dakota St.</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="UCLA" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">7</span><span class="name">UCLA</span></div>
+<div class="team loser" data-team="UCF" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">10</span><span class="name">UCF</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Connecticut" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">2</span><span class="name">Connecticut</span></div>
+<div class="team loser" data-team="Furman" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">15</span><span class="name">Furman</span></div>
+</div>
+</div>
+<div class="round round-1">
+<div class="matchup">
+<div class="team winner" data-team="Duke" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Duke</span></div>
+<div class="team loser" data-team="TCU" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">9</span><span class="name">TCU</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="St. John\'s" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">5</span><span class="name">St. John's</span></div>
+<div class="team loser" data-team="Kansas" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">4</span><span class="name">Kansas</span></div>
+</div>
+<div class="matchup">
+<div class="team loser" data-team="Louisville" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">6</span><span class="name">Louisville</span></div>
+<div class="team winner" data-team="Michigan St." onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">3</span><span class="name">Michigan St.</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="UCLA" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">7</span><span class="name">UCLA</span></div>
+<div class="team loser" data-team="Connecticut" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">2</span><span class="name">Connecticut</span></div>
+</div>
+</div>
+<div class="round round-2">
+<div class="matchup">
+<div class="team winner" data-team="Duke" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Duke</span></div>
+<div class="team loser" data-team="St. John\'s" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">5</span><span class="name">St. John's</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Michigan St." onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">3</span><span class="name">Michigan St.</span></div>
+<div class="team loser" data-team="UCLA" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">7</span><span class="name">UCLA</span></div>
+</div>
+</div>
+<div class="round round-3">
+<div class="matchup">
+<div class="team winner" data-team="Duke" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Duke</span></div>
+<div class="team loser" data-team="Michigan St." onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">3</span><span class="name">Michigan St.</span></div>
+</div>
+</div>
+<div class="round round-4">
+<div class="matchup"><div class="team region-winner" data-team="Duke" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Duke</span></div></div>
+</div>
+</div>
+<div class="region region-right">
+<div class="region-title">WEST</div>
+<div class="round round-0">
+<div class="matchup">
+<div class="team winner" data-team="Arizona" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Arizona</span></div>
+<div class="team loser" data-team="LIU" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">16</span><span class="name">LIU</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Villanova" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">8</span><span class="name">Villanova</span></div>
+<div class="team loser" data-team="Utah St." onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">9</span><span class="name">Utah St.</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Wisconsin" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">5</span><span class="name">Wisconsin</span></div>
+<div class="team loser" data-team="High Point" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">12</span><span class="name">High Point</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Arkansas" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">4</span><span class="name">Arkansas</span></div>
+<div class="team loser" data-team="Hawaii" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">13</span><span class="name">Hawaii</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="BYU" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">6</span><span class="name">BYU</span></div>
+<div class="team loser" data-team="Texas" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">11</span><span class="name">Texas</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Gonzaga" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">3</span><span class="name">Gonzaga</span></div>
+<div class="team loser" data-team="Kennesaw St." onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">14</span><span class="name">Kennesaw St.</span></div>
+</div>
+<div class="matchup">
+<div class="team loser" data-team="Miami FL" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">7</span><span class="name">Miami FL</span></div>
+<div class="team winner" data-team="Missouri" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">10</span><span class="name">Missouri</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Purdue" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">2</span><span class="name">Purdue</span></div>
+<div class="team loser" data-team="Queens" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">15</span><span class="name">Queens</span></div>
+</div>
+</div>
+<div class="round round-1">
+<div class="matchup">
+<div class="team winner" data-team="Arizona" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Arizona</span></div>
+<div class="team loser" data-team="Villanova" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">8</span><span class="name">Villanova</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Wisconsin" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">5</span><span class="name">Wisconsin</span></div>
+<div class="team loser" data-team="Arkansas" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">4</span><span class="name">Arkansas</span></div>
+</div>
+<div class="matchup">
+<div class="team loser" data-team="BYU" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">6</span><span class="name">BYU</span></div>
+<div class="team winner" data-team="Gonzaga" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">3</span><span class="name">Gonzaga</span></div>
+</div>
+<div class="matchup">
+<div class="team loser" data-team="Missouri" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">10</span><span class="name">Missouri</span></div>
+<div class="team winner" data-team="Purdue" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">2</span><span class="name">Purdue</span></div>
+</div>
+</div>
+<div class="round round-2">
+<div class="matchup">
+<div class="team winner" data-team="Arizona" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Arizona</span></div>
+<div class="team loser" data-team="Wisconsin" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">5</span><span class="name">Wisconsin</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Gonzaga" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">3</span><span class="name">Gonzaga</span></div>
+<div class="team loser" data-team="Purdue" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">2</span><span class="name">Purdue</span></div>
+</div>
+</div>
+<div class="round round-3">
+<div class="matchup">
+<div class="team loser" data-team="Arizona" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Arizona</span></div>
+<div class="team winner" data-team="Gonzaga" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">3</span><span class="name">Gonzaga</span></div>
+</div>
+</div>
+<div class="round round-4">
+<div class="matchup"><div class="team region-winner" data-team="Gonzaga" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">3</span><span class="name">Gonzaga</span></div></div>
+</div>
+</div>
+
+</div>
+
+
+<div class="final-four">
+  <h2>FINAL FOUR</h2>
+  <div class="ff-matchup">
+    <div class="ff-semi">
+      <div class="team winner" data-team="Duke" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Duke</span></div>
+      <div class="vs">vs</div>
+      <div class="team loser" data-team="Florida" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Florida</span></div>
+      <div class="ff-label">East vs South</div>
+    </div>
+    <div class="championship">
+      <div class="champ-label">CHAMPIONSHIP</div>
+      <div class="team winner" data-team="Duke" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Duke</span></div>
+      <div class="vs">vs</div>
+      <div class="team loser" data-team="Alabama" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">4</span><span class="name">Alabama</span></div>
+      <div class="champion-box">
+        CHAMPION<br>
+        <span class="champion-name">(1) Duke</span><br>
+        <span class="champion-prob">Win Prob: 85%</span>
+      </div>
+    </div>
+    <div class="ff-semi">
+      <div class="team loser" data-team="Gonzaga" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">3</span><span class="name">Gonzaga</span></div>
+      <div class="vs">vs</div>
+      <div class="team winner" data-team="Alabama" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">4</span><span class="name">Alabama</span></div>
+      <div class="ff-label">West vs Midwest</div>
+    </div>
+  </div>
+</div>
+
+
+<div class="bracket-half">
+<div class="region region-left">
+<div class="region-title">SOUTH</div>
+<div class="round round-0">
+<div class="matchup">
+<div class="team winner" data-team="Florida" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Florida</span></div>
+<div class="team loser" data-team="Lehigh" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">16</span><span class="name">Lehigh</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Clemson" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">8</span><span class="name">Clemson</span></div>
+<div class="team loser" data-team="Iowa" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">9</span><span class="name">Iowa</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Vanderbilt" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">5</span><span class="name">Vanderbilt</span></div>
+<div class="team loser" data-team="McNeese St." onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">12</span><span class="name">McNeese St.</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Nebraska" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">4</span><span class="name">Nebraska</span></div>
+<div class="team loser" data-team="Troy" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">13</span><span class="name">Troy</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="North Carolina" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">6</span><span class="name">North Carolina</span></div>
+<div class="team loser" data-team="VCU" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">11</span><span class="name">VCU</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Illinois" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">3</span><span class="name">Illinois</span></div>
+<div class="team loser" data-team="Penn" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">14</span><span class="name">Penn</span></div>
+</div>
+<div class="matchup">
+<div class="team loser" data-team="Saint Mary\'s" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">7</span><span class="name">Saint Mary's</span></div>
+<div class="team winner" data-team="Texas A&M" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">10</span><span class="name">Texas A&M</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Houston" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">2</span><span class="name">Houston</span></div>
+<div class="team loser" data-team="Idaho" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">15</span><span class="name">Idaho</span></div>
+</div>
+</div>
+<div class="round round-1">
+<div class="matchup">
+<div class="team winner" data-team="Florida" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Florida</span></div>
+<div class="team loser" data-team="Clemson" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">8</span><span class="name">Clemson</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Vanderbilt" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">5</span><span class="name">Vanderbilt</span></div>
+<div class="team loser" data-team="Nebraska" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">4</span><span class="name">Nebraska</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="North Carolina" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">6</span><span class="name">North Carolina</span></div>
+<div class="team loser" data-team="Illinois" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">3</span><span class="name">Illinois</span></div>
+</div>
+<div class="matchup">
+<div class="team loser" data-team="Texas A&M" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">10</span><span class="name">Texas A&M</span></div>
+<div class="team winner" data-team="Houston" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">2</span><span class="name">Houston</span></div>
+</div>
+</div>
+<div class="round round-2">
+<div class="matchup">
+<div class="team winner" data-team="Florida" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Florida</span></div>
+<div class="team loser" data-team="Vanderbilt" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">5</span><span class="name">Vanderbilt</span></div>
+</div>
+<div class="matchup">
+<div class="team loser" data-team="North Carolina" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">6</span><span class="name">North Carolina</span></div>
+<div class="team winner" data-team="Houston" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">2</span><span class="name">Houston</span></div>
+</div>
+</div>
+<div class="round round-3">
+<div class="matchup">
+<div class="team winner" data-team="Florida" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Florida</span></div>
+<div class="team loser" data-team="Houston" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">2</span><span class="name">Houston</span></div>
+</div>
+</div>
+<div class="round round-4">
+<div class="matchup"><div class="team region-winner" data-team="Florida" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Florida</span></div></div>
+</div>
+</div>
+<div class="region region-right">
+<div class="region-title">MIDWEST</div>
+<div class="round round-0">
+<div class="matchup">
+<div class="team winner" data-team="Michigan" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Michigan</span></div>
+<div class="team loser" data-team="UMBC" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">16</span><span class="name">UMBC</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Georgia" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">8</span><span class="name">Georgia</span></div>
+<div class="team loser" data-team="Saint Louis" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">9</span><span class="name">Saint Louis</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Texas Tech" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">5</span><span class="name">Texas Tech</span></div>
+<div class="team loser" data-team="Akron" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">12</span><span class="name">Akron</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Alabama" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">4</span><span class="name">Alabama</span></div>
+<div class="team loser" data-team="Hofstra" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">13</span><span class="name">Hofstra</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Tennessee" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">6</span><span class="name">Tennessee</span></div>
+<div class="team loser" data-team="Miami OH" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">11</span><span class="name">Miami OH</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Virginia" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">3</span><span class="name">Virginia</span></div>
+<div class="team loser" data-team="Wright St." onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">14</span><span class="name">Wright St.</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Kentucky" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">7</span><span class="name">Kentucky</span></div>
+<div class="team loser" data-team="Santa Clara" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">10</span><span class="name">Santa Clara</span></div>
+</div>
+<div class="matchup">
+<div class="team loser" data-team="Iowa St." onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">2</span><span class="name">Iowa St.</span></div>
+<div class="team winner" data-team="Tennessee St." onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">15</span><span class="name">Tennessee St.</span></div>
+</div>
+</div>
+<div class="round round-1">
+<div class="matchup">
+<div class="team winner" data-team="Michigan" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Michigan</span></div>
+<div class="team loser" data-team="Georgia" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">8</span><span class="name">Georgia</span></div>
+</div>
+<div class="matchup">
+<div class="team loser" data-team="Texas Tech" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">5</span><span class="name">Texas Tech</span></div>
+<div class="team winner" data-team="Alabama" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">4</span><span class="name">Alabama</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Tennessee" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">6</span><span class="name">Tennessee</span></div>
+<div class="team loser" data-team="Virginia" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">3</span><span class="name">Virginia</span></div>
+</div>
+<div class="matchup">
+<div class="team loser" data-team="Kentucky" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">7</span><span class="name">Kentucky</span></div>
+<div class="team winner" data-team="Tennessee St." onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">15</span><span class="name">Tennessee St.</span></div>
+</div>
+</div>
+<div class="round round-2">
+<div class="matchup">
+<div class="team loser" data-team="Michigan" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">1</span><span class="name">Michigan</span></div>
+<div class="team winner" data-team="Alabama" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">4</span><span class="name">Alabama</span></div>
+</div>
+<div class="matchup">
+<div class="team winner" data-team="Tennessee" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">6</span><span class="name">Tennessee</span></div>
+<div class="team loser" data-team="Tennessee St." onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">15</span><span class="name">Tennessee St.</span></div>
+</div>
+</div>
+<div class="round round-3">
+<div class="matchup">
+<div class="team winner" data-team="Alabama" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">4</span><span class="name">Alabama</span></div>
+<div class="team loser" data-team="Tennessee" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">6</span><span class="name">Tennessee</span></div>
+</div>
+</div>
+<div class="round round-4">
+<div class="matchup"><div class="team region-winner" data-team="Alabama" onmouseenter="showTip(this)" onmouseleave="hideTip()"><span class="seed">4</span><span class="name">Alabama</span></div></div>
+</div>
+</div>
+
+</div>
+
+<div id="tooltip"></div>
+
+<script>
+const teamInfo = {"Duke": {"seed": 1, "champ_prob": "11.3%", "adj_em": "+37.3", "adj_o": "128.2", "adj_d": "90.8", "barthag": "0.9813", "record": "32-2", "conf": "ACC", "efg": "56.8%", "efg_d": "46.2%", "talent": "99.0", "exp": "1.96", "sos": "38.00"}, "Arizona": {"seed": 1, "champ_prob": "11.3%", "adj_em": "+35.5", "adj_o": "126.9", "adj_d": "91.4", "barthag": "0.9776", "record": "32-2", "conf": "B12", "efg": "55.1%", "efg_d": "45.0%", "talent": "97.1", "exp": "2.72", "sos": "36.00"}, "Michigan": {"seed": 1, "champ_prob": "15.8%", "adj_em": "+36.6", "adj_o": "127.6", "adj_d": "91.0", "barthag": "0.9799", "record": "31-3", "conf": "B10", "efg": "58.1%", "efg_d": "44.7%", "talent": "94.6", "exp": "2.27", "sos": "39.00"}, "Florida": {"seed": 1, "champ_prob": "8.5%", "adj_em": "+33.8", "adj_o": "126.1", "adj_d": "92.3", "barthag": "0.9732", "record": "26-7", "conf": "SEC", "efg": "53.5%", "efg_d": "46.3%", "talent": "98.5", "exp": "2.44", "sos": "38.00"}, "Houston": {"seed": 2, "champ_prob": "7.0%", "adj_em": "+33.0", "adj_o": "125.4", "adj_d": "92.4", "barthag": "0.9709", "record": "28-6", "conf": "B12", "efg": "52.1%", "efg_d": "46.6%", "talent": "97.6", "exp": "2.67", "sos": "34.00"}, "Connecticut": {"seed": 2, "champ_prob": "3.1%", "adj_em": "+28.1", "adj_o": "123.1", "adj_d": "95.0", "barthag": "0.9518", "record": "29-5", "conf": "BE", "efg": "55.3%", "efg_d": "45.7%", "talent": "97.5", "exp": "1.76", "sos": "33.00"}, "Iowa St.": {"seed": 2, "champ_prob": "2.4%", "adj_em": "+31.1", "adj_o": "123.8", "adj_d": "92.6", "barthag": "0.9655", "record": "27-7", "conf": "B12", "efg": "56.5%", "efg_d": "49.5%", "talent": "94.1", "exp": "2.80", "sos": "33.00"}, "Purdue": {"seed": 2, "champ_prob": "3.2%", "adj_em": "+33.0", "adj_o": "133.3", "adj_d": "100.3", "barthag": "0.9636", "record": "27-8", "conf": "B10", "efg": "57.6%", "efg_d": "52.3%", "talent": "94.0", "exp": "1.74", "sos": "38.00"}, "Michigan St.": {"seed": 3, "champ_prob": "1.1%", "adj_em": "+26.7", "adj_o": "122.9", "adj_d": "96.2", "barthag": "0.9437", "record": "25-7", "conf": "B10", "efg": "53.6%", "efg_d": "48.6%", "talent": "97.5", "exp": "1.61", "sos": "37.00"}, "Illinois": {"seed": 3, "champ_prob": "7.3%", "adj_em": "+33.7", "adj_o": "131.9", "adj_d": "98.2", "barthag": "0.9676", "record": "24-8", "conf": "B10", "efg": "55.1%", "efg_d": "47.6%", "talent": "94.2", "exp": "1.08", "sos": "38.00"}, "Gonzaga": {"seed": 3, "champ_prob": "0.9%", "adj_em": "+26.3", "adj_o": "120.3", "adj_d": "94.0", "barthag": "0.9445", "record": "30-3", "conf": "WCC", "efg": "56.3%", "efg_d": "46.2%", "talent": "95.2", "exp": "2.99", "sos": "24.00"}, "Virginia": {"seed": 3, "champ_prob": "2.0%", "adj_em": "+26.4", "adj_o": "122.3", "adj_d": "95.8", "barthag": "0.9427", "record": "29-5", "conf": "ACC", "efg": "54.6%", "efg_d": "45.3%", "talent": "93.6", "exp": "1.52", "sos": "28.00"}, "Nebraska": {"seed": 4, "champ_prob": "0.8%", "adj_em": "+23.7", "adj_o": "117.2", "adj_d": "93.5", "barthag": "0.9310", "record": "26-6", "conf": "B10", "efg": "55.4%", "efg_d": "47.8%", "talent": "96.8", "exp": "2.75", "sos": "33.00"}, "Alabama": {"seed": 4, "champ_prob": "4.6%", "adj_em": "+26.7", "adj_o": "129.5", "adj_d": "102.8", "barthag": "0.9344", "record": "23-9", "conf": "SEC", "efg": "55.4%", "efg_d": "49.2%", "talent": "97.9", "exp": "2.99", "sos": "40.00"}, "Kansas": {"seed": 4, "champ_prob": "3.3%", "adj_em": "+23.5", "adj_o": "117.8", "adj_d": "94.4", "barthag": "0.9279", "record": "23-10", "conf": "B12", "efg": "51.6%", "efg_d": "45.2%", "talent": "96.5", "exp": "3.64", "sos": "40.00"}, "Arkansas": {"seed": 4, "champ_prob": "1.6%", "adj_em": "+26.3", "adj_o": "127.9", "adj_d": "101.7", "barthag": "0.9337", "record": "26-8", "conf": "SEC", "efg": "56.5%", "efg_d": "51.4%", "talent": "97.9", "exp": "1.59", "sos": "38.00"}, "Vanderbilt": {"seed": 5, "champ_prob": "2.0%", "adj_em": "+28.1", "adj_o": "127.5", "adj_d": "99.3", "barthag": "0.9461", "record": "26-8", "conf": "SEC", "efg": "55.3%", "efg_d": "48.8%", "talent": "94.6", "exp": "2.38", "sos": "34.00"}, "St. John's": {"seed": 5, "champ_prob": "1.1%", "adj_em": "+25.7", "adj_o": "119.8", "adj_d": "94.1", "barthag": "0.9415", "record": "28-6", "conf": "BE", "efg": "51.0%", "efg_d": "47.4%", "talent": "95.8", "exp": "2.34", "sos": "30.00"}, "Texas Tech": {"seed": 5, "champ_prob": "0.9%", "adj_em": "+27.5", "adj_o": "126.3", "adj_d": "98.8", "barthag": "0.9439", "record": "22-10", "conf": "B12", "efg": "56.2%", "efg_d": "49.4%", "talent": "66.3", "exp": "2.63", "sos": "38.00"}, "Wisconsin": {"seed": 5, "champ_prob": "0.7%", "adj_em": "+25.5", "adj_o": "127.2", "adj_d": "101.6", "barthag": "0.9294", "record": "24-10", "conf": "B10", "efg": "54.5%", "efg_d": "51.3%", "talent": "92.2", "exp": "2.61", "sos": "35.00"}, "Tennessee": {"seed": 6, "champ_prob": "2.5%", "adj_em": "+26.0", "adj_o": "121.5", "adj_d": "95.5", "barthag": "0.9408", "record": "22-11", "conf": "SEC", "efg": "51.6%", "efg_d": "47.7%", "talent": "94.7", "exp": "2.94", "sos": "38.00"}, "North Carolina": {"seed": 6, "champ_prob": "0.7%", "adj_em": "+21.4", "adj_o": "121.4", "adj_d": "100.0", "barthag": "0.9030", "record": "24-8", "conf": "ACC", "efg": "54.6%", "efg_d": "48.2%", "talent": "98.4", "exp": "2.26", "sos": "33.00"}, "Louisville": {"seed": 6, "champ_prob": "1.3%", "adj_em": "+25.9", "adj_o": "124.0", "adj_d": "98.2", "barthag": "0.9364", "record": "23-10", "conf": "ACC", "efg": "56.4%", "efg_d": "48.8%", "talent": "95.0", "exp": "3.18", "sos": "35.00"}, "BYU": {"seed": 6, "champ_prob": "0.4%", "adj_em": "+20.4", "adj_o": "124.7", "adj_d": "104.3", "barthag": "0.8865", "record": "23-11", "conf": "B12", "efg": "54.7%", "efg_d": "51.2%", "talent": "96.1", "exp": "1.93", "sos": "37.00"}, "Kentucky": {"seed": 7, "champ_prob": "0.9%", "adj_em": "+19.9", "adj_o": "119.9", "adj_d": "100.0", "barthag": "0.8900", "record": "21-13", "conf": "SEC", "efg": "53.1%", "efg_d": "48.8%", "talent": "96.4", "exp": "3.06", "sos": "40.00"}, "Saint Mary's": {"seed": 7, "champ_prob": "0.3%", "adj_em": "+21.8", "adj_o": "119.4", "adj_d": "97.6", "barthag": "0.9105", "record": "27-5", "conf": "WCC", "efg": "52.9%", "efg_d": "46.7%", "talent": "94.4", "exp": "1.70", "sos": "21.00"}, "Miami FL": {"seed": 7, "champ_prob": "0.1%", "adj_em": "+19.6", "adj_o": "121.1", "adj_d": "101.5", "barthag": "0.8843", "record": "25-8", "conf": "ACC", "efg": "55.6%", "efg_d": "51.7%", "talent": "91.6", "exp": "2.44", "sos": "27.00"}, "UCLA": {"seed": 7, "champ_prob": "0.8%", "adj_em": "+22.8", "adj_o": "124.5", "adj_d": "101.8", "barthag": "0.9106", "record": "23-11", "conf": "B10", "efg": "53.9%", "efg_d": "50.4%", "talent": "96.4", "exp": "2.23", "sos": "35.00"}, "Clemson": {"seed": 8, "champ_prob": "0.2%", "adj_em": "+19.6", "adj_o": "116.6", "adj_d": "97.0", "barthag": "0.8923", "record": "24-10", "conf": "ACC", "efg": "52.6%", "efg_d": "48.9%", "talent": "92.7", "exp": "3.03", "sos": "29.00"}, "Villanova": {"seed": 8, "champ_prob": "0.3%", "adj_em": "+19.1", "adj_o": "119.6", "adj_d": "100.5", "barthag": "0.8805", "record": "24-8", "conf": "BE", "efg": "53.7%", "efg_d": "51.3%", "talent": "92.9", "exp": "2.90", "sos": "30.00"}, "Ohio St.": {"seed": 8, "champ_prob": "0.8%", "adj_em": "+23.6", "adj_o": "125.2", "adj_d": "101.6", "barthag": "0.9171", "record": "21-12", "conf": "B10", "efg": "56.5%", "efg_d": "50.3%", "talent": "94.9", "exp": "2.16", "sos": "35.00"}, "Georgia": {"seed": 8, "champ_prob": "0.6%", "adj_em": "+19.6", "adj_o": "124.3", "adj_d": "104.8", "barthag": "0.8776", "record": "22-10", "conf": "SEC", "efg": "54.6%", "efg_d": "50.1%", "talent": "94.7", "exp": "1.86", "sos": "32.00"}, "Utah St.": {"seed": 9, "champ_prob": "0.1%", "adj_em": "+20.9", "adj_o": "123.0", "adj_d": "102.1", "barthag": "0.8953", "record": "28-6", "conf": "MWC", "efg": "56.6%", "efg_d": "49.6%", "talent": "66.3", "exp": "2.16", "sos": "22.00"}, "TCU": {"seed": 9, "champ_prob": "0.1%", "adj_em": "+15.2", "adj_o": "114.9", "adj_d": "99.6", "barthag": "0.8366", "record": "22-11", "conf": "B12", "efg": "50.9%", "efg_d": "51.0%", "talent": "93.1", "exp": "1.92", "sos": "33.00"}, "Saint Louis": {"seed": 9, "champ_prob": "0.1%", "adj_em": "+17.3", "adj_o": "119.5", "adj_d": "102.2", "barthag": "0.8579", "record": "28-5", "conf": "A10", "efg": "59.7%", "efg_d": "44.8%", "talent": "66.3", "exp": "2.94", "sos": "14.00"}, "Iowa": {"seed": 9, "champ_prob": "0.2%", "adj_em": "+21.9", "adj_o": "122.1", "adj_d": "100.2", "barthag": "0.9069", "record": "21-12", "conf": "B12", "efg": "56.6%", "efg_d": "52.7%", "talent": "92.2", "exp": "1.80", "sos": "35.00"}, "Santa Clara": {"seed": 10, "champ_prob": "0.1%", "adj_em": "+21.3", "adj_o": "125.0", "adj_d": "103.7", "barthag": "0.8952", "record": "26-8", "conf": "WCC", "efg": "54.6%", "efg_d": "51.8%", "talent": "66.3", "exp": "2.12", "sos": "22.00"}, "UCF": {"seed": 10, "champ_prob": "0.1%", "adj_em": "+14.3", "adj_o": "120.0", "adj_d": "105.7", "barthag": "0.8117", "record": "21-11", "conf": "B12", "efg": "52.8%", "efg_d": "52.4%", "talent": "93.3", "exp": "2.19", "sos": "31.00"}, "Missouri": {"seed": 10, "champ_prob": "0.3%", "adj_em": "+16.9", "adj_o": "119.9", "adj_d": "103.0", "barthag": "0.8515", "record": "20-12", "conf": "SEC", "efg": "55.3%", "efg_d": "51.4%", "talent": "96.5", "exp": "2.68", "sos": "33.00"}, "Texas A&M": {"seed": 10, "champ_prob": "0.3%", "adj_em": "+18.5", "adj_o": "119.9", "adj_d": "101.4", "barthag": "0.8726", "record": "21-11", "conf": "SEC", "efg": "54.2%", "efg_d": "50.8%", "talent": "92.0", "exp": "2.97", "sos": "32.00"}, "N.C. State": {"seed": 11, "champ_prob": "0.2%", "adj_em": "+19.4", "adj_o": "124.1", "adj_d": "104.7", "barthag": "0.8763", "record": "20-13", "conf": "ACC", "efg": "55.3%", "efg_d": "53.0%", "talent": "96.3", "exp": "2.46", "sos": "32.00"}, "Texas": {"seed": 11, "champ_prob": "0.2%", "adj_em": "+17.6", "adj_o": "124.0", "adj_d": "106.4", "barthag": "0.8538", "record": "18-14", "conf": "B12", "efg": "54.2%", "efg_d": "51.2%", "talent": "95.3", "exp": "2.85", "sos": "36.00"}, "SMU": {"seed": 11, "champ_prob": "0.4%", "adj_em": "+18.0", "adj_o": "123.0", "adj_d": "105.0", "barthag": "0.8611", "record": "20-13", "conf": "ACC", "efg": "55.7%", "efg_d": "51.4%", "talent": "96.5", "exp": "2.78", "sos": "31.00"}, "Miami OH": {"seed": 11, "champ_prob": "0.0%", "adj_em": "+9.1", "adj_o": "116.7", "adj_d": "107.6", "barthag": "0.7177", "record": "31-1", "conf": "MAC", "efg": "59.2%", "efg_d": "50.8%", "talent": "66.3", "exp": "1.28", "sos": "7.00"}, "VCU": {"seed": 11, "champ_prob": "0.1%", "adj_em": "+16.2", "adj_o": "119.3", "adj_d": "103.1", "barthag": "0.8430", "record": "27-7", "conf": "A10", "efg": "54.1%", "efg_d": "48.9%", "talent": "96.0", "exp": "2.66", "sos": "20.00"}, "South Florida": {"seed": 11, "champ_prob": "0.1%", "adj_em": "+15.4", "adj_o": "116.8", "adj_d": "101.4", "barthag": "0.8353", "record": "25-8", "conf": "Amer", "efg": "50.9%", "efg_d": "48.4%", "talent": "91.4", "exp": "2.06", "sos": "18.00"}, "McNeese St.": {"seed": 12, "champ_prob": "0.0%", "adj_em": "+11.0", "adj_o": "113.2", "adj_d": "102.2", "barthag": "0.7644", "record": "28-5", "conf": "Slnd", "efg": "51.0%", "efg_d": "48.9%", "talent": "66.3", "exp": "1.74", "sos": "13.00"}, "Akron": {"seed": 12, "champ_prob": "0.0%", "adj_em": "+11.8", "adj_o": "117.2", "adj_d": "105.4", "barthag": "0.7726", "record": "29-5", "conf": "MAC", "efg": "58.5%", "efg_d": "50.6%", "talent": "66.3", "exp": "1.40", "sos": "11.00"}, "High Point": {"seed": 12, "champ_prob": "0.0%", "adj_em": "+8.2", "adj_o": "115.7", "adj_d": "107.5", "barthag": "0.6991", "record": "30-4", "conf": "BSth", "efg": "54.7%", "efg_d": "50.1%", "talent": "66.3", "exp": "2.38", "sos": "5.00"}, "Northern Iowa": {"seed": 12, "champ_prob": "0.0%", "adj_em": "+11.2", "adj_o": "109.7", "adj_d": "98.6", "barthag": "0.7745", "record": "23-12", "conf": "MVC", "efg": "54.2%", "efg_d": "47.2%", "talent": "66.3", "exp": "1.76", "sos": "15.00"}, "Cal Baptist": {"seed": 13, "champ_prob": "0.0%", "adj_em": "+7.2", "adj_o": "107.5", "adj_d": "100.3", "barthag": "0.6889", "record": "25-8", "conf": "WAC", "efg": "48.6%", "efg_d": "46.4%", "talent": "66.3", "exp": "2.10", "sos": "12.00"}, "Hofstra": {"seed": 13, "champ_prob": "0.0%", "adj_em": "+8.3", "adj_o": "113.2", "adj_d": "104.9", "barthag": "0.7049", "record": "24-10", "conf": "CAA", "efg": "51.5%", "efg_d": "45.9%", "talent": "66.3", "exp": "1.40", "sos": "12.00"}, "Troy": {"seed": 13, "champ_prob": "0.0%", "adj_em": "+1.7", "adj_o": "110.7", "adj_d": "109.0", "barthag": "0.5437", "record": "22-11", "conf": "SB", "efg": "51.9%", "efg_d": "50.1%", "talent": "66.3", "exp": "1.09", "sos": "11.00"}, "Hawaii": {"seed": 13, "champ_prob": "0.0%", "adj_em": "+5.0", "adj_o": "106.9", "adj_d": "101.8", "barthag": "0.6355", "record": "24-8", "conf": "BW", "efg": "52.0%", "efg_d": "46.4%", "talent": "66.3", "exp": "1.58", "sos": "9.00"}, "North Dakota St.": {"seed": 14, "champ_prob": "0.0%", "adj_em": "+5.4", "adj_o": "111.4", "adj_d": "106.0", "barthag": "0.6392", "record": "27-7", "conf": "Sum", "efg": "53.4%", "efg_d": "51.5%", "talent": "66.3", "exp": "1.49", "sos": "8.00"}, "Penn": {"seed": 14, "champ_prob": "0.0%", "adj_em": "+1.2", "adj_o": "106.6", "adj_d": "105.4", "barthag": "0.5315", "record": "18-11", "conf": "B10", "efg": "50.3%", "efg_d": "51.7%", "talent": "66.3", "exp": "1.51", "sos": "12.00"}, "Wright St.": {"seed": 14, "champ_prob": "0.0%", "adj_em": "+3.4", "adj_o": "112.4", "adj_d": "109.0", "barthag": "0.5864", "record": "23-11", "conf": "Horz", "efg": "54.4%", "efg_d": "52.1%", "talent": "66.3", "exp": "2.00", "sos": "10.00"}, "Kennesaw St.": {"seed": 14, "champ_prob": "0.0%", "adj_em": "+1.3", "adj_o": "110.8", "adj_d": "109.5", "barthag": "0.5338", "record": "21-13", "conf": "CUSA", "efg": "50.7%", "efg_d": "48.5%", "talent": "66.3", "exp": "1.20", "sos": "11.00"}, "Idaho": {"seed": 15, "champ_prob": "0.0%", "adj_em": "+2.6", "adj_o": "108.8", "adj_d": "106.2", "barthag": "0.5703", "record": "21-14", "conf": "BSky", "efg": "51.9%", "efg_d": "50.3%", "talent": "66.3", "exp": "0.72", "sos": "10.00"}, "Furman": {"seed": 15, "champ_prob": "0.0%", "adj_em": "-2.1", "adj_o": "106.9", "adj_d": "109.0", "barthag": "0.4442", "record": "22-12", "conf": "SC", "efg": "54.8%", "efg_d": "50.1%", "talent": "66.3", "exp": "1.23", "sos": "7.00"}, "Queens": {"seed": 15, "champ_prob": "0.0%", "adj_em": "-2.4", "adj_o": "114.7", "adj_d": "117.1", "barthag": "0.4397", "record": "21-13", "conf": "ASun", "efg": "56.6%", "efg_d": "54.0%", "talent": "66.3", "exp": "1.75", "sos": "15.00"}, "Tennessee St.": {"seed": 15, "champ_prob": "0.0%", "adj_em": "-4.1", "adj_o": "107.8", "adj_d": "111.9", "barthag": "0.3944", "record": "23-9", "conf": "OVC", "efg": "50.1%", "efg_d": "51.2%", "talent": "66.3", "exp": "0.96", "sos": "8.00"}, "Siena": {"seed": 16, "champ_prob": "0.0%", "adj_em": "-1.7", "adj_o": "107.2", "adj_d": "108.9", "barthag": "0.4549", "record": "23-11", "conf": "MAAC", "efg": "50.6%", "efg_d": "48.6%", "talent": "66.3", "exp": "0.42", "sos": "7.00"}, "LIU": {"seed": 16, "champ_prob": "0.0%", "adj_em": "-6.1", "adj_o": "103.6", "adj_d": "109.8", "barthag": "0.3407", "record": "24-10", "conf": "NEC", "efg": "53.3%", "efg_d": "49.8%", "talent": "66.3", "exp": "1.06", "sos": "10.00"}, "Howard": {"seed": 16, "champ_prob": "0.0%", "adj_em": "-2.8", "adj_o": "103.5", "adj_d": "106.2", "barthag": "0.4246", "record": "23-10", "conf": "MEAC", "efg": "50.6%", "efg_d": "47.4%", "talent": "66.3", "exp": "1.80", "sos": "8.00"}, "UMBC": {"seed": 16, "champ_prob": "0.0%", "adj_em": "-1.7", "adj_o": "107.6", "adj_d": "109.2", "barthag": "0.4560", "record": "24-8", "conf": "AE", "efg": "53.9%", "efg_d": "49.2%", "talent": "66.3", "exp": "1.72", "sos": "7.00"}, "Prairie View A&M": {"seed": 16, "champ_prob": "0.0%", "adj_em": "-9.9", "adj_o": "101.4", "adj_d": "111.4", "barthag": "0.2544", "record": "18-17", "conf": "SWAC", "efg": "47.9%", "efg_d": "50.4%", "talent": "66.3", "exp": "1.15", "sos": "10.00"}, "Lehigh": {"seed": 16, "champ_prob": "0.0%", "adj_em": "-10.2", "adj_o": "102.6", "adj_d": "112.8", "barthag": "0.2517", "record": "18-16", "conf": "Pat", "efg": "53.3%", "efg_d": "50.6%", "talent": "66.3", "exp": "1.60", "sos": "10.00"}};
+
+function showTip(el) {
+  const name = el.dataset.team;
+  const info = teamInfo[name];
+  const tip = document.getElementById('tooltip');
+  if (!info) { tip.style.display='none'; return; }
+  const pn = parseFloat(info.champ_prob);
+  tip.innerHTML = `
+    <h3>(${info.seed}) ${name}</h3>
+    <div class="row"><span class="label">Conference</span><span class="value">${info.conf}</span></div>
+    <div class="row"><span class="label">Record</span><span class="value">${info.record}</span></div>
+    <div class="section">
+      <div class="row"><span class="label">Adj. Efficiency</span><span class="value">${info.adj_em}</span></div>
+      <div class="row"><span class="label">Adj. Offense</span><span class="value">${info.adj_o}</span></div>
+      <div class="row"><span class="label">Adj. Defense</span><span class="value">${info.adj_d}</span></div>
+      <div class="row"><span class="label">BARTHAG</span><span class="value">${info.barthag}</span></div>
+    </div>
+    <div class="section">
+      <div class="row"><span class="label">eFG%</span><span class="value">${info.efg}</span></div>
+      <div class="row"><span class="label">eFG% Defense</span><span class="value">${info.efg_d}</span></div>
+      <div class="row"><span class="label">Talent</span><span class="value">${info.talent}</span></div>
+      <div class="row"><span class="label">Experience</span><span class="value">${info.exp}</span></div>
+      <div class="row"><span class="label">Elite SOS</span><span class="value">${info.sos}</span></div>
+    </div>
+    <div class="section">
+      <div class="row"><span class="label" style="font-weight:700">Championship Prob</span>
+        <span class="value" style="color:#c62828">${info.champ_prob}</span></div>
+      <div class="prob-bar"><div class="prob-fill" style="width:${Math.min(pn*5,100)}%"></div></div>
+    </div>`;
+  const rect = el.getBoundingClientRect();
+  let left = rect.right + 8;
+  let top = rect.top - 30;
+  if (left + 280 > window.innerWidth) left = rect.left - 290;
+  if (top + 320 > window.innerHeight) top = window.innerHeight - 330;
+  if (top < 5) top = 5;
+  tip.style.left = left+'px';
+  tip.style.top = top+'px';
+  tip.style.display = 'block';
+}
+function hideTip() { document.getElementById('tooltip').style.display='none'; }
+</script>
+</body>
+</html>

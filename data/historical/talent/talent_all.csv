@@ -1,101 +1,2880 @@
 TEAM,TALENT_SCORE,TALENT_RANK,YEAR
-Florida,,1,2015
-Virginia,,2,2015
-Kansas,,3,2015
-North Carolina,,4,2015
-California,,5,2015
-Kentucky,,6,2015
-Arizona,,7,2015
-Illinois,,8,2015
-Stanford,,9,2015
-Georgetown,,10,2015
-Texas A&M,,11,2015
-Houston,,12,2015
-UConn,,13,2015
-Ohio State,,14,2015
-Texas,,15,2015
-USC,,16,2015
-Syracuse,,17,2015
-Memphis,,18,2015
-Maryland,,19,2015
-Villanova,,20,2015
-Purdue,,21,2015
-Notre Dame,,22,2015
-BYU,,23,2015
-Oklahoma,,24,2015
-San Diego State,,25,2015
-Washington,,26,2015
-Indiana,,27,2015
-Louisville,,28,2015
-Marquette,,29,2015
-Cincinnati,,30,2015
-Virginia Tech,,31,2015
-UCLA,,32,2015
-Iowa State,,33,2015
-Xavier,,34,2015
-South Carolina,,35,2015
-NC State,,36,2015
-Nebraska,,37,2015
-Baylor,,38,2015
-Florida State,,39,2015
-Auburn,,40,2015
-Seton Hall,,41,2015
-Mississippi State,,42,2015
-UNLV,,43,2015
-Miami,,44,2015
-Michigan,,45,2015
-West Virginia,,46,2015
-Wisconsin,,47,2015
-SMU,,48,2015
-Oregon,,49,2015
-Michigan State,,50,2015
-Duke,,1,2016
-Kentucky,,2,2016
-Florida,,3,2016
-North Carolina,,4,2016
-Stanford,,5,2016
-Virginia,,6,2016
-Kansas,,7,2016
-Indiana,,8,2016
-USC,,9,2016
-NC State,,10,2016
-Illinois,,11,2016
-Harvard,,12,2016
-Michigan State,,13,2016
-Nebraska,,14,2016
-St. John's,,15,2016
-Oregon,,16,2016
-UConn,,17,2016
-Florida State,,18,2016
-Michigan,,19,2016
-UCLA,,20,2016
-Gonzaga,,21,2016
-Alabama,,22,2016
-Villanova,,23,2016
-Maryland,,24,2016
-Arizona,,25,2016
-Auburn,,26,2016
-Texas,,27,2016
-Virginia Tech,,28,2016
-Syracuse,,29,2016
-Louisville,,30,2016
-Ohio State,,31,2016
-Notre Dame,,32,2016
-California,,33,2016
-Mississippi State,,34,2016
-Penn State,,35,2016
-Marquette,,36,2016
-Baylor,,37,2016
-Wisconsin,,38,2016
-Cincinnati,,39,2016
-San Diego State,,40,2016
-LSU,,41,2016
-West Virginia,,42,2016
-Georgetown,,43,2016
-Texas A&M,,44,2016
-Minnesota,,45,2016
-Miami,,46,2016
-Tennessee,,47,2016
-Georgia,,48,2016
-Northwestern,,49,2016
-Washington,,50,2016
+Kentucky,70.55,1,2009
+North Carolina,69.0,2,2009
+Texas,68.82,3,2009
+Villanova,68.51,4,2009
+UCLA,66.37,5,2009
+Arizona,65.16,6,2009
+Kansas,64.83,7,2009
+Connecticut,64.54,8,2009
+Florida State,63.19,9,2009
+Minnesota,62.88,10,2009
+Georgia Tech,62.79,11,2009
+Marquette,62.71,12,2009
+Oklahoma,62.6,13,2009
+Miami,62.46,14,2009
+Clemson,61.2,15,2009
+Alabama,56.72,16,2009
+N.C. State,55.1,17,2009
+Indiana,54.42,18,2009
+Oregon,52.63,19,2009
+Duke,52.55,20,2009
+Iowa State,52.14,21,2009
+Mississippi State,51.57,22,2009
+Louisville,46.57,23,2009
+Oklahoma State,45.8,24,2009
+Arkansas,44.34,25,2009
+Pittsburgh,43.67,26,2009
+Washington,41.53,27,2009
+Ole Miss,41.34,28,2009
+Illinois,41.15,29,2009
+Illinois State,40.82,30,2009
+Kansas State,40.78,31,2009
+Nebraska,40.59,32,2009
+Charlotte,40.27,33,2009
+Michigan,40.13,34,2009
+Auburn,38.41,35,2009
+Oregon State,38.34,36,2009
+Virginia Tech,38.29,37,2009
+West Virginia,38.29,37,2009
+Marshall,37.95,39,2009
+St. Mary's,37.84,40,2009
+Western Kentucky,37.75,41,2009
+Michigan State,36.97,42,2009
+Southern Miss,36.1,43,2009
+Missouri,34.86,44,2009
+Cincinnati,34.42,45,2009
+Valparaiso,34.06,46,2009
+San Diego,33.52,47,2009
+South Alabama,33.39,48,2009
+Wake Forest,32.84,49,2009
+Bowling Green,32.84,49,2009
+UAB,32.74,51,2009
+Central Michigan,32.01,52,2009
+Arkansas State,31.8,53,2009
+Cal State Fullerton,31.33,54,2009
+Saint Francis (PA),31.29,55,2009
+Lipscomb,31.09,56,2009
+UCF,30.52,57,2009
+St. John's,30.28,58,2009
+South Carolina State,30.14,59,2009
+Northern Colorado,29.96,60,2009
+Florida,29.56,61,2009
+Middle Tennessee State,29.43,62,2009
+Vanderbilt,29.01,63,2009
+Liberty,29.01,63,2009
+USF,28.96,65,2009
+Texas Tech,28.89,66,2009
+Jackson State,28.47,67,2009
+La Salle,28.37,68,2009
+Western Michigan,28.36,69,2009
+Akron,28.18,70,2009
+Louisiana-Monroe,28.03,71,2009
+Texas-San Antonio,28.01,72,2009
+Cleveland State,27.97,73,2009
+Tennessee,27.55,74,2009
+San Diego State,27.15,75,2009
+Lehigh,26.78,76,2009
+South Dakota,26.53,77,2009
+Wright State,26.11,78,2009
+Northern Iowa,25.96,79,2009
+Kent State,25.92,80,2009
+North Dakota State,25.51,81,2009
+New Mexico State,25.51,81,2009
+Army,25.13,83,2009
+Seattle,24.73,84,2009
+Pacific,24.66,85,2009
+Sacramento State,24.65,86,2009
+Weber State,24.59,87,2009
+Wisconsin-Green Bay,24.55,88,2009
+Sam Houston State,24.54,89,2009
+Tennessee Tech,23.86,90,2009
+Long Beach State,23.66,91,2009
+American,23.65,92,2009
+Oral Roberts,23.65,92,2009
+Western Illinois,23.32,94,2009
+Marist,23.17,95,2009
+UC Irvine,22.35,96,2009
+Dartmouth,22.32,97,2009
+Xavier,22.19,98,2009
+Brown,22.07,99,2009
+Cornell,22.04,100,2009
+George Mason,21.92,101,2009
+Georgia,21.86,102,2009
+Denver,21.76,103,2009
+Alabama A&M,21.72,104,2009
+Binghamton,21.41,105,2009
+Buffalo,21.01,106,2009
+IPFW,20.89,107,2009
+Air Force,20.86,108,2009
+Northern Arizona,20.79,109,2009
+Illinois Chicago,20.79,109,2009
+Prairie View A&M,20.79,109,2009
+Rider,20.7,112,2009
+Hofstra,20.63,113,2009
+South Carolina,20.59,114,2009
+Detroit,20.35,115,2009
+Mississippi Valley State,20.31,116,2009
+Tennessee State,20.28,117,2009
+Idaho State,20.27,118,2009
+TCU,20.24,119,2009
+Florida Gulf Coast,20.07,120,2009
+North Texas,19.96,121,2009
+Siena,19.3,122,2009
+Alcorn State,19.13,123,2009
+Rice,19.09,124,2009
+James Madison,18.98,125,2009
+Howard,18.97,126,2009
+Baylor,18.79,127,2009
+Portland State,18.64,128,2009
+St. Francis (NY),18.6,129,2009
+Murray State,18.46,130,2009
+North Dakota,18.29,131,2009
+Virginia,18.21,132,2009
+Colorado,18.18,133,2009
+Maryland,18.05,134,2009
+Missouri State,17.96,135,2009
+Utah,17.33,136,2009
+Iowa,16.84,137,2009
+Arizona State,16.79,138,2009
+UNLV,16.73,139,2009
+Mount St. Mary's,16.16,140,2009
+Lamar,15.86,141,2009
+Northwestern State,15.86,141,2009
+FIU,15.84,143,2009
+Central Arkansas,15.84,143,2009
+Eastern Washington,15.77,145,2009
+Navy,15.72,146,2009
+Stephen F. Austin,15.72,146,2009
+Mercer,15.65,148,2009
+Radford,15.65,148,2009
+Bryant University,15.65,148,2009
+Morehead State,15.65,148,2009
+Dayton,15.56,152,2009
+Gonzaga,15.52,153,2009
+Bradley,15.36,154,2009
+Brigham Young,15.24,155,2009
+Loyola (MD),15.21,156,2009
+Niagara,15.12,157,2009
+Fordham,15.05,158,2009
+Quinnipiac,14.98,159,2009
+Montana State,14.92,160,2009
+SMU,14.75,161,2009
+Cal State Northridge,14.75,161,2009
+Coastal Carolina,14.75,161,2009
+Florida A&M,14.75,161,2009
+Maryland Eastern Shore,14.75,161,2009
+North Carolina Central,14.75,161,2009
+Texas State,14.75,161,2009
+UT-Arlington,14.75,161,2009
+Houston Baptist,14.75,161,2009
+Grambling State,14.75,161,2009
+Iona,14.58,171,2009
+Hartford,13.95,172,2009
+Boise State,12.93,173,2009
+Idaho,12.87,174,2009
+Evansville,12.87,174,2009
+North Florida,12.4,176,2009
+Long Island,12.4,176,2009
+IUPUI,12.4,176,2009
+George Washington,12.08,179,2009
+Morgan State,12.08,179,2009
+Houston,12.0,181,2009
+St. Bonaventure,12.0,181,2009
+Virginia Military Institute,12.0,181,2009
+Bethune-Cookman,12.0,181,2009
+Coppin State,12.0,181,2009
+Southern Illinois,12.0,181,2009
+Eastern Kentucky,12.0,181,2009
+Jacksonville State,12.0,181,2009
+Southeast Missouri State,12.0,181,2009
+Lafayette,12.0,181,2009
+Troy,12.0,181,2009
+Nicholls State,12.0,181,2009
+Alabama State,12.0,181,2009
+Princeton,11.41,194,2009
+Georgia Southern,11.11,195,2009
+New Orleans,11.11,195,2009
+Youngstown State,10.83,197,2009
+Fresno State,10.62,198,2009
+Bucknell,10.39,199,2009
+Wagner,9.6,200,2009
+Cal Poly,9.58,201,2009
+Towson,9.22,202,2009
+Memphis,8.81,203,2009
+Georgetown,7.34,204,2009
+Georgia State,7.28,205,2009
+Rhode Island,7.03,206,2009
+New Mexico,6.97,207,2009
+UNC Wilmington,6.76,208,2009
+Utah State,6.67,209,2009
+South Carolina Upstate,6.67,209,2009
+Hawaii,6.67,209,2009
+UC Riverside,6.67,209,2009
+Charleston Southern,6.67,209,2009
+Columbia,6.67,209,2009
+Saint Peter's,6.67,209,2009
+Delaware State,6.67,209,2009
+Norfolk State,6.67,209,2009
+Fairleigh Dickinson,6.67,209,2009
+Tennessee-Martin,6.67,209,2009
+McNeese State,6.67,209,2009
+Nevada,6.08,221,2009
+Eastern Michigan,4.72,222,2009
+Yale,4.63,223,2009
+Rutgers,4.39,224,2009
+Vermont,4.15,225,2009
+High Point,3.43,226,2009
+Seton Hall,2.92,227,2009
+DePaul,2.75,228,2009
+UC Santa Barbara,2.49,229,2009
+Indiana State,2.47,230,2009
+Penn State,2.42,231,2009
+California,2.0,232,2009
+Wyoming,1.77,233,2009
+VCU,1.42,234,2009
+UC Davis,1.37,235,2009
+Florida Atlantic,0.27,236,2009
+Kentucky,70.57,1,2010
+North Carolina,67.11,3,2010
+Texas,60.4,8,2010
+Villanova,58.58,13,2010
+UCLA,58.71,12,2010
+Arizona,58.22,14,2010
+Kansas,55.39,20,2010
+Connecticut,59.56,10,2010
+Florida State,58.78,11,2010
+Minnesota,62.88,5,2010
+Georgia Tech,49.85,28,2010
+Marquette,61.27,7,2010
+Oklahoma,55.96,18,2010
+Miami,52.8,22,2010
+Clemson,31.72,77,2010
+Alabama,57.7,15,2010
+N.C. State,60.21,9,2010
+Indiana,46.72,35,2010
+Oregon,36.78,63,2010
+Duke,57.45,16,2010
+Iowa State,44.47,42,2010
+Mississippi State,29.1,91,2010
+Louisville,42.97,45,2010
+Oklahoma State,50.26,26,2010
+Arkansas,40.65,54,2010
+Pittsburgh,48.31,31,2010
+Washington,47.2,33,2010
+Ole Miss,46.35,37,2010
+Illinois,53.0,21,2010
+Illinois State,30.4,83,2010
+Kansas State,45.33,38,2010
+Nebraska,24.65,115,2010
+Charlotte,40.27,56,2010
+Michigan,44.98,39,2010
+Auburn,47.49,32,2010
+Oregon State,41.66,50,2010
+Virginia Tech,39.92,57,2010
+West Virginia,42.19,46,2010
+Marshall,27.81,100,2010
+St. Mary's,32.19,76,2010
+Western Kentucky,39.52,58,2010
+Michigan State,51.96,23,2010
+Southern Miss,37.84,61,2010
+Missouri,50.05,27,2010
+Cincinnati,32.79,75,2010
+Valparaiso,25.78,111,2010
+San Diego,34.33,70,2010
+South Alabama,28.65,95,2010
+Wake Forest,40.85,52,2010
+Bowling Green,31.33,79,2010
+UAB,27.8,101,2010
+Central Michigan,38.76,59,2010
+Arkansas State,21.1,150,2010
+Cal State Fullerton,31.33,79,2010
+Saint Francis (PA),17.98,187,2010
+Lipscomb,19.8,165,2010
+UCF,27.98,99,2010
+St. John's,23.85,120,2010
+South Carolina State,22.41,136,2010
+Northern Colorado,29.65,87,2010
+Florida,49.48,29,2010
+Middle Tennessee State,29.25,89,2010
+Vanderbilt,42.01,48,2010
+Liberty,24.29,116,2010
+USF,28.93,94,2010
+Texas Tech,33.15,74,2010
+Jackson State,28.47,97,2010
+La Salle,29.25,89,2010
+Western Michigan,27.31,103,2010
+Akron,30.08,84,2010
+Louisiana-Monroe,21.45,147,2010
+Texas-San Antonio,20.84,153,2010
+Cleveland State,21.74,143,2010
+Tennessee,47.03,34,2010
+San Diego State,16.08,200,2010
+Lehigh,16.32,197,2010
+South Dakota,20.16,160,2010
+Wright State,22.37,138,2010
+Northern Iowa,18.05,184,2010
+Kent State,19.62,169,2010
+North Dakota State,21.14,149,2010
+New Mexico State,23.01,129,2010
+Army,17.56,191,2010
+Seattle,19.92,163,2010
+Pacific,19.3,171,2010
+Sacramento State,19.79,167,2010
+Weber State,23.6,123,2010
+Wisconsin-Green Bay,23.25,126,2010
+Sam Houston State,22.13,140,2010
+Tennessee Tech,12.76,245,2010
+Long Beach State,30.81,82,2010
+American,23.65,122,2010
+Oral Roberts,14.47,228,2010
+Western Illinois,14.32,230,2010
+Marist,23.17,128,2010
+UC Irvine,18.93,177,2010
+Dartmouth,13.86,234,2010
+Xavier,43.1,44,2010
+Brown,22.07,141,2010
+Cornell,22.04,142,2010
+George Mason,26.37,109,2010
+Georgia,29.83,86,2010
+Denver,17.2,192,2010
+Alabama A&M,21.72,144,2010
+Binghamton,21.41,148,2010
+Buffalo,13.26,241,2010
+IPFW,25.06,114,2010
+Air Force,13.19,243,2010
+Northern Arizona,20.79,155,2010
+Illinois Chicago,18.27,179,2010
+Prairie View A&M,16.04,201,2010
+Rider,20.7,156,2010
+Hofstra,15.97,202,2010
+South Carolina,43.91,43,2010
+Detroit,35.85,66,2010
+Mississippi Valley State,17.79,189,2010
+Tennessee State,26.48,107,2010
+Idaho State,20.81,154,2010
+TCU,24.09,119,2010
+Florida Gulf Coast,15.71,206,2010
+North Texas,30.92,81,2010
+Siena,16.58,193,2010
+Alcorn State,12.39,250,2010
+Rice,24.28,117,2010
+James Madison,23.78,121,2010
+Howard,18.97,176,2010
+Baylor,44.48,41,2010
+Portland State,12.17,253,2010
+St. Francis (NY),15.03,217,2010
+Murray State,18.14,182,2010
+North Dakota,12.01,256,2010
+Virginia,41.75,49,2010
+Colorado,24.22,118,2010
+Maryland,36.77,64,2010
+Missouri State,22.61,135,2010
+Utah,19.01,175,2010
+Iowa,28.62,96,2010
+Arizona State,35.82,67,2010
+UNLV,11.29,272,2010
+Mount St. Mary's,16.16,199,2010
+Lamar,15.87,204,2010
+Northwestern State,13.77,236,2010
+FIU,34.38,69,2010
+Central Arkansas,13.76,237,2010
+Eastern Washington,19.98,162,2010
+Navy,18.04,186,2010
+Stephen F. Austin,15.8,205,2010
+Mercer,12.24,251,2010
+Radford,10.8,274,2010
+Bryant University,15.65,207,2010
+Morehead State,15.65,207,2010
+Dayton,36.46,65,2010
+Gonzaga,19.05,174,2010
+Bradley,14.44,229,2010
+Brigham Young,26.35,110,2010
+Loyola (MD),15.21,213,2010
+Niagara,15.12,215,2010
+Fordham,17.77,190,2010
+Quinnipiac,10.49,276,2010
+Montana State,19.8,165,2010
+SMU,14.75,221,2010
+Cal State Northridge,14.83,219,2010
+Coastal Carolina,14.75,221,2010
+Florida A&M,15.24,210,2010
+Maryland Eastern Shore,10.38,278,2010
+North Carolina Central,15.24,210,2010
+Texas State,10.38,278,2010
+UT-Arlington,15.24,210,2010
+Houston Baptist,13.26,241,2010
+Grambling State,20.14,161,2010
+Iona,20.36,158,2010
+Hartford,13.95,233,2010
+Boise State,9.55,281,2010
+Idaho,9.52,282,2010
+Evansville,9.52,282,2010
+North Florida,9.3,284,2010
+Long Island,12.18,252,2010
+IUPUI,12.74,246,2010
+George Washington,12.08,255,2010
+Morgan State,9.16,285,2010
+Houston,20.36,158,2010
+St. Bonaventure,12.0,257,2010
+Virginia Military Institute,9.12,286,2010
+Bethune-Cookman,12.0,257,2010
+Coppin State,13.49,239,2010
+Southern Illinois,18.88,178,2010
+Eastern Kentucky,12.0,257,2010
+Jacksonville State,16.37,195,2010
+Southeast Missouri State,14.08,231,2010
+Lafayette,12.0,257,2010
+Troy,13.49,239,2010
+Nicholls State,12.0,257,2010
+Alabama State,9.12,286,2010
+Princeton,16.37,195,2010
+Georgia Southern,13.84,235,2010
+New Orleans,11.11,273,2010
+Youngstown State,13.54,238,2010
+Fresno State,16.3,198,2010
+Bucknell,10.39,277,2010
+Wagner,8.99,288,2010
+Cal Poly,8.01,290,2010
+Towson,7.84,291,2010
+Memphis,41.54,51,2010
+Georgetown,38.56,60,2010
+Georgia State,19.11,173,2010
+Rhode Island,14.62,226,2010
+New Mexico,22.26,139,2010
+UNC Wilmington,8.78,289,2010
+Utah State,6.67,293,2010
+South Carolina Upstate,11.96,268,2010
+Hawaii,11.52,271,2010
+UC Riverside,11.64,270,2010
+Charleston Southern,18.25,180,2010
+Columbia,14.77,220,2010
+Saint Peter's,6.67,293,2010
+Delaware State,6.67,293,2010
+Norfolk State,6.67,293,2010
+Fairleigh Dickinson,6.67,293,2010
+Tennessee-Martin,6.67,293,2010
+McNeese State,6.67,293,2010
+Nevada,15.9,203,2010
+Eastern Michigan,11.78,269,2010
+Yale,10.52,275,2010
+Rutgers,19.88,164,2010
+Vermont,4.15,308,2010
+High Point,15.13,214,2010
+Seton Hall,18.06,183,2010
+DePaul,22.4,137,2010
+UC Santa Barbara,14.51,227,2010
+Indiana State,12.42,248,2010
+Penn State,12.72,247,2010
+California,30.08,84,2010
+Wyoming,7.3,292,2010
+VCU,22.84,132,2010
+UC Davis,18.2,181,2010
+Florida Atlantic,0.27,309,2010
+Massachusetts,42.13,47,2010
+Creighton,19.48,170,2010
+Manhattan,14.75,221,2010
+Appalachian State,26.4,108,2010
+William & Mary,12.15,254,2010
+Miami (OH),26.53,106,2010
+Saint Louis,12.78,244,2010
+Saint Joseph's,49.28,30,2010
+Providence,40.8,53,2010
+Wichita State,12.0,257,2010
+Colorado State,34.11,71,2010
+Tulsa,37.48,62,2010
+Pennsylvania,18.05,184,2010
+Ohio,29.43,88,2010
+East Carolina,29.06,92,2010
+Drake,19.3,171,2010
+Syracuse,66.62,4,2010
+Robert Morris,22.75,133,2010
+Duquesne,27.08,105,2010
+Wisconsin,44.9,40,2010
+Louisiana Tech,33.41,73,2010
+Butler,40.62,55,2010
+Tulane,21.72,144,2010
+Stanford,61.34,6,2010
+Wisconsin-Milwaukee,34.39,68,2010
+Northern Illinois,6.67,293,2010
+Loyola Chicago,20.45,157,2010
+Old Dominion,14.91,218,2010
+Jacksonville,23.6,123,2010
+Oakland,22.88,131,2010
+LSU,56.17,17,2010
+USC,51.16,25,2010
+Fairfield,21.49,146,2010
+Louisiana,22.75,133,2010
+Austin Peay,19.64,168,2010
+Texas A&M,55.76,19,2010
+Purdue,51.84,24,2010
+Gardner-Webb,6.67,293,2010
+Northwestern,21.0,152,2010
+Temple,28.98,93,2010
+Richmond,31.6,78,2010
+Washington State,33.81,72,2010
+Notre Dame,46.66,36,2010
+Harvard,25.25,113,2010
+Montana,23.45,125,2010
+Eastern Illinois,14.75,221,2010
+Boston University,12.4,249,2010
+Chattanooga,23.25,126,2010
+East Tennessee State,27.47,102,2010
+Elon,14.05,232,2010
+Davidson,28.0,98,2010
+UNC Greensboro,22.99,130,2010
+Ohio State,69.22,2,2010
+Stony Brook,27.31,103,2010
+Campbell,25.67,112,2010
+Central Connecticut State,21.01,151,2010
+Western Carolina,17.93,188,2010
+Texas Southern,16.45,194,2010
+South Dakota State,15.53,209,2010
+Northeastern,15.12,215,2010
+Arkansas-Pine Bluff,14.75,221,2010
+Kennesaw State,12.0,257,2010
+Southern Utah,12.0,257,2010
+UNC Asheville,12.0,257,2010
+SIU Edwardsville,12.0,257,2010
+Southeastern Louisiana,12.0,257,2010
+New Hampshire,10.21,280,2010
+Boston College,6.67,293,2010
+Canisius,6.67,293,2010
+Hampton,6.67,293,2010
+Texas A&M Corpus Christi,6.67,293,2010
+Missouri-Kansas City,6.67,293,2010
+Portland,6.67,293,2010
+Kentucky,70.39,1,2011
+North Carolina,65.8,3,2011
+Texas,63.02,5,2011
+Villanova,57.69,10,2011
+UCLA,49.68,26,2011
+Arizona,61.84,7,2011
+Kansas,57.13,11,2011
+Connecticut,56.19,13,2011
+Florida State,53.1,16,2011
+Minnesota,50.8,22,2011
+Georgia Tech,46.47,36,2011
+Marquette,56.36,12,2011
+Oklahoma,39.61,56,2011
+Miami,38.32,60,2011
+Clemson,37.62,62,2011
+Alabama,60.98,8,2011
+N.C. State,44.89,40,2011
+Indiana,47.69,32,2011
+Oregon,43.55,46,2011
+Duke,62.42,6,2011
+Iowa State,40.65,53,2011
+Mississippi State,41.67,49,2011
+Louisville,52.85,17,2011
+Oklahoma State,51.23,19,2011
+Arkansas,51.02,21,2011
+Pittsburgh,54.63,15,2011
+Washington,51.42,18,2011
+Ole Miss,43.87,44,2011
+Illinois,58.21,9,2011
+Illinois State,27.86,102,2011
+Kansas State,44.79,41,2011
+Nebraska,30.42,88,2011
+Charlotte,39.2,58,2011
+Michigan,48.39,30,2011
+Auburn,46.06,37,2011
+Oregon State,32.03,77,2011
+Virginia Tech,49.85,25,2011
+West Virginia,46.9,35,2011
+Marshall,27.32,106,2011
+St. Mary's,21.82,145,2011
+Western Kentucky,44.03,43,2011
+Michigan State,54.73,14,2011
+Southern Miss,31.29,82,2011
+Missouri,35.27,69,2011
+Cincinnati,41.25,51,2011
+Valparaiso,21.98,141,2011
+San Diego,30.17,89,2011
+South Alabama,28.37,101,2011
+Wake Forest,38.18,61,2011
+Bowling Green,21.42,149,2011
+UAB,25.55,112,2011
+Central Michigan,33.27,73,2011
+Arkansas State,17.15,205,2011
+Cal State Fullerton,31.33,80,2011
+Saint Francis (PA),14.99,241,2011
+Lipscomb,13.78,261,2011
+UCF,36.72,64,2011
+St. John's,40.94,52,2011
+South Carolina State,15.89,226,2011
+Northern Colorado,26.06,110,2011
+Florida,47.19,34,2011
+Middle Tennessee State,23.44,126,2011
+Vanderbilt,47.69,32,2011
+Liberty,17.11,206,2011
+USF,27.55,104,2011
+Texas Tech,35.48,67,2011
+Jackson State,15.26,237,2011
+La Salle,22.37,138,2011
+Western Michigan,22.93,131,2011
+Akron,30.17,89,2011
+Louisiana-Monroe,15.34,234,2011
+Texas-San Antonio,18.56,187,2011
+Cleveland State,27.04,108,2011
+Tennessee,48.49,29,2011
+San Diego State,11.99,287,2011
+Lehigh,12.16,276,2011
+South Dakota,17.81,196,2011
+Wright State,24.91,115,2011
+Northern Iowa,28.6,98,2011
+Kent State,18.82,181,2011
+North Dakota State,21.88,144,2011
+New Mexico State,22.89,134,2011
+Army,16.66,213,2011
+Seattle,19.69,171,2011
+Pacific,17.77,197,2011
+Sacramento State,14.4,250,2011
+Weber State,23.6,124,2011
+Wisconsin-Green Bay,18.71,185,2011
+Sam Houston State,20.45,162,2011
+Tennessee Tech,12.14,278,2011
+Long Beach State,24.38,118,2011
+American,23.65,123,2011
+Oral Roberts,14.32,252,2011
+Western Illinois,13.13,265,2011
+Marist,18.93,177,2011
+UC Irvine,21.81,146,2011
+Dartmouth,14.65,246,2011
+Xavier,49.47,28,2011
+Brown,18.79,182,2011
+Cornell,18.17,192,2011
+George Mason,34.27,70,2011
+Georgia,38.98,59,2011
+Denver,12.86,269,2011
+Alabama A&M,21.72,147,2011
+Binghamton,20.65,160,2011
+Buffalo,10.4,303,2011
+IPFW,19.96,168,2011
+Air Force,12.82,270,2011
+Northern Arizona,18.29,190,2011
+Illinois Chicago,18.57,186,2011
+Prairie View A&M,17.17,204,2011
+Rider,20.7,159,2011
+Hofstra,15.34,234,2011
+South Carolina,47.97,31,2011
+Detroit,30.77,85,2011
+Mississippi Valley State,17.67,198,2011
+Tennessee State,18.74,184,2011
+Idaho State,17.3,201,2011
+TCU,27.84,103,2011
+Florida Gulf Coast,18.07,194,2011
+North Texas,28.8,95,2011
+Siena,20.06,167,2011
+Alcorn State,22.92,132,2011
+Rice,21.06,156,2011
+James Madison,22.0,140,2011
+Howard,21.1,154,2011
+Baylor,50.04,24,2011
+Portland State,15.05,240,2011
+St. Francis (NY),14.86,243,2011
+Murray State,18.91,179,2011
+North Dakota,11.82,289,2011
+Virginia,45.33,39,2011
+Colorado,32.18,76,2011
+Maryland,33.92,72,2011
+Missouri State,28.46,100,2011
+Utah,23.36,127,2011
+Iowa,32.6,75,2011
+Arizona State,39.59,57,2011
+UNLV,20.53,161,2011
+Mount St. Mary's,10.41,301,2011
+Lamar,12.19,275,2011
+Northwestern State,14.1,254,2011
+FIU,29.08,93,2011
+Central Arkansas,14.53,248,2011
+Eastern Washington,16.91,211,2011
+Navy,18.15,193,2011
+Stephen F. Austin,15.83,229,2011
+Mercer,12.04,282,2011
+Radford,11.14,297,2011
+Bryant University,15.65,231,2011
+Morehead State,19.29,174,2011
+Dayton,28.7,97,2011
+Gonzaga,32.97,74,2011
+Bradley,19.63,172,2011
+Brigham Young,24.56,117,2011
+Loyola (MD),18.79,182,2011
+Niagara,15.12,239,2011
+Fordham,16.08,223,2011
+Quinnipiac,13.13,265,2011
+Montana State,18.35,189,2011
+SMU,24.34,119,2011
+Cal State Northridge,17.09,208,2011
+Coastal Carolina,16.89,212,2011
+Florida A&M,13.96,258,2011
+Maryland Eastern Shore,12.0,284,2011
+North Carolina Central,13.96,258,2011
+Texas State,14.23,253,2011
+UT-Arlington,20.43,165,2011
+Houston Baptist,12.72,273,2011
+Grambling State,14.91,242,2011
+Iona,27.17,107,2011
+Hartford,22.45,137,2011
+Boise State,16.51,216,2011
+Idaho,10.41,301,2011
+Evansville,8.28,320,2011
+North Florida,9.15,312,2011
+Long Island,9.97,308,2011
+IUPUI,15.85,227,2011
+George Washington,18.25,191,2011
+Morgan State,11.63,292,2011
+Houston,28.8,95,2011
+St. Bonaventure,8.77,316,2011
+Virginia Military Institute,10.19,305,2011
+Bethune-Cookman,13.1,267,2011
+Coppin State,13.56,263,2011
+Southern Illinois,25.49,113,2011
+Eastern Kentucky,13.28,264,2011
+Jacksonville State,16.58,214,2011
+Southeast Missouri State,20.45,162,2011
+Lafayette,8.77,316,2011
+Troy,14.47,249,2011
+Nicholls State,8.77,316,2011
+Alabama State,8.06,321,2011
+Princeton,16.93,210,2011
+Georgia Southern,21.34,152,2011
+New Orleans,11.11,298,2011
+Youngstown State,13.67,262,2011
+Fresno State,16.28,219,2011
+Bucknell,11.61,294,2011
+Wagner,11.79,290,2011
+Cal Poly,13.1,267,2011
+Towson,14.09,255,2011
+Memphis,41.28,50,2011
+Georgetown,49.48,27,2011
+Georgia State,19.03,175,2011
+Rhode Island,23.32,128,2011
+New Mexico,30.47,87,2011
+UNC Wilmington,8.87,315,2011
+Utah State,6.67,322,2011
+South Carolina Upstate,10.0,306,2011
+Hawaii,11.86,288,2011
+UC Riverside,15.92,225,2011
+Charleston Southern,17.55,199,2011
+Columbia,11.76,291,2011
+Saint Peter's,6.67,322,2011
+Delaware State,6.67,322,2011
+Norfolk State,6.67,322,2011
+Fairleigh Dickinson,12.11,279,2011
+Tennessee-Martin,9.9,309,2011
+McNeese State,8.45,319,2011
+Nevada,16.37,218,2011
+Eastern Michigan,12.07,281,2011
+Yale,10.8,299,2011
+Rutgers,35.74,65,2011
+Vermont,10.0,306,2011
+High Point,19.77,169,2011
+Seton Hall,29.02,94,2011
+DePaul,31.72,78,2011
+UC Santa Barbara,20.2,166,2011
+Indiana State,18.07,194,2011
+Penn State,22.57,136,2011
+California,28.47,99,2011
+Wyoming,12.01,283,2011
+VCU,23.75,121,2011
+UC Davis,24.17,120,2011
+Florida Atlantic,4.15,328,2011
+UTEP,14.38,251,2011
+Massachusetts,42.13,48,2011
+Creighton,18.95,176,2011
+Manhattan,17.52,200,2011
+Appalachian State,23.22,129,2011
+William & Mary,17.25,203,2011
+Miami (OH),15.79,230,2011
+Saint Louis,14.04,257,2011
+Saint Joseph's,30.64,86,2011
+Providence,34.13,71,2011
+Belmont,9.65,310,2011
+Wichita State,22.91,133,2011
+Colorado State,22.16,139,2011
+Tulsa,31.32,81,2011
+Pennsylvania,23.11,130,2011
+Ohio,25.95,111,2011
+East Carolina,25.29,114,2011
+Drake,14.54,247,2011
+Delaware,30.96,83,2011
+San Jose State,14.75,244,2011
+Syracuse,64.24,4,2011
+Robert Morris,22.75,135,2011
+Duquesne,16.05,224,2011
+Wisconsin,45.42,38,2011
+Louisiana Tech,31.36,79,2011
+Butler,39.98,55,2011
+Tulane,20.96,158,2011
+Stanford,43.09,47,2011
+Wisconsin-Milwaukee,29.61,91,2011
+Northern Illinois,11.48,296,2011
+Loyola Chicago,20.45,162,2011
+Old Dominion,19.54,173,2011
+Jacksonville,23.6,124,2011
+Oakland,21.91,142,2011
+LSU,51.09,20,2011
+USC,43.6,45,2011
+Fairfield,21.49,148,2011
+Louisiana,18.91,179,2011
+Austin Peay,15.51,233,2011
+Texas A&M,50.14,23,2011
+Colgate,21.38,151,2011
+Winthrop,15.65,231,2011
+Purdue,40.46,54,2011
+Gardner-Webb,9.55,311,2011
+Drexel,20.97,157,2011
+Northwestern,23.75,121,2011
+Temple,21.12,153,2011
+Richmond,35.44,68,2011
+Washington State,35.72,66,2011
+Notre Dame,44.32,42,2011
+Harvard,37.3,63,2011
+Montana,17.26,202,2011
+Toledo,18.93,177,2011
+Eastern Illinois,15.34,234,2011
+Holy Cross,12.08,280,2011
+Boston University,12.4,274,2011
+Samford,17.11,206,2011
+Chattanooga,27.42,105,2011
+East Tennessee State,24.77,116,2011
+Citadel,29.37,92,2011
+Elon,14.05,256,2011
+Davidson,16.47,217,2011
+Furman,30.86,84,2011
+UNC Greensboro,17.05,209,2011
+Ohio State,68.06,2,2011
+Stony Brook,16.15,222,2011
+Campbell,19.77,169,2011
+Central Connecticut State,15.85,227,2011
+Western Carolina,16.21,220,2011
+Texas Southern,18.52,188,2011
+South Dakota State,10.74,300,2011
+Northeastern,21.91,142,2011
+Arkansas-Pine Bluff,14.75,244,2011
+Kennesaw State,12.0,284,2011
+Southern Utah,9.12,313,2011
+UNC Asheville,12.75,271,2011
+SIU Edwardsville,9.12,313,2011
+Southeastern Louisiana,12.75,271,2011
+New Hampshire,10.21,304,2011
+Boston College,26.18,109,2011
+Canisius,6.67,322,2011
+Hampton,15.2,238,2011
+Texas A&M Corpus Christi,11.52,295,2011
+Missouri-Kansas City,11.63,292,2011
+Portland,21.42,149,2011
+Wofford,21.1,154,2011
+Pepperdine,16.55,215,2011
+Stetson,16.2,221,2011
+Maine,13.96,258,2011
+Monmouth,12.15,277,2011
+Nebraska Omaha,12.0,284,2011
+Savannah State,6.67,322,2011
+Kentucky,70.14,1,2012
+North Carolina,65.95,2,2012
+Texas,64.0,4,2012
+Villanova,57.5,10,2012
+UCLA,55.8,14,2012
+Arizona,64.44,3,2012
+Kansas,59.76,5,2012
+Connecticut,56.38,13,2012
+Florida State,52.54,20,2012
+Minnesota,41.21,57,2012
+Georgia Tech,52.38,21,2012
+Marquette,51.17,26,2012
+Oklahoma,41.12,58,2012
+Miami,31.43,84,2012
+Clemson,42.21,54,2012
+Alabama,50.37,30,2012
+N.C. State,50.63,28,2012
+Indiana,53.95,17,2012
+Oregon,49.04,33,2012
+Duke,59.43,6,2012
+Iowa State,44.51,47,2012
+Mississippi State,46.45,41,2012
+Louisville,44.56,46,2012
+Oklahoma State,51.57,25,2012
+Arkansas,50.68,27,2012
+Pittsburgh,56.51,12,2012
+Washington,51.92,24,2012
+Ole Miss,48.43,37,2012
+Illinois,58.92,8,2012
+Illinois State,27.41,109,2012
+Kansas State,36.42,68,2012
+Nebraska,31.97,79,2012
+Charlotte,38.13,64,2012
+Michigan,54.7,15,2012
+Auburn,49.27,32,2012
+Oregon State,35.74,70,2012
+Virginia Tech,39.37,63,2012
+West Virginia,47.9,38,2012
+Marshall,26.06,116,2012
+St. Mary's,20.77,163,2012
+Western Kentucky,44.47,48,2012
+Michigan State,58.48,9,2012
+Southern Miss,30.74,90,2012
+Missouri,37.92,65,2012
+Cincinnati,33.02,75,2012
+Valparaiso,21.46,151,2012
+San Diego,29.82,99,2012
+South Alabama,28.24,105,2012
+Wake Forest,45.43,43,2012
+Bowling Green,20.5,166,2012
+UAB,25.24,121,2012
+Central Michigan,32.92,76,2012
+Arkansas State,16.57,217,2012
+Cal State Fullerton,31.33,85,2012
+Saint Francis (PA),14.44,254,2012
+Lipscomb,13.0,271,2012
+UCF,27.77,107,2012
+St. John's,47.28,40,2012
+South Carolina State,15.14,243,2012
+Northern Colorado,25.73,119,2012
+Florida,52.1,22,2012
+Middle Tennessee State,22.92,136,2012
+Vanderbilt,46.02,42,2012
+Liberty,16.36,221,2012
+USF,32.91,77,2012
+Texas Tech,36.49,67,2012
+Jackson State,14.22,256,2012
+La Salle,21.77,147,2012
+Western Michigan,17.15,207,2012
+Akron,30.25,95,2012
+Louisiana-Monroe,14.66,248,2012
+Texas-San Antonio,18.2,193,2012
+Cleveland State,27.39,110,2012
+Tennessee,50.39,29,2012
+San Diego State,26.88,111,2012
+Lehigh,11.56,297,2012
+South Dakota,17.47,204,2012
+Wright State,25.06,122,2012
+Northern Iowa,29.38,101,2012
+Kent State,18.62,185,2012
+North Dakota State,21.86,146,2012
+New Mexico State,22.0,143,2012
+Army,16.42,219,2012
+Seattle,19.48,177,2012
+Pacific,17.53,202,2012
+Sacramento State,13.81,264,2012
+Weber State,23.58,131,2012
+Wisconsin-Green Bay,18.28,191,2012
+Sam Houston State,20.25,172,2012
+Tennessee Tech,15.66,231,2012
+Long Beach State,23.96,127,2012
+American,23.65,129,2012
+Oral Roberts,14.11,257,2012
+Western Illinois,12.84,272,2012
+Marist,18.59,187,2012
+UC Irvine,22.0,143,2012
+Dartmouth,14.54,252,2012
+Xavier,52.95,19,2012
+Brown,18.53,189,2012
+Cornell,17.86,198,2012
+George Mason,30.85,89,2012
+Georgia,44.84,45,2012
+Denver,12.37,280,2012
+Alabama A&M,21.72,148,2012
+Binghamton,20.59,165,2012
+Buffalo,9.98,307,2012
+IPFW,19.58,176,2012
+Air Force,12.48,278,2012
+Northern Arizona,18.09,196,2012
+Illinois Chicago,18.54,188,2012
+Prairie View A&M,17.18,206,2012
+Rider,20.7,164,2012
+Hofstra,15.19,241,2012
+South Carolina,45.27,44,2012
+Detroit,30.64,92,2012
+Mississippi Valley State,17.56,201,2012
+Tennessee State,18.17,195,2012
+Idaho State,17.0,212,2012
+TCU,30.67,91,2012
+Florida Gulf Coast,18.19,194,2012
+North Texas,28.84,104,2012
+Siena,20.31,169,2012
+Alcorn State,23.73,128,2012
+Rice,20.88,161,2012
+James Madison,22.03,142,2012
+Howard,21.26,154,2012
+Baylor,56.63,11,2012
+Portland State,15.18,242,2012
+St. Francis (NY),14.7,247,2012
+Murray State,18.97,180,2012
+North Dakota,11.67,295,2012
+Virginia,52.08,23,2012
+Colorado,42.64,53,2012
+Maryland,44.39,50,2012
+Missouri State,23.29,133,2012
+Utah,31.71,82,2012
+Iowa,41.32,56,2012
+Arizona State,39.56,62,2012
+UNLV,36.6,66,2012
+Mount St. Mary's,9.96,308,2012
+Lamar,11.86,291,2012
+Northwestern State,14.09,259,2012
+FIU,28.99,103,2012
+Central Arkansas,14.56,250,2012
+Eastern Washington,16.72,216,2012
+Navy,18.26,192,2012
+Stephen F. Austin,15.84,230,2012
+Mercer,11.96,289,2012
+Radford,11.07,299,2012
+Bryant University,15.65,232,2012
+Morehead State,19.62,175,2012
+Dayton,25.98,117,2012
+Gonzaga,34.3,74,2012
+Bradley,20.08,173,2012
+Brigham Young,24.63,126,2012
+Loyola (MD),20.31,169,2012
+Niagara,15.12,244,2012
+Fordham,15.98,227,2012
+Quinnipiac,13.27,269,2012
+Montana State,18.33,190,2012
+SMU,31.8,80,2012
+Cal State Northridge,17.29,205,2012
+Coastal Carolina,17.08,210,2012
+Florida A&M,13.85,262,2012
+Maryland Eastern Shore,12.06,284,2012
+North Carolina Central,13.85,262,2012
+Texas State,14.48,253,2012
+UT-Arlington,20.91,160,2012
+Houston Baptist,12.63,275,2012
+Grambling State,14.55,251,2012
+Iona,27.91,106,2012
+Hartford,23.12,134,2012
+Boise State,17.06,211,2012
+Idaho,10.42,303,2012
+Evansville,8.1,321,2012
+North Florida,9.01,313,2012
+Long Island,9.77,310,2012
+IUPUI,16.14,223,2012
+George Washington,18.74,183,2012
+Morgan State,11.79,292,2012
+Houston,39.65,61,2012
+St. Bonaventure,8.52,318,2012
+Virginia Military Institute,10.22,304,2012
+Bethune-Cookman,13.2,270,2012
+Coppin State,13.62,266,2012
+Southern Illinois,26.23,114,2012
+Eastern Kentucky,13.39,268,2012
+Jacksonville State,16.78,214,2012
+Southeast Missouri State,21.07,156,2012
+Lafayette,8.52,318,2012
+Troy,14.59,249,2012
+Nicholls State,8.52,318,2012
+Alabama State,7.9,322,2012
+Princeton,17.09,209,2012
+Georgia Southern,22.07,141,2012
+New Orleans,11.11,298,2012
+Youngstown State,13.79,265,2012
+Fresno State,20.28,171,2012
+Bucknell,11.7,294,2012
+Wagner,12.03,285,2012
+Cal Poly,13.53,267,2012
+Towson,18.05,197,2012
+Memphis,44.11,51,2012
+Georgetown,54.42,16,2012
+Georgia State,19.07,179,2012
+Rhode Island,22.6,138,2012
+New Mexico,31.53,83,2012
+UNC Wilmington,8.96,316,2012
+Utah State,6.67,323,2012
+South Carolina Upstate,9.93,309,2012
+Hawaii,15.96,228,2012
+UC Riverside,16.41,220,2012
+Charleston Southern,17.73,199,2012
+Columbia,11.66,296,2012
+Saint Peter's,6.67,323,2012
+Delaware State,6.67,323,2012
+Norfolk State,6.67,323,2012
+Fairleigh Dickinson,12.54,277,2012
+Tennessee-Martin,10.19,306,2012
+McNeese State,8.61,317,2012
+Nevada,11.98,288,2012
+Eastern Michigan,12.25,281,2012
+Yale,11.06,300,2012
+Rutgers,30.06,97,2012
+Vermont,10.47,302,2012
+High Point,20.43,168,2012
+Seton Hall,30.32,94,2012
+DePaul,34.34,73,2012
+UC Santa Barbara,20.96,158,2012
+Indiana State,18.79,182,2012
+Penn State,26.84,112,2012
+California,35.41,72,2012
+Wyoming,12.55,276,2012
+VCU,31.72,81,2012
+UC Davis,25.06,122,2012
+Florida Atlantic,12.44,279,2012
+UTEP,19.83,174,2012
+Massachusetts,42.13,55,2012
+Creighton,24.96,124,2012
+Manhattan,17.65,200,2012
+Appalachian State,23.06,135,2012
+William & Mary,17.5,203,2012
+Miami (OH),15.28,240,2012
+Saint Louis,14.11,257,2012
+Saint Joseph's,29.74,100,2012
+Providence,44.47,48,2012
+Belmont,9.65,312,2012
+Wichita State,21.42,152,2012
+Colorado State,21.58,149,2012
+Tulsa,31.02,87,2012
+Pennsylvania,23.36,132,2012
+Ohio,25.79,118,2012
+East Carolina,26.42,113,2012
+Drake,14.31,255,2012
+Delaware,30.96,88,2012
+San Jose State,14.75,245,2012
+Syracuse,59.14,7,2012
+Robert Morris,22.75,137,2012
+Duquesne,15.51,237,2012
+Wisconsin,43.34,52,2012
+Louisiana Tech,31.26,86,2012
+Butler,39.92,60,2012
+Tulane,20.92,159,2012
+Stanford,47.76,39,2012
+Wisconsin-Milwaukee,29.38,101,2012
+Northern Illinois,16.03,226,2012
+Loyola Chicago,20.45,167,2012
+Old Dominion,20.79,162,2012
+Jacksonville,23.6,130,2012
+Oakland,21.87,145,2012
+LSU,48.89,35,2012
+USC,40.39,59,2012
+Fairfield,21.49,150,2012
+Louisiana,18.73,184,2012
+Austin Peay,15.31,239,2012
+Texas A&M,53.86,18,2012
+Colgate,21.38,153,2012
+Winthrop,15.65,232,2012
+Purdue,48.94,34,2012
+Gardner-Webb,9.69,311,2012
+Drexel,20.97,157,2012
+Northwestern,32.12,78,2012
+Temple,30.56,93,2012
+Richmond,35.63,71,2012
+Washington State,36.17,69,2012
+Notre Dame,49.46,31,2012
+Harvard,30.0,98,2012
+Montana,16.96,213,2012
+Toledo,18.93,181,2012
+Eastern Illinois,15.37,238,2012
+Holy Cross,12.08,283,2012
+Boston University,16.04,225,2012
+Samford,17.11,208,2012
+Chattanooga,27.62,108,2012
+East Tennessee State,24.64,125,2012
+Citadel,25.31,120,2012
+Elon,14.05,260,2012
+Davidson,15.91,229,2012
+Furman,26.14,115,2012
+UNC Greensboro,16.76,215,2012
+Ohio State,48.82,36,2012
+Stony Brook,15.61,234,2012
+Campbell,19.48,177,2012
+Central Connecticut State,15.6,236,2012
+Western Carolina,16.13,224,2012
+Texas Southern,18.62,185,2012
+South Dakota State,10.51,301,2012
+Northeastern,22.24,139,2012
+Arkansas-Pine Bluff,14.75,245,2012
+Kennesaw State,12.0,286,2012
+Southern Utah,8.98,314,2012
+UNC Asheville,12.78,273,2012
+SIU Edwardsville,8.98,314,2012
+Southeastern Louisiana,12.78,273,2012
+New Hampshire,10.21,305,2012
+Boston College,30.2,96,2012
+Canisius,6.67,323,2012
+Hampton,15.61,234,2012
+Texas A&M Corpus Christi,11.76,293,2012
+Missouri-Kansas City,11.87,290,2012
+Portland,22.13,140,2012
+Wofford,21.1,155,2012
+Pepperdine,16.55,218,2012
+Stetson,16.2,222,2012
+Maine,13.96,261,2012
+Monmouth,12.15,282,2012
+Nebraska Omaha,12.0,286,2012
+Savannah State,6.67,323,2012
+Kentucky,70.39,1,2013
+North Carolina,64.1,3,2013
+Texas,60.23,9,2013
+Villanova,54.37,20,2013
+UCLA,57.48,13,2013
+Arizona,64.46,2,2013
+Kansas,63.15,5,2013
+Connecticut,53.57,24,2013
+Florida State,49.56,35,2013
+Minnesota,32.32,85,2013
+Georgia Tech,47.08,42,2013
+Marquette,54.31,21,2013
+Oklahoma,34.98,75,2013
+Miami,35.6,73,2013
+Clemson,37.76,71,2013
+Alabama,50.21,34,2013
+N.C. State,54.89,17,2013
+Indiana,59.0,11,2013
+Oregon,47.38,41,2013
+Duke,61.8,7,2013
+Iowa State,45.39,49,2013
+Mississippi State,39.67,64,2013
+Louisville,51.23,32,2013
+Oklahoma State,49.44,36,2013
+Arkansas,54.79,18,2013
+Pittsburgh,57.7,12,2013
+Washington,55.19,16,2013
+Ole Miss,43.28,55,2013
+Illinois,63.52,4,2013
+Illinois State,27.51,107,2013
+Kansas State,38.07,68,2013
+Nebraska,34.44,77,2013
+Charlotte,37.57,72,2013
+Michigan,59.27,10,2013
+Auburn,45.69,48,2013
+Oregon State,32.14,89,2013
+Virginia Tech,38.01,69,2013
+West Virginia,53.35,25,2013
+Marshall,23.11,131,2013
+St. Mary's,25.82,114,2013
+Western Kentucky,46.72,43,2013
+Michigan State,52.16,27,2013
+Southern Miss,28.7,101,2013
+Missouri,45.92,46,2013
+Cincinnati,40.28,62,2013
+Valparaiso,15.97,204,2013
+San Diego,21.2,144,2013
+South Alabama,20.38,159,2013
+Wake Forest,43.56,54,2013
+Bowling Green,10.09,293,2013
+UAB,22.97,133,2013
+Central Michigan,20.46,157,2013
+Arkansas State,12.0,265,2013
+Saint Francis (PA),9.5,298,2013
+Lipscomb,7.46,307,2013
+UCF,23.49,129,2013
+St. John's,43.71,52,2013
+South Carolina State,10.42,287,2013
+Northern Colorado,24.95,120,2013
+Florida,55.23,15,2013
+Middle Tennessee State,20.62,156,2013
+Vanderbilt,43.62,53,2013
+Liberty,12.24,261,2013
+USF,41.75,58,2013
+Texas Tech,32.89,83,2013
+Jackson State,6.67,310,2013
+La Salle,19.36,168,2013
+Western Michigan,10.7,281,2013
+Akron,18.11,185,2013
+Louisiana-Monroe,10.43,285,2013
+Texas-San Antonio,15.28,223,2013
+Cleveland State,20.46,157,2013
+Tennessee,53.71,22,2013
+San Diego State,32.81,84,2013
+Lehigh,6.98,308,2013
+South Dakota,14.75,230,2013
+Wright State,24.99,118,2013
+Northern Iowa,24.46,122,2013
+Kent State,16.52,197,2013
+North Dakota State,20.91,150,2013
+New Mexico State,16.74,193,2013
+Army,13.93,242,2013
+Seattle,15.84,210,2013
+Pacific,15.41,219,2013
+Sacramento State,10.34,289,2013
+Weber State,23.3,130,2013
+Wisconsin-Green Bay,16.15,202,2013
+Sam Houston State,18.91,174,2013
+Tennessee Tech,14.83,228,2013
+Long Beach State,23.5,128,2013
+Oral Roberts,13.08,252,2013
+Western Illinois,6.73,309,2013
+Marist,16.17,201,2013
+UC Irvine,24.4,123,2013
+Dartmouth,12.45,258,2013
+Xavier,51.39,31,2013
+Brown,16.66,194,2013
+Cornell,15.65,215,2013
+George Mason,32.08,90,2013
+Georgia,46.6,44,2013
+Denver,9.39,300,2013
+Binghamton,20.16,163,2013
+Buffalo,6.67,310,2013
+IPFW,18.79,177,2013
+Air Force,6.67,310,2013
+Northern Arizona,10.61,283,2013
+Illinois Chicago,14.5,234,2013
+Prairie View A&M,16.27,199,2013
+Rider,10.86,280,2013
+Hofstra,13.62,245,2013
+South Carolina,51.81,28,2013
+Detroit,33.08,81,2013
+Mississippi Valley State,15.65,215,2013
+Tennessee State,19.15,170,2013
+Idaho State,15.79,213,2013
+TCU,37.9,70,2013
+Florida Gulf Coast,17.87,187,2013
+North Texas,31.14,92,2013
+Siena,20.89,151,2013
+Alcorn State,25.89,113,2013
+Rice,21.1,145,2013
+James Madison,18.9,175,2013
+Howard,17.34,191,2013
+Baylor,62.06,6,2013
+Portland State,14.46,236,2013
+St. Francis (NY),12.0,265,2013
+Murray State,14.49,235,2013
+North Dakota,9.82,294,2013
+Virginia,52.91,26,2013
+Colorado,45.87,47,2013
+Maryland,48.28,37,2013
+Missouri State,19.45,167,2013
+Utah,33.32,80,2013
+Iowa,35.03,74,2013
+Arizona State,39.95,63,2013
+UNLV,47.45,40,2013
+Mount St. Mary's,6.67,310,2013
+Lamar,10.43,285,2013
+Northwestern State,13.62,245,2013
+FIU,32.2,86,2013
+Central Arkansas,14.27,238,2013
+Eastern Washington,10.35,288,2013
+Navy,20.01,166,2013
+Stephen F. Austin,15.87,207,2013
+Mercer,11.34,276,2013
+Radford,9.82,294,2013
+Morehead State,21.03,147,2013
+Dayton,30.64,96,2013
+Gonzaga,26.52,111,2013
+Bradley,20.85,154,2013
+Brigham Young,42.35,57,2013
+Loyola (MD),18.28,181,2013
+Fordham,17.81,188,2013
+Quinnipiac,13.02,253,2013
+Montana State,19.15,170,2013
+SMU,43.18,56,2013
+Cal State Northridge,18.19,183,2013
+Coastal Carolina,17.91,186,2013
+Florida A&M,13.49,248,2013
+Maryland Eastern Shore,11.44,274,2013
+North Carolina Central,13.49,248,2013
+Texas State,14.73,233,2013
+UT-Arlington,23.06,132,2013
+Houston Baptist,12.0,265,2013
+Grambling State,14.06,239,2013
+Iona,32.19,87,2013
+Hartford,27.98,103,2013
+Boise State,18.8,176,2013
+Idaho,9.82,294,2013
+Evansville,8.76,303,2013
+North Florida,6.67,310,2013
+Long Island,7.81,306,2013
+IUPUI,17.45,190,2013
+George Washington,15.87,207,2013
+Morgan State,11.92,271,2013
+Houston,34.71,76,2013
+St. Bonaventure,6.67,310,2013
+Virginia Military Institute,8.0,304,2013
+Bethune-Cookman,13.62,245,2013
+Coppin State,14.75,230,2013
+Southern Illinois,19.28,169,2013
+Eastern Kentucky,13.89,243,2013
+Jacksonville State,20.09,164,2013
+Southeast Missouri State,24.12,126,2013
+Lafayette,4.65,324,2013
+Troy,15.39,221,2013
+Nicholls State,6.67,310,2013
+Alabama State,6.67,310,2013
+Princeton,18.71,178,2013
+Georgia Southern,25.76,115,2013
+Youngstown State,15.84,210,2013
+Fresno State,24.84,121,2013
+Bucknell,12.4,259,2013
+Wagner,12.94,254,2013
+Cal Poly,15.05,226,2013
+Towson,20.18,161,2013
+Memphis,56.07,14,2013
+Georgetown,50.48,33,2013
+Georgia State,20.88,153,2013
+Rhode Island,29.96,97,2013
+New Mexico,26.68,108,2013
+UNC Wilmington,9.46,299,2013
+Utah State,6.67,310,2013
+South Carolina Upstate,10.67,282,2013
+Hawaii,16.38,198,2013
+UC Riverside,13.38,250,2013
+Charleston Southern,18.23,182,2013
+Columbia,12.8,257,2013
+Saint Peter's,6.67,310,2013
+Delaware State,6.67,310,2013
+Norfolk State,11.26,277,2013
+Fairleigh Dickinson,12.25,260,2013
+Tennessee-Martin,11.44,274,2013
+McNeese State,9.29,301,2013
+Nevada,10.11,292,2013
+Eastern Michigan,14.36,237,2013
+Yale,15.52,217,2013
+Rutgers,29.93,98,2013
+Vermont,13.81,244,2013
+High Point,25.55,116,2013
+Seton Hall,30.81,94,2013
+DePaul,41.36,61,2013
+UC Santa Barbara,26.58,110,2013
+Indiana State,22.72,136,2013
+Penn State,34.18,78,2013
+California,46.1,45,2013
+Wyoming,15.94,206,2013
+VCU,38.55,67,2013
+UC Davis,32.15,88,2013
+Florida Atlantic,15.82,212,2013
+UTEP,20.09,164,2013
+Massachusetts,38.85,66,2013
+Creighton,19.11,172,2013
+Manhattan,29.12,100,2013
+Appalachian State,22.92,134,2013
+William & Mary,10.87,279,2013
+Miami (OH),14.79,229,2013
+Saint Louis,17.22,192,2013
+Saint Joseph's,22.63,137,2013
+Providence,44.62,51,2013
+Belmont,11.88,272,2013
+Wichita State,21.42,142,2013
+Colorado State,24.96,119,2013
+Tulsa,30.74,95,2013
+Pennsylvania,28.49,102,2013
+Ohio,18.19,183,2013
+East Carolina,26.63,109,2013
+Drake,12.23,262,2013
+Delaware,30.96,93,2013
+San Jose State,22.43,139,2013
+Syracuse,60.97,8,2013
+Robert Morris,22.75,135,2013
+Duquesne,24.14,125,2013
+Wisconsin,45.38,50,2013
+Louisiana Tech,31.16,91,2013
+Butler,41.72,59,2013
+Tulane,20.89,151,2013
+Stanford,47.65,39,2013
+Wisconsin-Milwaukee,29.17,99,2013
+Northern Illinois,16.54,196,2013
+Loyola Chicago,10.95,278,2013
+Old Dominion,21.0,148,2013
+Jacksonville,23.6,127,2013
+Oakland,21.82,140,2013
+LSU,54.5,19,2013
+USC,41.38,60,2013
+Fairfield,21.49,141,2013
+Louisiana,18.55,180,2013
+Austin Peay,15.13,224,2013
+Texas A&M,51.65,29,2013
+Colgate,21.38,143,2013
+Winthrop,15.86,209,2013
+Purdue,51.65,29,2013
+Gardner-Webb,9.82,294,2013
+Drexel,20.97,149,2013
+Northwestern,27.83,106,2013
+Temple,32.98,82,2013
+Richmond,20.34,160,2013
+Washington State,33.81,79,2013
+Notre Dame,53.59,23,2013
+Harvard,27.93,104,2013
+Montana,14.9,227,2013
+Toledo,24.32,124,2013
+Eastern Illinois,15.47,218,2013
+Holy Cross,12.08,264,2013
+Boston University,12.85,255,2013
+Samford,17.66,189,2013
+Chattanooga,20.18,161,2013
+East Tennessee State,20.84,155,2013
+Citadel,25.11,117,2013
+Elon,14.05,240,2013
+Davidson,15.4,220,2013
+Furman,25.91,112,2013
+UNC Greensboro,15.95,205,2013
+Ohio State,47.71,38,2013
+Stony Brook,15.11,225,2013
+Campbell,11.65,273,2013
+Central Connecticut State,15.37,222,2013
+Western Carolina,13.17,251,2013
+Texas Southern,18.71,178,2013
+South Dakota State,10.29,290,2013
+Northeastern,22.54,138,2013
+Arkansas-Pine Bluff,14.75,230,2013
+Kennesaw State,12.0,265,2013
+Southern Utah,6.22,323,2013
+UNC Asheville,12.82,256,2013
+SIU Edwardsville,8.85,302,2013
+Southeastern Louisiana,10.52,284,2013
+New Hampshire,10.21,291,2013
+Boston College,27.86,105,2013
+Canisius,6.67,310,2013
+Hampton,15.99,203,2013
+Texas A&M Corpus Christi,11.98,270,2013
+Missouri-Kansas City,16.63,195,2013
+Portland,15.75,214,2013
+Wofford,21.1,145,2013
+Pepperdine,18.94,173,2013
+Stetson,16.2,200,2013
+Maine,13.96,241,2013
+Monmouth,12.15,263,2013
+Nebraska Omaha,12.0,265,2013
+Savannah State,6.67,310,2013
+Ball State,39.44,65,2013
+Presbyterian,8.0,304,2013
+Kentucky,70.08,1,2014
+North Carolina,64.19,5,2014
+Texas,57.34,11,2014
+Villanova,52.45,26,2014
+UCLA,61.57,7,2014
+Arizona,66.94,2,2014
+Kansas,66.09,3,2014
+Connecticut,51.6,31,2014
+Florida State,46.72,46,2014
+Minnesota,35.01,81,2014
+Georgia Tech,47.59,43,2014
+Marquette,44.67,53,2014
+Oklahoma,39.57,64,2014
+Miami,42.88,57,2014
+Clemson,40.43,62,2014
+Alabama,52.46,25,2014
+N.C. State,56.71,14,2014
+Indiana,62.03,6,2014
+Oregon,54.23,18,2014
+Duke,64.5,4,2014
+Iowa State,38.94,68,2014
+Mississippi State,40.8,61,2014
+Louisville,58.05,10,2014
+Oklahoma State,50.95,34,2014
+Arkansas,55.1,15,2014
+Pittsburgh,50.12,37,2014
+Washington,45.31,52,2014
+Ole Miss,42.06,59,2014
+Illinois,54.97,16,2014
+Illinois State,29.48,100,2014
+Kansas State,37.92,70,2014
+Nebraska,36.03,79,2014
+Charlotte,32.07,94,2014
+Michigan,59.33,9,2014
+Auburn,46.76,45,2014
+Oregon State,33.8,88,2014
+Virginia Tech,44.62,54,2014
+West Virginia,48.48,42,2014
+Marshall,20.45,158,2014
+St. Mary's,26.87,115,2014
+Western Kentucky,38.05,69,2014
+Michigan State,49.54,39,2014
+Southern Miss,22.35,145,2014
+Missouri,51.35,32,2014
+Cincinnati,46.3,49,2014
+Valparaiso,15.08,221,2014
+San Diego,16.92,195,2014
+South Alabama,23.08,139,2014
+Wake Forest,36.39,78,2014
+Bowling Green,5.44,309,2014
+UAB,33.08,92,2014
+Central Michigan,13.07,241,2014
+Arkansas State,12.0,249,2014
+Saint Francis (PA),11.46,268,2014
+Lipscomb,17.32,189,2014
+UCF,28.0,107,2014
+St. John's,39.21,66,2014
+South Carolina State,6.67,287,2014
+Northern Colorado,23.98,135,2014
+Florida,56.99,13,2014
+Middle Tennessee State,24.73,131,2014
+Vanderbilt,46.36,48,2014
+Liberty,11.92,263,2014
+USF,42.9,56,2014
+Texas Tech,33.58,89,2014
+Jackson State,6.67,287,2014
+La Salle,11.92,263,2014
+Western Michigan,7.47,285,2014
+Akron,13.35,237,2014
+Louisiana-Monroe,6.67,287,2014
+Texas-San Antonio,15.65,213,2014
+Cleveland State,20.46,157,2014
+Tennessee,51.83,28,2014
+San Diego State,46.62,47,2014
+Lehigh,6.67,287,2014
+South Dakota,14.75,225,2014
+Wright State,26.16,122,2014
+Northern Iowa,26.71,116,2014
+Kent State,18.22,179,2014
+North Dakota State,23.32,138,2014
+New Mexico State,15.72,211,2014
+Army,15.87,206,2014
+Pacific,14.12,232,2014
+Sacramento State,6.67,287,2014
+Weber State,23.68,137,2014
+Wisconsin-Green Bay,18.51,177,2014
+Sam Houston State,18.09,181,2014
+Tennessee Tech,13.86,234,2014
+Long Beach State,11.62,267,2014
+Oral Roberts,14.84,223,2014
+Western Illinois,6.33,307,2014
+Marist,16.17,203,2014
+UC Irvine,26.71,116,2014
+Dartmouth,16.45,200,2014
+Xavier,53.81,20,2014
+Brown,16.66,199,2014
+Cornell,15.65,213,2014
+George Mason,33.17,91,2014
+Georgia,40.43,62,2014
+Denver,6.67,287,2014
+Binghamton,20.16,162,2014
+Buffalo,19.33,169,2014
+IPFW,12.0,249,2014
+Northern Arizona,10.13,276,2014
+Illinois Chicago,10.61,274,2014
+Prairie View A&M,19.22,170,2014
+Rider,10.86,272,2014
+Hofstra,25.63,125,2014
+South Carolina,49.95,38,2014
+Detroit,22.04,146,2014
+Tennessee State,16.43,202,2014
+Idaho State,12.0,249,2014
+TCU,33.37,90,2014
+Florida Gulf Coast,17.96,183,2014
+North Texas,24.84,129,2014
+Siena,25.48,126,2014
+Alcorn State,39.2,67,2014
+Rice,28.87,104,2014
+James Madison,17.01,191,2014
+Howard,16.94,194,2014
+Baylor,54.61,17,2014
+Portland State,19.85,165,2014
+Murray State,17.11,190,2014
+North Dakota,12.0,249,2014
+Virginia,51.83,28,2014
+Colorado,45.62,51,2014
+Maryland,53.4,21,2014
+Missouri State,17.41,188,2014
+Utah,39.25,65,2014
+Iowa,34.54,84,2014
+Arizona State,42.72,58,2014
+UNLV,59.5,8,2014
+Mount St. Mary's,6.67,287,2014
+Lamar,6.67,287,2014
+Northwestern State,14.75,225,2014
+FIU,19.78,166,2014
+Central Arkansas,15.84,208,2014
+Eastern Washington,6.33,307,2014
+Stephen F. Austin,15.87,206,2014
+Mercer,11.88,265,2014
+Radford,12.0,249,2014
+Bryant University,6.66,306,2014
+Morehead State,24.76,130,2014
+Dayton,29.4,101,2014
+Gonzaga,35.89,80,2014
+Bradley,22.45,143,2014
+Brigham Young,50.35,36,2014
+Loyola (MD),17.99,182,2014
+Fordham,18.15,180,2014
+Quinnipiac,17.42,187,2014
+Montana State,15.84,208,2014
+SMU,48.94,41,2014
+Cal State Northridge,20.47,156,2014
+Coastal Carolina,20.09,164,2014
+Florida A&M,12.0,249,2014
+Maryland Eastern Shore,14.75,225,2014
+North Carolina Central,12.0,249,2014
+Texas State,20.31,160,2014
+UT-Arlington,28.19,106,2014
+Houston Baptist,12.0,249,2014
+Grambling State,6.67,287,2014
+Iona,36.97,73,2014
+Hartford,27.98,108,2014
+Boise State,36.66,76,2014
+Idaho,12.0,249,2014
+Evansville,9.54,279,2014
+Long Island,6.67,287,2014
+IUPUI,20.51,153,2014
+George Washington,28.6,105,2014
+Morgan State,15.56,218,2014
+Houston,34.15,85,2014
+St. Bonaventure,6.67,287,2014
+Virginia Military Institute,8.08,283,2014
+Bethune-Cookman,14.75,225,2014
+Southern Illinois,16.44,201,2014
+Eastern Kentucky,15.2,220,2014
+Southeast Missouri State,29.86,99,2014
+Lafayette,4.49,310,2014
+Troy,15.84,208,2014
+Nicholls State,6.67,287,2014
+Alabama State,6.67,287,2014
+Princeton,23.81,136,2014
+Georgia Southern,16.82,198,2014
+Youngstown State,9.0,280,2014
+Fresno State,30.89,97,2014
+Bucknell,13.04,242,2014
+Wagner,16.03,204,2014
+Cal Poly,20.86,151,2014
+Towson,19.05,173,2014
+Memphis,53.96,19,2014
+Georgetown,53.17,23,2014
+Georgia State,19.65,168,2014
+Rhode Island,34.98,82,2014
+New Mexico,33.96,86,2014
+UNC Wilmington,9.0,280,2014
+Utah State,18.6,176,2014
+South Carolina Upstate,6.67,287,2014
+Hawaii,15.42,219,2014
+UC Riverside,11.97,262,2014
+Charleston Southern,13.85,235,2014
+Columbia,6.67,287,2014
+Saint Peter's,14.64,230,2014
+Delaware State,6.67,287,2014
+Norfolk State,13.33,238,2014
+Fairleigh Dickinson,11.98,261,2014
+Tennessee-Martin,14.75,225,2014
+McNeese State,11.11,271,2014
+Nevada,13.33,238,2014
+Eastern Michigan,12.0,249,2014
+Yale,17.01,191,2014
+Rutgers,32.45,93,2014
+Vermont,20.84,152,2014
+High Point,25.87,123,2014
+Seton Hall,44.16,55,2014
+DePaul,37.38,72,2014
+UC Santa Barbara,17.63,186,2014
+Indiana State,23.02,140,2014
+Penn State,33.88,87,2014
+California,37.7,71,2014
+Wyoming,24.22,133,2014
+VCU,45.66,50,2014
+UC Davis,31.9,95,2014
+Florida Atlantic,17.77,184,2014
+UTEP,25.18,127,2014
+Massachusetts,36.55,77,2014
+Creighton,26.7,118,2014
+Manhattan,24.05,134,2014
+Appalachian State,20.51,153,2014
+William & Mary,8.5,282,2014
+Miami (OH),27.8,110,2014
+Saint Louis,26.34,120,2014
+Saint Joseph's,26.92,114,2014
+Providence,50.7,35,2014
+Belmont,21.71,147,2014
+Wichita State,22.82,141,2014
+Colorado State,27.85,109,2014
+Tulsa,26.31,121,2014
+Pennsylvania,24.25,132,2014
+Ohio,12.54,245,2014
+East Carolina,26.96,113,2014
+Drake,10.28,275,2014
+Delaware,30.96,96,2014
+San Jose State,19.11,172,2014
+Syracuse,57.25,12,2014
+Duquesne,20.48,155,2014
+Wisconsin,36.92,74,2014
+Louisiana Tech,27.07,112,2014
+Butler,41.86,60,2014
+Tulane,20.15,163,2014
+Stanford,51.98,27,2014
+Wisconsin-Milwaukee,12.53,246,2014
+Northern Illinois,19.67,167,2014
+Loyola Chicago,6.67,287,2014
+Old Dominion,22.8,142,2014
+Jacksonville,9.81,278,2014
+Oakland,21.09,149,2014
+LSU,53.18,22,2014
+USC,47.09,44,2014
+Louisiana,15.65,213,2014
+Austin Peay,12.0,249,2014
+Texas A&M,49.38,40,2014
+Colgate,21.38,148,2014
+Winthrop,15.88,205,2014
+Purdue,52.69,24,2014
+Gardner-Webb,10.7,273,2014
+Drexel,20.97,150,2014
+Northwestern,34.7,83,2014
+Temple,30.58,98,2014
+Richmond,15.58,217,2014
+Washington State,28.96,103,2014
+Notre Dame,51.68,30,2014
+Harvard,29.03,102,2014
+Montana,12.61,244,2014
+Toledo,16.89,196,2014
+Eastern Illinois,15.66,212,2014
+Holy Cross,12.08,248,2014
+Boston University,12.7,243,2014
+Samford,17.7,185,2014
+Chattanooga,18.43,178,2014
+East Tennessee State,18.76,175,2014
+Citadel,24.93,128,2014
+Elon,15.01,222,2014
+Davidson,20.38,159,2014
+Furman,25.7,124,2014
+UNC Greensboro,14.58,231,2014
+Ohio State,51.26,33,2014
+Stony Brook,6.67,287,2014
+Campbell,7.28,286,2014
+Central Connecticut State,11.46,268,2014
+Western Carolina,11.64,266,2014
+Texas Southern,20.28,161,2014
+South Dakota State,11.26,270,2014
+Northeastern,27.68,111,2014
+Southern Utah,4.49,310,2014
+UNC Asheville,13.38,236,2014
+SIU Edwardsville,3.6,312,2014
+Southeastern Louisiana,9.86,277,2014
+Boston College,26.61,119,2014
+Hampton,22.45,143,2014
+Texas A&M Corpus Christi,15.65,213,2014
+Missouri-Kansas City,16.89,196,2014
+Portland,16.98,193,2014
+Wofford,14.82,224,2014
+Pepperdine,19.13,171,2014
+Stetson,19.01,174,2014
+Maine,13.96,233,2014
+Monmouth,12.15,247,2014
+Nebraska Omaha,12.0,249,2014
+Savannah State,6.67,287,2014
+Ball State,36.91,75,2014
+Presbyterian,8.0,284,2014
+Northern Kentucky,13.33,238,2014
+Kentucky,70.19,1,2015
+North Carolina,56.63,16,2015
+Texas,57.33,13,2015
+Villanova,52.64,26,2015
+UCLA,63.71,6,2015
+Arizona,67.36,2,2015
+Kansas,65.99,4,2015
+Connecticut,50.82,37,2015
+Florida State,52.8,25,2015
+Minnesota,40.45,65,2015
+Georgia Tech,37.32,79,2015
+Marquette,50.31,38,2015
+Oklahoma,45.64,51,2015
+Miami,44.92,52,2015
+Clemson,37.42,78,2015
+Alabama,47.61,45,2015
+N.C. State,56.88,14,2015
+Indiana,60.75,7,2015
+Oregon,56.8,15,2015
+Duke,66.15,3,2015
+Iowa State,39.42,68,2015
+Mississippi State,44.59,54,2015
+Louisville,60.16,9,2015
+Oklahoma State,52.17,29,2015
+Arkansas,44.26,55,2015
+Pittsburgh,43.24,57,2015
+Washington,51.11,35,2015
+Ole Miss,37.74,75,2015
+Illinois,56.28,17,2015
+Illinois State,19.33,148,2015
+Kansas State,39.87,67,2015
+Nebraska,42.62,58,2015
+Charlotte,29.8,105,2015
+Michigan,47.96,44,2015
+Auburn,52.6,27,2015
+Oregon State,44.87,53,2015
+Virginia Tech,48.34,43,2015
+West Virginia,48.77,42,2015
+Marshall,20.08,146,2015
+St. Mary's,37.56,77,2015
+Western Kentucky,32.24,97,2015
+Michigan State,51.6,33,2015
+Southern Miss,22.8,131,2015
+Missouri,55.63,19,2015
+Cincinnati,46.66,49,2015
+Valparaiso,15.89,177,2015
+San Diego,14.4,188,2015
+South Alabama,24.57,123,2015
+Wake Forest,42.26,60,2015
+Bowling Green,5.22,246,2015
+UAB,37.83,73,2015
+Central Michigan,5.45,244,2015
+Lipscomb,12.19,211,2015
+UCF,32.1,99,2015
+St. John's,41.46,62,2015
+Northern Colorado,25.72,119,2015
+Florida,60.55,8,2015
+Middle Tennessee State,20.45,143,2015
+Vanderbilt,47.46,46,2015
+Liberty,14.28,189,2015
+USF,46.68,48,2015
+Texas Tech,35.35,88,2015
+La Salle,11.88,214,2015
+Western Michigan,11.04,221,2015
+Akron,13.42,197,2015
+Cleveland State,12.53,208,2015
+Tennessee,49.68,40,2015
+San Diego State,51.69,32,2015
+Lehigh,13.33,199,2015
+Wright State,24.88,122,2015
+Northern Iowa,17.02,163,2015
+Kent State,14.54,187,2015
+North Dakota State,6.67,237,2015
+New Mexico State,15.6,179,2015
+Pacific,17.26,159,2015
+Weber State,12.18,212,2015
+Wisconsin-Green Bay,17.06,162,2015
+Tennessee Tech,13.67,195,2015
+Long Beach State,19.06,150,2015
+Oral Roberts,14.88,184,2015
+Western Illinois,3.33,247,2015
+UC Irvine,22.07,134,2015
+Dartmouth,15.0,182,2015
+Xavier,42.4,59,2015
+Brown,10.34,224,2015
+George Mason,30.29,104,2015
+Georgia,41.43,63,2015
+Buffalo,25.03,121,2015
+Northern Arizona,8.97,232,2015
+Illinois Chicago,14.61,185,2015
+Rider,10.86,222,2015
+Hofstra,21.42,137,2015
+South Carolina,50.93,36,2015
+Tennessee State,21.59,136,2015
+TCU,36.15,85,2015
+Florida Gulf Coast,25.31,120,2015
+North Texas,23.89,128,2015
+Siena,13.6,196,2015
+Rice,34.91,90,2015
+James Madison,16.18,174,2015
+Howard,14.0,190,2015
+Baylor,52.23,28,2015
+Murray State,18.04,154,2015
+Virginia,49.56,41,2015
+Colorado,36.4,83,2015
+Maryland,53.89,23,2015
+Missouri State,12.24,210,2015
+Utah,37.65,76,2015
+Iowa,34.65,91,2015
+Arizona State,43.47,56,2015
+UNLV,63.72,5,2015
+Eastern Washington,3.33,247,2015
+Navy,10.62,223,2015
+Stephen F. Austin,11.37,219,2015
+Mercer,11.69,217,2015
+Bryant University,6.66,242,2015
+Morehead State,12.91,207,2015
+Dayton,33.47,92,2015
+Gonzaga,28.88,108,2015
+Bradley,16.15,175,2015
+Brigham Young,41.71,61,2015
+Loyola (MD),16.85,167,2015
+Fordham,24.57,123,2015
+SMU,51.96,31,2015
+North Carolina Central,17.0,165,2015
+Iona,15.0,182,2015
+Boise State,37.11,81,2015
+Idaho,16.27,173,2015
+Evansville,8.4,233,2015
+Long Island,6.67,237,2015
+IUPUI,32.29,96,2015
+George Washington,31.03,101,2015
+Houston,35.99,87,2015
+St. Bonaventure,13.33,199,2015
+Virginia Military Institute,6.0,243,2015
+Southern Illinois,17.95,156,2015
+Southeast Missouri State,28.09,113,2015
+Lafayette,3.33,247,2015
+Alabama State,13.75,193,2015
+Princeton,20.92,139,2015
+Georgia Southern,17.19,161,2015
+Youngstown State,9.0,230,2015
+Fresno State,37.76,74,2015
+Bucknell,13.33,199,2015
+Towson,17.28,158,2015
+Memphis,59.55,10,2015
+Georgetown,53.27,24,2015
+Georgia State,16.36,172,2015
+Rhode Island,30.75,103,2015
+New Mexico,34.97,89,2015
+UNC Wilmington,9.0,230,2015
+Utah State,19.83,147,2015
+Hawaii,15.73,178,2015
+UC Riverside,6.67,237,2015
+Charleston Southern,13.32,205,2015
+Saint Peter's,18.23,152,2015
+Norfolk State,13.33,199,2015
+Fairleigh Dickinson,10.04,226,2015
+Tennessee-Martin,28.41,110,2015
+Nevada,13.8,192,2015
+Yale,17.01,164,2015
+Rutgers,36.11,86,2015
+Vermont,24.01,127,2015
+High Point,20.84,140,2015
+Seton Hall,41.09,64,2015
+DePaul,36.28,84,2015
+UC Santa Barbara,11.73,216,2015
+Indiana State,16.39,171,2015
+Penn State,39.33,69,2015
+California,46.72,47,2015
+Wyoming,27.67,114,2015
+VCU,46.53,50,2015
+Florida Atlantic,16.5,170,2015
+UTEP,38.64,71,2015
+Massachusetts,28.21,112,2015
+Creighton,33.38,93,2015
+Manhattan,24.27,126,2015
+Appalachian State,11.37,219,2015
+William & Mary,5.41,245,2015
+Miami (OH),37.31,80,2015
+Saint Louis,25.91,118,2015
+Saint Joseph's,31.24,100,2015
+Providence,51.13,34,2015
+Belmont,23.5,129,2015
+Wichita State,32.11,98,2015
+Colorado State,33.14,95,2015
+Tulsa,26.42,116,2015
+Pennsylvania,22.98,130,2015
+Ohio,10.0,227,2015
+East Carolina,27.06,115,2015
+Drake,18.07,153,2015
+San Jose State,20.09,145,2015
+Syracuse,59.25,11,2015
+Robert Morris,6.67,237,2015
+Duquesne,16.67,169,2015
+Wisconsin,39.96,66,2015
+Louisiana Tech,25.93,117,2015
+Butler,36.78,82,2015
+Tulane,33.22,94,2015
+Stanford,55.41,21,2015
+Wisconsin-Milwaukee,6.67,237,2015
+Northern Illinois,30.76,102,2015
+Loyola Chicago,14.6,186,2015
+Old Dominion,17.57,157,2015
+Jacksonville,9.81,229,2015
+LSU,57.93,12,2015
+USC,49.99,39,2015
+Fairfield,17.25,160,2015
+Texas A&M,55.78,18,2015
+Winthrop,16.0,176,2015
+Purdue,54.94,22,2015
+Gardner-Webb,10.12,225,2015
+Northwestern,39.28,70,2015
+Temple,38.03,72,2015
+Richmond,3.33,247,2015
+Washington State,28.48,109,2015
+Notre Dame,52.13,30,2015
+Harvard,28.24,111,2015
+Montana,12.94,206,2015
+Toledo,19.12,149,2015
+Eastern Illinois,13.4,198,2015
+Holy Cross,13.68,194,2015
+Boston University,12.45,209,2015
+Samford,18.01,155,2015
+Chattanooga,11.79,215,2015
+East Tennessee State,16.8,168,2015
+Citadel,21.85,135,2015
+Elon,15.01,181,2015
+Davidson,20.59,141,2015
+Furman,22.13,133,2015
+UNC Greensboro,15.2,180,2015
+Ohio State,55.47,20,2015
+Campbell,3.33,247,2015
+Western Carolina,10.0,227,2015
+South Dakota State,13.33,199,2015
+Northeastern,21.07,138,2015
+Southern Utah,3.33,247,2015
+UNC Asheville,24.45,125,2015
+SIU Edwardsville,2.22,253,2015
+Southeastern Louisiana,8.0,234,2015
+Boston College,29.46,106,2015
+Missouri-Kansas City,16.93,166,2015
+Portland,8.0,234,2015
+Wofford,12.0,213,2015
+Pepperdine,20.5,142,2015
+Stetson,20.28,144,2015
+Maine,11.63,218,2015
+Savannah State,14.0,190,2015
+Arkansas-Little Rock,19.0,151,2015
+Ball State,29.37,107,2015
+Presbyterian,8.0,234,2015
+Northern Kentucky,13.33,199,2015
+Sacred Heart,22.65,132,2015
+Kentucky,70.38,1,2016
+North Carolina,57.11,14,2016
+Texas,59.91,7,2016
+Villanova,49.86,34,2016
+UCLA,63.33,5,2016
+Arizona,66.75,3,2016
+Kansas,64.81,4,2016
+Connecticut,55.13,19,2016
+Florida State,58.59,10,2016
+Minnesota,46.68,48,2016
+Georgia Tech,33.59,89,2016
+Marquette,54.26,21,2016
+Oklahoma,48.98,36,2016
+Miami,53.38,25,2016
+Clemson,29.13,103,2016
+Alabama,48.69,40,2016
+N.C. State,59.12,8,2016
+Indiana,59.06,9,2016
+Oregon,58.2,11,2016
+Duke,69.49,2,2016
+Iowa State,41.26,65,2016
+Mississippi State,51.32,29,2016
+Louisville,53.56,22,2016
+Oklahoma State,49.67,35,2016
+Arkansas,46.34,49,2016
+Pittsburgh,33.06,94,2016
+Washington,51.78,27,2016
+Ole Miss,36.82,78,2016
+Illinois,44.32,56,2016
+Illinois State,18.33,153,2016
+Kansas State,41.58,62,2016
+Nebraska,44.49,55,2016
+Charlotte,21.03,131,2016
+Michigan,46.78,46,2016
+Auburn,56.96,15,2016
+Oregon State,45.52,53,2016
+Virginia Tech,47.27,45,2016
+West Virginia,45.56,52,2016
+Marshall,17.38,161,2016
+St. Mary's,33.13,92,2016
+Western Kentucky,32.23,96,2016
+Michigan State,56.4,16,2016
+Southern Miss,15.47,175,2016
+Missouri,51.07,30,2016
+Cincinnati,48.36,41,2016
+Valparaiso,16.03,171,2016
+San Diego,14.49,187,2016
+South Alabama,25.96,111,2016
+Wake Forest,40.5,66,2016
+Bowling Green,9.13,243,2016
+UAB,18.95,147,2016
+Central Michigan,5.33,258,2016
+Lipscomb,11.68,229,2016
+UCF,30.37,99,2016
+St. John's,45.7,51,2016
+Northern Colorado,25.72,115,2016
+Florida,53.39,24,2016
+Middle Tennessee State,20.03,141,2016
+Vanderbilt,45.47,54,2016
+Liberty,14.28,190,2016
+USF,41.55,63,2016
+Texas Tech,28.16,106,2016
+La Salle,14.68,186,2016
+Western Michigan,12.94,216,2016
+Akron,13.48,200,2016
+Cleveland State,12.53,219,2016
+Tennessee,47.62,44,2016
+San Diego State,48.73,39,2016
+Lehigh,13.33,201,2016
+Wright State,24.88,117,2016
+Northern Iowa,13.68,197,2016
+Kent State,13.95,193,2016
+North Dakota State,6.67,251,2016
+New Mexico State,14.92,181,2016
+Pacific,17.45,159,2016
+Weber State,12.01,224,2016
+Wisconsin-Green Bay,14.85,183,2016
+Tennessee Tech,8.69,245,2016
+Long Beach State,19.8,143,2016
+Oral Roberts,14.88,182,2016
+Western Illinois,3.33,259,2016
+UC Irvine,18.05,155,2016
+Dartmouth,15.0,179,2016
+Xavier,44.21,57,2016
+Brown,10.34,236,2016
+George Mason,34.35,87,2016
+Georgia,43.36,59,2016
+Buffalo,26.37,110,2016
+Northern Arizona,9.15,242,2016
+Illinois Chicago,18.84,149,2016
+Rider,11.73,227,2016
+Hofstra,20.98,133,2016
+South Carolina,48.94,37,2016
+Tennessee State,21.59,128,2016
+TCU,39.44,71,2016
+Florida Gulf Coast,25.75,114,2016
+North Texas,23.89,121,2016
+Siena,13.6,199,2016
+Rice,34.75,86,2016
+James Madison,12.0,225,2016
+Howard,14.0,191,2016
+Baylor,48.87,38,2016
+Murray State,16.9,165,2016
+Virginia,53.46,23,2016
+Colorado,32.68,95,2016
+Maryland,55.72,18,2016
+Missouri State,13.81,194,2016
+Utah,40.32,68,2016
+Iowa,37.11,77,2016
+Arizona State,50.54,31,2016
+UNLV,56.38,17,2016
+Mount St. Mary's,10.37,235,2016
+FIU,14.35,188,2016
+Eastern Washington,3.33,259,2016
+Navy,10.62,234,2016
+Stephen F. Austin,14.35,188,2016
+Mercer,11.69,228,2016
+Bryant University,10.7,233,2016
+Morehead State,12.91,217,2016
+Dayton,36.36,81,2016
+Gonzaga,39.86,70,2016
+Bradley,14.76,184,2016
+Brigham Young,43.56,58,2016
+Loyola (MD),13.33,201,2016
+Fordham,20.68,136,2016
+Montana State,6.67,251,2016
+SMU,48.23,42,2016
+Cal State Northridge,18.0,156,2016
+North Carolina Central,17.0,163,2016
+Iona,15.0,179,2016
+Boise State,28.34,105,2016
+Idaho,16.27,170,2016
+Evansville,8.19,247,2016
+Long Island,12.06,223,2016
+IUPUI,18.44,152,2016
+George Washington,33.58,90,2016
+Houston,26.43,109,2016
+St. Bonaventure,12.14,222,2016
+Virginia Military Institute,6.0,256,2016
+Southern Illinois,18.84,149,2016
+Eastern Kentucky,25.4,116,2016
+Southeast Missouri State,19.19,145,2016
+Lafayette,3.33,259,2016
+Alabama State,13.75,195,2016
+Princeton,17.71,157,2016
+Georgia Southern,17.55,158,2016
+New Orleans,13.33,201,2016
+Youngstown State,9.0,244,2016
+Fresno State,37.64,75,2016
+Bucknell,13.33,201,2016
+Cal Poly,13.33,201,2016
+Towson,13.33,201,2016
+Memphis,50.01,32,2016
+Georgetown,41.47,64,2016
+Georgia State,20.79,135,2016
+Rhode Island,33.12,93,2016
+New Mexico,34.95,84,2016
+UNC Wilmington,12.3,221,2016
+Utah State,26.63,108,2016
+Hawaii,13.33,201,2016
+UC Riverside,11.26,232,2016
+Charleston Southern,13.22,215,2016
+Saint Peter's,18.23,154,2016
+Norfolk State,13.33,201,2016
+Fairleigh Dickinson,10.04,239,2016
+Tennessee-Martin,28.41,104,2016
+Nevada,24.67,118,2016
+Yale,23.78,122,2016
+Rutgers,35.5,83,2016
+Vermont,16.52,168,2016
+High Point,20.84,134,2016
+Seton Hall,41.61,61,2016
+DePaul,36.4,80,2016
+UC Santa Barbara,21.0,132,2016
+Indiana State,13.74,196,2016
+Penn State,46.01,50,2016
+California,40.26,69,2016
+Wyoming,27.72,107,2016
+VCU,46.74,47,2016
+Florida Atlantic,14.74,185,2016
+UTEP,30.36,100,2016
+Massachusetts,35.92,82,2016
+Creighton,38.66,74,2016
+Manhattan,23.52,124,2016
+Appalachian State,16.91,164,2016
+William & Mary,5.5,257,2016
+Miami (OH),29.25,102,2016
+Saint Louis,25.8,112,2016
+Saint Joseph's,25.79,113,2016
+Providence,48.1,43,2016
+Belmont,23.63,123,2016
+Wichita State,37.33,76,2016
+Colorado State,33.32,91,2016
+Tulsa,20.47,138,2016
+Pennsylvania,18.86,148,2016
+Ohio,11.59,231,2016
+East Carolina,31.39,97,2016
+Drake,18.69,151,2016
+San Jose State,23.17,126,2016
+Syracuse,61.09,6,2016
+Robert Morris,6.67,251,2016
+Duquesne,15.81,173,2016
+Wisconsin,34.91,85,2016
+Louisiana Tech,19.89,142,2016
+Butler,38.97,73,2016
+Tulane,33.73,88,2016
+Stanford,51.37,28,2016
+Wisconsin-Milwaukee,6.67,251,2016
+Northern Illinois,19.44,144,2016
+Loyola Chicago,15.33,176,2016
+Old Dominion,16.42,169,2016
+Jacksonville,9.81,241,2016
+LSU,55.01,20,2016
+USC,52.4,26,2016
+Fairfield,17.25,162,2016
+Louisiana,13.33,201,2016
+Texas A&M,57.66,12,2016
+Winthrop,16.0,172,2016
+Purdue,43.08,60,2016
+Gardner-Webb,10.12,238,2016
+Northwestern,40.42,67,2016
+Temple,36.52,79,2016
+Richmond,21.45,129,2016
+Washington State,29.65,101,2016
+Notre Dame,50.01,32,2016
+Harvard,39.43,72,2016
+Montana,20.57,137,2016
+Toledo,17.42,160,2016
+Eastern Illinois,13.23,214,2016
+Holy Cross,13.68,197,2016
+Boston University,8.33,246,2016
+Samford,10.19,237,2016
+Chattanooga,11.79,226,2016
+East Tennessee State,16.8,166,2016
+Elon,15.01,178,2016
+Davidson,20.3,139,2016
+UNC Greensboro,15.19,177,2016
+Ohio State,57.47,13,2016
+Campbell,3.33,259,2016
+Western Carolina,10.0,240,2016
+South Dakota State,13.33,201,2016
+Northeastern,21.07,130,2016
+Southern Utah,3.33,259,2016
+UNC Asheville,24.45,119,2016
+SIU Edwardsville,2.22,264,2016
+Southeastern Louisiana,8.0,248,2016
+New Hampshire,13.33,201,2016
+Boston College,30.84,98,2016
+Missouri-Kansas City,16.73,167,2016
+Portland,8.0,248,2016
+San Francisco,6.67,251,2016
+Wofford,12.81,218,2016
+Pepperdine,15.56,174,2016
+Stetson,20.28,140,2016
+Maine,11.63,230,2016
+Monmouth,24.3,120,2016
+Savannah State,14.0,191,2016
+Arkansas-Little Rock,19.0,146,2016
+Loyola Marymount,13.33,201,2016
+Ball State,23.29,125,2016
+Presbyterian,8.0,248,2016
+Cal State Bakersfield,13.33,201,2016
+Northern Kentucky,12.43,220,2016
+Sacred Heart,22.65,127,2016
+Kentucky,70.34,2,2017
+North Carolina,56.63,17,2017
+Texas,63.74,6,2017
+Villanova,51.51,30,2017
+UCLA,65.13,4,2017
+Arizona,67.98,3,2017
+Kansas,63.76,5,2017
+Connecticut,49.39,38,2017
+Florida State,61.71,7,2017
+Minnesota,47.11,43,2017
+Georgia Tech,34.5,90,2017
+Marquette,50.37,35,2017
+Oklahoma,53.17,27,2017
+Miami,56.7,15,2017
+Clemson,35.19,86,2017
+Alabama,53.76,26,2017
+N.C. State,51.38,31,2017
+Indiana,56.69,16,2017
+Oregon,61.36,8,2017
+Duke,70.58,1,2017
+Iowa State,42.88,65,2017
+Mississippi State,52.02,29,2017
+Louisville,56.0,18,2017
+Oklahoma State,45.05,55,2017
+Arkansas,47.28,40,2017
+Pittsburgh,35.09,88,2017
+Washington,53.09,28,2017
+Ole Miss,38.96,74,2017
+Illinois,45.16,52,2017
+Illinois State,22.37,138,2017
+Kansas State,37.84,78,2017
+Nebraska,43.33,63,2017
+Charlotte,20.64,148,2017
+Michigan,46.22,48,2017
+Auburn,59.81,9,2017
+Oregon State,49.48,37,2017
+Virginia Tech,51.35,34,2017
+West Virginia,42.78,66,2017
+Marshall,14.59,201,2017
+St. Mary's,23.5,131,2017
+Western Kentucky,45.99,50,2017
+Michigan State,57.03,13,2017
+Southern Miss,14.9,195,2017
+Missouri,55.3,19,2017
+Cincinnati,46.16,49,2017
+Valparaiso,14.41,206,2017
+San Diego,15.16,191,2017
+South Alabama,30.48,97,2017
+Wake Forest,44.96,56,2017
+Bowling Green,13.13,229,2017
+UAB,22.1,140,2017
+Central Michigan,4.44,262,2017
+Arkansas State,17.0,174,2017
+Lipscomb,11.22,242,2017
+UCF,33.66,91,2017
+St. John's,49.51,36,2017
+Florida,54.01,25,2017
+Middle Tennessee State,28.75,103,2017
+Vanderbilt,47.19,42,2017
+Liberty,14.28,207,2017
+USF,35.78,81,2017
+Texas Tech,35.87,80,2017
+La Salle,20.24,153,2017
+Western Michigan,18.02,162,2017
+Akron,14.5,204,2017
+Texas-San Antonio,20.36,151,2017
+Tennessee,46.8,44,2017
+San Diego State,44.82,58,2017
+Lehigh,23.89,128,2017
+South Dakota,13.33,217,2017
+Wright State,24.88,121,2017
+Northern Iowa,12.18,234,2017
+Kent State,13.65,214,2017
+North Dakota State,6.67,257,2017
+New Mexico State,17.28,170,2017
+Pacific,17.63,168,2017
+Weber State,13.6,215,2017
+Wisconsin-Green Bay,15.39,190,2017
+Tennessee Tech,8.69,254,2017
+Long Beach State,17.77,166,2017
+Oral Roberts,14.0,209,2017
+UC Irvine,14.79,198,2017
+Dartmouth,13.99,211,2017
+Xavier,51.37,33,2017
+Brown,10.34,246,2017
+George Mason,26.54,117,2017
+Georgia,46.49,46,2017
+Buffalo,29.17,100,2017
+Northern Arizona,10.46,245,2017
+Illinois Chicago,20.89,147,2017
+Rider,12.12,236,2017
+Hofstra,20.57,149,2017
+South Carolina,45.55,51,2017
+Tennessee State,18.0,163,2017
+TCU,43.07,64,2017
+Florida Gulf Coast,27.36,110,2017
+North Texas,28.59,105,2017
+Siena,13.6,215,2017
+Rice,28.28,106,2017
+James Madison,18.94,159,2017
+Howard,13.33,217,2017
+Baylor,43.67,61,2017
+Murray State,22.41,137,2017
+Virginia,47.2,41,2017
+Colorado,39.58,72,2017
+Maryland,54.19,23,2017
+Missouri State,19.78,154,2017
+Utah,44.84,57,2017
+Iowa,43.59,62,2017
+Arizona State,54.8,22,2017
+UNLV,56.84,14,2017
+Mount St. Mary's,11.97,238,2017
+FIU,15.78,187,2017
+Navy,8.23,255,2017
+Stephen F. Austin,24.11,126,2017
+Mercer,11.62,241,2017
+Bryant University,11.02,243,2017
+Morehead State,23.6,129,2017
+Dayton,34.79,89,2017
+Gonzaga,38.39,77,2017
+Bradley,10.79,244,2017
+Brigham Young,31.53,96,2017
+Fordham,20.52,150,2017
+Montana State,10.27,247,2017
+SMU,45.07,54,2017
+Cal State Northridge,18.0,163,2017
+Coastal Carolina,13.33,217,2017
+North Carolina Central,17.0,174,2017
+UT-Arlington,17.0,174,2017
+Houston Baptist,16.03,182,2017
+Iona,15.0,194,2017
+Boise State,24.46,122,2017
+Idaho,16.27,180,2017
+Evansville,6.67,257,2017
+Long Island,14.48,205,2017
+IUPUI,17.77,166,2017
+George Washington,28.15,107,2017
+Houston,32.71,94,2017
+St. Bonaventure,14.85,197,2017
+Southern Illinois,25.29,120,2017
+Eastern Kentucky,24.44,124,2017
+Jacksonville State,19.0,157,2017
+Southeast Missouri State,18.76,160,2017
+Alabama State,13.75,212,2017
+Princeton,19.69,155,2017
+Georgia Southern,17.88,165,2017
+New Orleans,13.33,217,2017
+Youngstown State,9.0,252,2017
+Fresno State,38.76,75,2017
+Bucknell,13.33,217,2017
+Wagner,13.33,217,2017
+Cal Poly,13.33,217,2017
+Towson,14.18,208,2017
+Memphis,46.55,45,2017
+Georgetown,45.1,53,2017
+Georgia State,25.55,119,2017
+Rhode Island,27.28,112,2017
+New Mexico,27.66,109,2017
+UNC Wilmington,23.97,127,2017
+Utah State,29.55,98,2017
+Hawaii,16.23,181,2017
+UC Riverside,13.33,217,2017
+Charleston Southern,11.67,239,2017
+Columbia,15.88,184,2017
+Saint Peter's,18.23,161,2017
+Tennessee-Martin,27.36,110,2017
+Nevada,29.02,101,2017
+Yale,21.13,145,2017
+Rutgers,39.11,73,2017
+Vermont,15.93,183,2017
+High Point,17.4,169,2017
+Seton Hall,46.33,47,2017
+DePaul,35.56,83,2017
+UC Santa Barbara,21.8,141,2017
+Indiana State,14.67,199,2017
+Penn State,40.57,69,2017
+California,40.82,68,2017
+Wyoming,27.01,114,2017
+VCU,44.8,59,2017
+Florida Atlantic,14.54,202,2017
+UTEP,33.47,92,2017
+Massachusetts,29.23,99,2017
+Creighton,48.55,39,2017
+Manhattan,12.61,232,2017
+Appalachian State,17.17,173,2017
+William & Mary,7.0,256,2017
+Miami (OH),28.61,104,2017
+Saint Louis,35.25,85,2017
+Saint Joseph's,23.36,133,2017
+Providence,51.38,31,2017
+Belmont,27.2,113,2017
+Wichita State,33.03,93,2017
+Colorado State,26.68,115,2017
+Tulsa,28.84,102,2017
+Pennsylvania,14.9,195,2017
+Ohio,12.18,234,2017
+East Carolina,26.66,116,2017
+Drake,23.2,134,2017
+Delaware,15.85,186,2017
+San Jose State,21.48,143,2017
+Syracuse,57.29,12,2017
+Robert Morris,6.67,257,2017
+Duquesne,10.1,250,2017
+Wisconsin,39.61,71,2017
+Louisiana Tech,16.77,178,2017
+Butler,39.92,70,2017
+Tulane,32.65,95,2017
+Stanford,54.97,20,2017
+Wisconsin-Milwaukee,6.67,257,2017
+Northern Illinois,16.44,179,2017
+Loyola Chicago,21.8,141,2017
+Old Dominion,20.94,146,2017
+Jacksonville,9.81,251,2017
+LSU,54.82,21,2017
+USC,54.1,24,2017
+Fairfield,17.25,172,2017
+Louisiana,14.52,203,2017
+Texas A&M,58.4,10,2017
+Purdue,44.68,60,2017
+Gardner-Webb,10.12,249,2017
+Northwestern,35.65,82,2017
+Temple,38.41,76,2017
+Richmond,27.72,108,2017
+Washington State,26.4,118,2017
+Notre Dame,41.38,67,2017
+Harvard,35.31,84,2017
+Montana,14.64,200,2017
+Toledo,15.55,188,2017
+Eastern Illinois,12.0,237,2017
+Holy Cross,13.68,213,2017
+Boston University,17.27,171,2017
+Samford,10.27,247,2017
+Elon,15.01,193,2017
+Davidson,22.31,139,2017
+UNC Greensboro,15.09,192,2017
+Ohio State,57.65,11,2017
+Stony Brook,13.33,217,2017
+South Dakota State,23.59,130,2017
+Northeastern,21.33,144,2017
+Southern Utah,17.0,174,2017
+UNC Asheville,24.45,123,2017
+SIU Edwardsville,2.22,263,2017
+New Hampshire,13.33,217,2017
+Boston College,35.15,87,2017
+Hampton,15.88,184,2017
+Missouri-Kansas City,8.74,253,2017
+Portland,15.46,189,2017
+San Francisco,6.67,257,2017
+Wofford,12.87,231,2017
+Pepperdine,19.44,156,2017
+Stetson,20.28,152,2017
+Maine,11.63,240,2017
+Monmouth,24.3,125,2017
+Nebraska Omaha,23.41,132,2017
+Savannah State,14.0,209,2017
+Arkansas-Little Rock,19.0,157,2017
+Loyola Marymount,13.33,217,2017
+Ball State,22.65,135,2017
+Presbyterian,13.0,230,2017
+Cal State Bakersfield,13.33,217,2017
+Santa Clara,37.44,79,2017
+Northern Kentucky,12.36,233,2017
+Sacred Heart,22.65,135,2017
+Kentucky,70.43,2,2018
+North Carolina,58.57,13,2018
+Texas,66.44,3,2018
+Villanova,57.12,17,2018
+UCLA,66.15,4,2018
+Arizona,65.58,5,2018
+Kansas,65.03,6,2018
+Connecticut,39.49,74,2018
+Florida State,49.57,40,2018
+Minnesota,49.22,42,2018
+Georgia Tech,39.25,77,2018
+Marquette,45.24,55,2018
+Oklahoma,43.03,62,2018
+Miami,57.3,15,2018
+Clemson,38.76,80,2018
+Alabama,51.81,30,2018
+N.C. State,50.87,33,2018
+Indiana,59.38,11,2018
+Oregon,64.32,7,2018
+Duke,70.85,1,2018
+Iowa State,50.56,35,2018
+Mississippi State,57.53,14,2018
+Louisville,54.36,24,2018
+Oklahoma State,43.68,60,2018
+Arkansas,49.81,39,2018
+Pittsburgh,41.81,69,2018
+Washington,55.63,22,2018
+Ole Miss,42.1,68,2018
+Illinois,50.23,36,2018
+Illinois State,23.26,139,2018
+Kansas State,34.15,92,2018
+Nebraska,42.19,66,2018
+Charlotte,17.76,171,2018
+Michigan,51.91,29,2018
+Auburn,60.83,8,2018
+Oregon State,45.63,53,2018
+Virginia Tech,47.33,48,2018
+West Virginia,49.03,44,2018
+Marshall,13.33,223,2018
+St. Mary's,24.42,131,2018
+Western Kentucky,53.75,26,2018
+Michigan State,59.59,10,2018
+Southern Miss,10.71,249,2018
+Missouri,49.33,41,2018
+Cincinnati,43.98,58,2018
+Valparaiso,15.91,191,2018
+San Diego,15.16,201,2018
+South Alabama,31.0,99,2018
+Wake Forest,52.71,27,2018
+Bowling Green,14.76,206,2018
+UAB,26.79,116,2018
+Central Michigan,4.44,261,2018
+Arkansas State,17.0,181,2018
+Cal State Fullerton,16.81,186,2018
+Lipscomb,3.33,262,2018
+UCF,26.84,115,2018
+St. John's,50.64,34,2018
+Florida,55.65,21,2018
+Middle Tennessee State,29.86,104,2018
+Vanderbilt,52.0,28,2018
+USF,37.04,85,2018
+Texas Tech,42.71,64,2018
+La Salle,17.15,176,2018
+Western Michigan,18.02,165,2018
+Texas-San Antonio,20.36,154,2018
+Tennessee,39.14,78,2018
+San Diego State,38.55,82,2018
+Lehigh,24.73,125,2018
+South Dakota,13.33,223,2018
+Northern Iowa,21.13,150,2018
+Kent State,12.88,240,2018
+North Dakota State,6.67,256,2018
+New Mexico State,17.65,172,2018
+Seattle,29.31,107,2018
+Pacific,20.6,151,2018
+Weber State,14.36,213,2018
+Wisconsin-Green Bay,14.44,212,2018
+Long Beach State,22.74,141,2018
+Oral Roberts,15.41,200,2018
+UC Irvine,14.62,207,2018
+Dartmouth,19.41,158,2018
+Xavier,47.89,47,2018
+Brown,10.34,252,2018
+George Mason,18.01,166,2018
+Georgia,51.71,31,2018
+Denver,15.78,196,2018
+Buffalo,33.59,94,2018
+Northern Arizona,10.46,250,2018
+Illinois Chicago,25.21,123,2018
+Rider,14.2,215,2018
+Hofstra,13.68,221,2018
+South Carolina,45.96,52,2018
+Tennessee State,18.0,167,2018
+TCU,50.15,37,2018
+Florida Gulf Coast,29.78,105,2018
+North Texas,28.96,109,2018
+Siena,14.57,209,2018
+Rice,30.13,101,2018
+James Madison,18.94,160,2018
+Howard,13.33,223,2018
+Baylor,42.75,63,2018
+Murray State,20.53,153,2018
+Virginia,44.96,56,2018
+Colorado,38.6,81,2018
+Maryland,57.3,15,2018
+Missouri State,20.29,155,2018
+Utah,48.02,46,2018
+Iowa,44.26,57,2018
+Arizona State,58.88,12,2018
+UNLV,50.04,38,2018
+Mount St. Mary's,12.05,243,2018
+FIU,15.85,194,2018
+Central Arkansas,27.21,113,2018
+Navy,8.04,255,2018
+Stephen F. Austin,25.05,124,2018
+Mercer,11.62,247,2018
+Bryant University,13.33,223,2018
+Morehead State,24.44,130,2018
+Dayton,35.68,91,2018
+Gonzaga,37.82,83,2018
+Bradley,12.73,241,2018
+Brigham Young,24.63,126,2018
+Loyola (MD),14.0,217,2018
+Fordham,19.48,157,2018
+Montana State,10.44,251,2018
+SMU,40.84,71,2018
+Cal State Northridge,18.0,167,2018
+Coastal Carolina,13.33,223,2018
+North Carolina Central,17.0,181,2018
+UT-Arlington,17.0,181,2018
+Houston Baptist,16.03,189,2018
+Iona,15.0,203,2018
+Boise State,26.64,117,2018
+Idaho,16.27,188,2018
+Evansville,6.67,256,2018
+Long Island,14.48,210,2018
+IUPUI,17.15,176,2018
+George Washington,25.48,121,2018
+Houston,30.47,100,2018
+St. Bonaventure,15.06,202,2018
+Southern Illinois,25.29,122,2018
+Eastern Kentucky,24.4,132,2018
+Jacksonville State,19.0,159,2018
+Southeast Missouri State,18.36,164,2018
+Lafayette,15.78,196,2018
+Alabama State,13.75,220,2018
+Princeton,21.25,149,2018
+Georgia Southern,23.47,136,2018
+New Orleans,13.33,223,2018
+Youngstown State,9.0,254,2018
+Fresno State,35.87,90,2018
+Bucknell,18.0,167,2018
+Wagner,13.33,223,2018
+Cal Poly,13.33,223,2018
+Towson,15.55,198,2018
+Memphis,49.13,43,2018
+Georgetown,46.24,50,2018
+Georgia State,28.49,110,2018
+Rhode Island,33.15,96,2018
+New Mexico,21.51,147,2018
+UNC Wilmington,24.46,128,2018
+Utah State,31.06,98,2018
+Hawaii,17.11,180,2018
+UC Riverside,13.33,223,2018
+Columbia,16.37,187,2018
+Saint Peter's,17.87,170,2018
+Tennessee-Martin,27.28,112,2018
+Nevada,36.85,86,2018
+Yale,24.6,127,2018
+Rutgers,42.51,65,2018
+Vermont,11.86,245,2018
+High Point,17.13,178,2018
+Seton Hall,43.6,61,2018
+DePaul,39.41,75,2018
+UC Santa Barbara,33.28,95,2018
+Indiana State,14.9,205,2018
+Penn State,43.93,59,2018
+California,46.87,49,2018
+Wyoming,26.98,114,2018
+VCU,39.03,79,2018
+Florida Atlantic,11.12,248,2018
+UTEP,33.94,93,2018
+Massachusetts,29.91,103,2018
+Creighton,51.1,32,2018
+Manhattan,13.33,223,2018
+Appalachian State,17.42,175,2018
+William & Mary,16.0,190,2018
+Miami (OH),24.01,135,2018
+Saint Louis,41.08,70,2018
+Saint Joseph's,18.42,163,2018
+Providence,54.01,25,2018
+Belmont,20.57,152,2018
+Wichita State,36.27,87,2018
+Colorado State,22.36,143,2018
+Tulsa,30.05,102,2018
+Pennsylvania,21.54,145,2018
+Ohio,13.33,223,2018
+East Carolina,26.35,119,2018
+Drake,17.54,173,2018
+Delaware,15.85,194,2018
+San Jose State,26.05,120,2018
+Syracuse,56.21,20,2018
+Robert Morris,6.67,256,2018
+Duquesne,21.53,146,2018
+Wisconsin,42.18,67,2018
+Louisiana Tech,14.47,211,2018
+Butler,36.24,88,2018
+Tulane,35.94,89,2018
+Stanford,54.62,23,2018
+Wisconsin-Milwaukee,29.41,106,2018
+Northern Illinois,15.9,192,2018
+Loyola Chicago,24.4,132,2018
+Old Dominion,26.62,118,2018
+LSU,60.13,9,2018
+USC,56.33,19,2018
+Fairfield,17.12,179,2018
+Louisiana,14.58,208,2018
+Texas A&M,46.16,51,2018
+Purdue,45.61,54,2018
+Northwestern,40.51,73,2018
+Temple,32.87,97,2018
+Richmond,23.17,140,2018
+Washington State,23.32,138,2018
+Notre Dame,48.24,45,2018
+Harvard,40.83,72,2018
+Montana,14.18,216,2018
+Toledo,16.9,185,2018
+Eastern Illinois,12.0,244,2018
+Holy Cross,13.68,221,2018
+Boston University,14.96,204,2018
+Samford,12.27,242,2018
+Chattanooga,29.11,108,2018
+Davidson,21.59,144,2018
+Furman,10.0,253,2018
+UNC Greensboro,17.43,174,2018
+Ohio State,56.99,18,2018
+Stony Brook,13.33,223,2018
+South Dakota State,28.21,111,2018
+Northeastern,21.35,148,2018
+Southern Utah,17.0,181,2018
+UNC Asheville,24.45,129,2018
+New Hampshire,13.33,223,2018
+Boston College,39.26,76,2018
+Hampton,15.88,193,2018
+Missouri-Kansas City,6.67,256,2018
+Portland,15.46,199,2018
+San Francisco,6.67,256,2018
+Wofford,13.33,223,2018
+Pepperdine,18.86,161,2018
+Stetson,14.0,217,2018
+Maine,11.63,246,2018
+Monmouth,24.3,134,2018
+Nebraska Omaha,23.41,137,2018
+Savannah State,14.0,217,2018
+Arkansas-Little Rock,18.86,161,2018
+Loyola Marymount,13.33,223,2018
+Ball State,19.94,156,2018
+Presbyterian,13.0,239,2018
+Cal State Bakersfield,13.33,223,2018
+Santa Clara,37.44,84,2018
+Northern Kentucky,14.36,213,2018
+Sacred Heart,22.65,142,2018

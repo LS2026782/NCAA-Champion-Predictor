@@ -1,0 +1,329 @@
+TEAM,TALENT_SCORE,TALENT_RANK,YEAR
+Kentucky,70.14,1,2012
+North Carolina,65.95,2,2012
+Texas,64.0,4,2012
+Villanova,57.5,10,2012
+UCLA,55.8,14,2012
+Arizona,64.44,3,2012
+Kansas,59.76,5,2012
+Connecticut,56.38,13,2012
+Florida State,52.54,20,2012
+Minnesota,41.21,57,2012
+Georgia Tech,52.38,21,2012
+Marquette,51.17,26,2012
+Oklahoma,41.12,58,2012
+Miami,31.43,84,2012
+Clemson,42.21,54,2012
+Alabama,50.37,30,2012
+N.C. State,50.63,28,2012
+Indiana,53.95,17,2012
+Oregon,49.04,33,2012
+Duke,59.43,6,2012
+Iowa State,44.51,47,2012
+Mississippi State,46.45,41,2012
+Louisville,44.56,46,2012
+Oklahoma State,51.57,25,2012
+Arkansas,50.68,27,2012
+Pittsburgh,56.51,12,2012
+Washington,51.92,24,2012
+Ole Miss,48.43,37,2012
+Illinois,58.92,8,2012
+Illinois State,27.41,109,2012
+Kansas State,36.42,68,2012
+Nebraska,31.97,79,2012
+Charlotte,38.13,64,2012
+Michigan,54.7,15,2012
+Auburn,49.27,32,2012
+Oregon State,35.74,70,2012
+Virginia Tech,39.37,63,2012
+West Virginia,47.9,38,2012
+Marshall,26.06,116,2012
+St. Mary's,20.77,163,2012
+Western Kentucky,44.47,48,2012
+Michigan State,58.48,9,2012
+Southern Miss,30.74,90,2012
+Missouri,37.92,65,2012
+Cincinnati,33.02,75,2012
+Valparaiso,21.46,151,2012
+San Diego,29.82,99,2012
+South Alabama,28.24,105,2012
+Wake Forest,45.43,43,2012
+Bowling Green,20.5,166,2012
+UAB,25.24,121,2012
+Central Michigan,32.92,76,2012
+Arkansas State,16.57,217,2012
+Cal State Fullerton,31.33,85,2012
+Saint Francis (PA),14.44,254,2012
+Lipscomb,13.0,271,2012
+UCF,27.77,107,2012
+St. John's,47.28,40,2012
+South Carolina State,15.14,243,2012
+Northern Colorado,25.73,119,2012
+Florida,52.1,22,2012
+Middle Tennessee State,22.92,136,2012
+Vanderbilt,46.02,42,2012
+Liberty,16.36,221,2012
+USF,32.91,77,2012
+Texas Tech,36.49,67,2012
+Jackson State,14.22,256,2012
+La Salle,21.77,147,2012
+Western Michigan,17.15,207,2012
+Akron,30.25,95,2012
+Louisiana-Monroe,14.66,248,2012
+Texas-San Antonio,18.2,193,2012
+Cleveland State,27.39,110,2012
+Tennessee,50.39,29,2012
+San Diego State,26.88,111,2012
+Lehigh,11.56,297,2012
+South Dakota,17.47,204,2012
+Wright State,25.06,122,2012
+Northern Iowa,29.38,101,2012
+Kent State,18.62,185,2012
+North Dakota State,21.86,146,2012
+New Mexico State,22.0,143,2012
+Army,16.42,219,2012
+Seattle,19.48,177,2012
+Pacific,17.53,202,2012
+Sacramento State,13.81,264,2012
+Weber State,23.58,131,2012
+Wisconsin-Green Bay,18.28,191,2012
+Sam Houston State,20.25,172,2012
+Tennessee Tech,15.66,231,2012
+Long Beach State,23.96,127,2012
+American,23.65,129,2012
+Oral Roberts,14.11,257,2012
+Western Illinois,12.84,272,2012
+Marist,18.59,187,2012
+UC Irvine,22.0,143,2012
+Dartmouth,14.54,252,2012
+Xavier,52.95,19,2012
+Brown,18.53,189,2012
+Cornell,17.86,198,2012
+George Mason,30.85,89,2012
+Georgia,44.84,45,2012
+Denver,12.37,280,2012
+Alabama A&M,21.72,148,2012
+Binghamton,20.59,165,2012
+Buffalo,9.98,307,2012
+IPFW,19.58,176,2012
+Air Force,12.48,278,2012
+Northern Arizona,18.09,196,2012
+Illinois Chicago,18.54,188,2012
+Prairie View A&M,17.18,206,2012
+Rider,20.7,164,2012
+Hofstra,15.19,241,2012
+South Carolina,45.27,44,2012
+Detroit,30.64,92,2012
+Mississippi Valley State,17.56,201,2012
+Tennessee State,18.17,195,2012
+Idaho State,17.0,212,2012
+TCU,30.67,91,2012
+Florida Gulf Coast,18.19,194,2012
+North Texas,28.84,104,2012
+Siena,20.31,169,2012
+Alcorn State,23.73,128,2012
+Rice,20.88,161,2012
+James Madison,22.03,142,2012
+Howard,21.26,154,2012
+Baylor,56.63,11,2012
+Portland State,15.18,242,2012
+St. Francis (NY),14.7,247,2012
+Murray State,18.97,180,2012
+North Dakota,11.67,295,2012
+Virginia,52.08,23,2012
+Colorado,42.64,53,2012
+Maryland,44.39,50,2012
+Missouri State,23.29,133,2012
+Utah,31.71,82,2012
+Iowa,41.32,56,2012
+Arizona State,39.56,62,2012
+UNLV,36.6,66,2012
+Mount St. Mary's,9.96,308,2012
+Lamar,11.86,291,2012
+Northwestern State,14.09,259,2012
+FIU,28.99,103,2012
+Central Arkansas,14.56,250,2012
+Eastern Washington,16.72,216,2012
+Navy,18.26,192,2012
+Stephen F. Austin,15.84,230,2012
+Mercer,11.96,289,2012
+Radford,11.07,299,2012
+Bryant University,15.65,232,2012
+Morehead State,19.62,175,2012
+Dayton,25.98,117,2012
+Gonzaga,34.3,74,2012
+Bradley,20.08,173,2012
+Brigham Young,24.63,126,2012
+Loyola (MD),20.31,169,2012
+Niagara,15.12,244,2012
+Fordham,15.98,227,2012
+Quinnipiac,13.27,269,2012
+Montana State,18.33,190,2012
+SMU,31.8,80,2012
+Cal State Northridge,17.29,205,2012
+Coastal Carolina,17.08,210,2012
+Florida A&M,13.85,262,2012
+Maryland Eastern Shore,12.06,284,2012
+North Carolina Central,13.85,262,2012
+Texas State,14.48,253,2012
+UT-Arlington,20.91,160,2012
+Houston Baptist,12.63,275,2012
+Grambling State,14.55,251,2012
+Iona,27.91,106,2012
+Hartford,23.12,134,2012
+Boise State,17.06,211,2012
+Idaho,10.42,303,2012
+Evansville,8.1,321,2012
+North Florida,9.01,313,2012
+Long Island,9.77,310,2012
+IUPUI,16.14,223,2012
+George Washington,18.74,183,2012
+Morgan State,11.79,292,2012
+Houston,39.65,61,2012
+St. Bonaventure,8.52,318,2012
+Virginia Military Institute,10.22,304,2012
+Bethune-Cookman,13.2,270,2012
+Coppin State,13.62,266,2012
+Southern Illinois,26.23,114,2012
+Eastern Kentucky,13.39,268,2012
+Jacksonville State,16.78,214,2012
+Southeast Missouri State,21.07,156,2012
+Lafayette,8.52,318,2012
+Troy,14.59,249,2012
+Nicholls State,8.52,318,2012
+Alabama State,7.9,322,2012
+Princeton,17.09,209,2012
+Georgia Southern,22.07,141,2012
+New Orleans,11.11,298,2012
+Youngstown State,13.79,265,2012
+Fresno State,20.28,171,2012
+Bucknell,11.7,294,2012
+Wagner,12.03,285,2012
+Cal Poly,13.53,267,2012
+Towson,18.05,197,2012
+Memphis,44.11,51,2012
+Georgetown,54.42,16,2012
+Georgia State,19.07,179,2012
+Rhode Island,22.6,138,2012
+New Mexico,31.53,83,2012
+UNC Wilmington,8.96,316,2012
+Utah State,6.67,323,2012
+South Carolina Upstate,9.93,309,2012
+Hawaii,15.96,228,2012
+UC Riverside,16.41,220,2012
+Charleston Southern,17.73,199,2012
+Columbia,11.66,296,2012
+Saint Peter's,6.67,323,2012
+Delaware State,6.67,323,2012
+Norfolk State,6.67,323,2012
+Fairleigh Dickinson,12.54,277,2012
+Tennessee-Martin,10.19,306,2012
+McNeese State,8.61,317,2012
+Nevada,11.98,288,2012
+Eastern Michigan,12.25,281,2012
+Yale,11.06,300,2012
+Rutgers,30.06,97,2012
+Vermont,10.47,302,2012
+High Point,20.43,168,2012
+Seton Hall,30.32,94,2012
+DePaul,34.34,73,2012
+UC Santa Barbara,20.96,158,2012
+Indiana State,18.79,182,2012
+Penn State,26.84,112,2012
+California,35.41,72,2012
+Wyoming,12.55,276,2012
+VCU,31.72,81,2012
+UC Davis,25.06,122,2012
+Florida Atlantic,12.44,279,2012
+UTEP,19.83,174,2012
+Massachusetts,42.13,55,2012
+Creighton,24.96,124,2012
+Manhattan,17.65,200,2012
+Appalachian State,23.06,135,2012
+William & Mary,17.5,203,2012
+Miami (OH),15.28,240,2012
+Saint Louis,14.11,257,2012
+Saint Joseph's,29.74,100,2012
+Providence,44.47,48,2012
+Belmont,9.65,312,2012
+Wichita State,21.42,152,2012
+Colorado State,21.58,149,2012
+Tulsa,31.02,87,2012
+Pennsylvania,23.36,132,2012
+Ohio,25.79,118,2012
+East Carolina,26.42,113,2012
+Drake,14.31,255,2012
+Delaware,30.96,88,2012
+San Jose State,14.75,245,2012
+Syracuse,59.14,7,2012
+Robert Morris,22.75,137,2012
+Duquesne,15.51,237,2012
+Wisconsin,43.34,52,2012
+Louisiana Tech,31.26,86,2012
+Butler,39.92,60,2012
+Tulane,20.92,159,2012
+Stanford,47.76,39,2012
+Wisconsin-Milwaukee,29.38,101,2012
+Northern Illinois,16.03,226,2012
+Loyola Chicago,20.45,167,2012
+Old Dominion,20.79,162,2012
+Jacksonville,23.6,130,2012
+Oakland,21.87,145,2012
+LSU,48.89,35,2012
+USC,40.39,59,2012
+Fairfield,21.49,150,2012
+Louisiana,18.73,184,2012
+Austin Peay,15.31,239,2012
+Texas A&M,53.86,18,2012
+Colgate,21.38,153,2012
+Winthrop,15.65,232,2012
+Purdue,48.94,34,2012
+Gardner-Webb,9.69,311,2012
+Drexel,20.97,157,2012
+Northwestern,32.12,78,2012
+Temple,30.56,93,2012
+Richmond,35.63,71,2012
+Washington State,36.17,69,2012
+Notre Dame,49.46,31,2012
+Harvard,30.0,98,2012
+Montana,16.96,213,2012
+Toledo,18.93,181,2012
+Eastern Illinois,15.37,238,2012
+Holy Cross,12.08,283,2012
+Boston University,16.04,225,2012
+Samford,17.11,208,2012
+Chattanooga,27.62,108,2012
+East Tennessee State,24.64,125,2012
+Citadel,25.31,120,2012
+Elon,14.05,260,2012
+Davidson,15.91,229,2012
+Furman,26.14,115,2012
+UNC Greensboro,16.76,215,2012
+Ohio State,48.82,36,2012
+Stony Brook,15.61,234,2012
+Campbell,19.48,177,2012
+Central Connecticut State,15.6,236,2012
+Western Carolina,16.13,224,2012
+Texas Southern,18.62,185,2012
+South Dakota State,10.51,301,2012
+Northeastern,22.24,139,2012
+Arkansas-Pine Bluff,14.75,245,2012
+Kennesaw State,12.0,286,2012
+Southern Utah,8.98,314,2012
+UNC Asheville,12.78,273,2012
+SIU Edwardsville,8.98,314,2012
+Southeastern Louisiana,12.78,273,2012
+New Hampshire,10.21,305,2012
+Boston College,30.2,96,2012
+Canisius,6.67,323,2012
+Hampton,15.61,234,2012
+Texas A&M Corpus Christi,11.76,293,2012
+Missouri-Kansas City,11.87,290,2012
+Portland,22.13,140,2012
+Wofford,21.1,155,2012
+Pepperdine,16.55,218,2012
+Stetson,16.2,222,2012
+Maine,13.96,261,2012
+Monmouth,12.15,282,2012
+Nebraska Omaha,12.0,286,2012
+Savannah State,6.67,323,2012

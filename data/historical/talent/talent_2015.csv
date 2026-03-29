@@ -1,51 +1,254 @@
 TEAM,TALENT_SCORE,TALENT_RANK,YEAR
-Florida,,1,2015
-Virginia,,2,2015
-Kansas,,3,2015
-North Carolina,,4,2015
-California,,5,2015
-Kentucky,,6,2015
-Arizona,,7,2015
-Illinois,,8,2015
-Stanford,,9,2015
-Georgetown,,10,2015
-Texas A&M,,11,2015
-Houston,,12,2015
-UConn,,13,2015
-Ohio State,,14,2015
-Texas,,15,2015
-USC,,16,2015
-Syracuse,,17,2015
-Memphis,,18,2015
-Maryland,,19,2015
-Villanova,,20,2015
-Purdue,,21,2015
-Notre Dame,,22,2015
-BYU,,23,2015
-Oklahoma,,24,2015
-San Diego State,,25,2015
-Washington,,26,2015
-Indiana,,27,2015
-Louisville,,28,2015
-Marquette,,29,2015
-Cincinnati,,30,2015
-Virginia Tech,,31,2015
-UCLA,,32,2015
-Iowa State,,33,2015
-Xavier,,34,2015
-South Carolina,,35,2015
-NC State,,36,2015
-Nebraska,,37,2015
-Baylor,,38,2015
-Florida State,,39,2015
-Auburn,,40,2015
-Seton Hall,,41,2015
-Mississippi State,,42,2015
-UNLV,,43,2015
-Miami,,44,2015
-Michigan,,45,2015
-West Virginia,,46,2015
-Wisconsin,,47,2015
-SMU,,48,2015
-Oregon,,49,2015
-Michigan State,,50,2015
+Kentucky,70.19,1,2015
+North Carolina,56.63,16,2015
+Texas,57.33,13,2015
+Villanova,52.64,26,2015
+UCLA,63.71,6,2015
+Arizona,67.36,2,2015
+Kansas,65.99,4,2015
+Connecticut,50.82,37,2015
+Florida State,52.8,25,2015
+Minnesota,40.45,65,2015
+Georgia Tech,37.32,79,2015
+Marquette,50.31,38,2015
+Oklahoma,45.64,51,2015
+Miami,44.92,52,2015
+Clemson,37.42,78,2015
+Alabama,47.61,45,2015
+N.C. State,56.88,14,2015
+Indiana,60.75,7,2015
+Oregon,56.8,15,2015
+Duke,66.15,3,2015
+Iowa State,39.42,68,2015
+Mississippi State,44.59,54,2015
+Louisville,60.16,9,2015
+Oklahoma State,52.17,29,2015
+Arkansas,44.26,55,2015
+Pittsburgh,43.24,57,2015
+Washington,51.11,35,2015
+Ole Miss,37.74,75,2015
+Illinois,56.28,17,2015
+Illinois State,19.33,148,2015
+Kansas State,39.87,67,2015
+Nebraska,42.62,58,2015
+Charlotte,29.8,105,2015
+Michigan,47.96,44,2015
+Auburn,52.6,27,2015
+Oregon State,44.87,53,2015
+Virginia Tech,48.34,43,2015
+West Virginia,48.77,42,2015
+Marshall,20.08,146,2015
+St. Mary's,37.56,77,2015
+Western Kentucky,32.24,97,2015
+Michigan State,51.6,33,2015
+Southern Miss,22.8,131,2015
+Missouri,55.63,19,2015
+Cincinnati,46.66,49,2015
+Valparaiso,15.89,177,2015
+San Diego,14.4,188,2015
+South Alabama,24.57,123,2015
+Wake Forest,42.26,60,2015
+Bowling Green,5.22,246,2015
+UAB,37.83,73,2015
+Central Michigan,5.45,244,2015
+Lipscomb,12.19,211,2015
+UCF,32.1,99,2015
+St. John's,41.46,62,2015
+Northern Colorado,25.72,119,2015
+Florida,60.55,8,2015
+Middle Tennessee State,20.45,143,2015
+Vanderbilt,47.46,46,2015
+Liberty,14.28,189,2015
+USF,46.68,48,2015
+Texas Tech,35.35,88,2015
+La Salle,11.88,214,2015
+Western Michigan,11.04,221,2015
+Akron,13.42,197,2015
+Cleveland State,12.53,208,2015
+Tennessee,49.68,40,2015
+San Diego State,51.69,32,2015
+Lehigh,13.33,199,2015
+Wright State,24.88,122,2015
+Northern Iowa,17.02,163,2015
+Kent State,14.54,187,2015
+North Dakota State,6.67,237,2015
+New Mexico State,15.6,179,2015
+Pacific,17.26,159,2015
+Weber State,12.18,212,2015
+Wisconsin-Green Bay,17.06,162,2015
+Tennessee Tech,13.67,195,2015
+Long Beach State,19.06,150,2015
+Oral Roberts,14.88,184,2015
+Western Illinois,3.33,247,2015
+UC Irvine,22.07,134,2015
+Dartmouth,15.0,182,2015
+Xavier,42.4,59,2015
+Brown,10.34,224,2015
+George Mason,30.29,104,2015
+Georgia,41.43,63,2015
+Buffalo,25.03,121,2015
+Northern Arizona,8.97,232,2015
+Illinois Chicago,14.61,185,2015
+Rider,10.86,222,2015
+Hofstra,21.42,137,2015
+South Carolina,50.93,36,2015
+Tennessee State,21.59,136,2015
+TCU,36.15,85,2015
+Florida Gulf Coast,25.31,120,2015
+North Texas,23.89,128,2015
+Siena,13.6,196,2015
+Rice,34.91,90,2015
+James Madison,16.18,174,2015
+Howard,14.0,190,2015
+Baylor,52.23,28,2015
+Murray State,18.04,154,2015
+Virginia,49.56,41,2015
+Colorado,36.4,83,2015
+Maryland,53.89,23,2015
+Missouri State,12.24,210,2015
+Utah,37.65,76,2015
+Iowa,34.65,91,2015
+Arizona State,43.47,56,2015
+UNLV,63.72,5,2015
+Eastern Washington,3.33,247,2015
+Navy,10.62,223,2015
+Stephen F. Austin,11.37,219,2015
+Mercer,11.69,217,2015
+Bryant University,6.66,242,2015
+Morehead State,12.91,207,2015
+Dayton,33.47,92,2015
+Gonzaga,28.88,108,2015
+Bradley,16.15,175,2015
+Brigham Young,41.71,61,2015
+Loyola (MD),16.85,167,2015
+Fordham,24.57,123,2015
+SMU,51.96,31,2015
+North Carolina Central,17.0,165,2015
+Iona,15.0,182,2015
+Boise State,37.11,81,2015
+Idaho,16.27,173,2015
+Evansville,8.4,233,2015
+Long Island,6.67,237,2015
+IUPUI,32.29,96,2015
+George Washington,31.03,101,2015
+Houston,35.99,87,2015
+St. Bonaventure,13.33,199,2015
+Virginia Military Institute,6.0,243,2015
+Southern Illinois,17.95,156,2015
+Southeast Missouri State,28.09,113,2015
+Lafayette,3.33,247,2015
+Alabama State,13.75,193,2015
+Princeton,20.92,139,2015
+Georgia Southern,17.19,161,2015
+Youngstown State,9.0,230,2015
+Fresno State,37.76,74,2015
+Bucknell,13.33,199,2015
+Towson,17.28,158,2015
+Memphis,59.55,10,2015
+Georgetown,53.27,24,2015
+Georgia State,16.36,172,2015
+Rhode Island,30.75,103,2015
+New Mexico,34.97,89,2015
+UNC Wilmington,9.0,230,2015
+Utah State,19.83,147,2015
+Hawaii,15.73,178,2015
+UC Riverside,6.67,237,2015
+Charleston Southern,13.32,205,2015
+Saint Peter's,18.23,152,2015
+Norfolk State,13.33,199,2015
+Fairleigh Dickinson,10.04,226,2015
+Tennessee-Martin,28.41,110,2015
+Nevada,13.8,192,2015
+Yale,17.01,164,2015
+Rutgers,36.11,86,2015
+Vermont,24.01,127,2015
+High Point,20.84,140,2015
+Seton Hall,41.09,64,2015
+DePaul,36.28,84,2015
+UC Santa Barbara,11.73,216,2015
+Indiana State,16.39,171,2015
+Penn State,39.33,69,2015
+California,46.72,47,2015
+Wyoming,27.67,114,2015
+VCU,46.53,50,2015
+Florida Atlantic,16.5,170,2015
+UTEP,38.64,71,2015
+Massachusetts,28.21,112,2015
+Creighton,33.38,93,2015
+Manhattan,24.27,126,2015
+Appalachian State,11.37,219,2015
+William & Mary,5.41,245,2015
+Miami (OH),37.31,80,2015
+Saint Louis,25.91,118,2015
+Saint Joseph's,31.24,100,2015
+Providence,51.13,34,2015
+Belmont,23.5,129,2015
+Wichita State,32.11,98,2015
+Colorado State,33.14,95,2015
+Tulsa,26.42,116,2015
+Pennsylvania,22.98,130,2015
+Ohio,10.0,227,2015
+East Carolina,27.06,115,2015
+Drake,18.07,153,2015
+San Jose State,20.09,145,2015
+Syracuse,59.25,11,2015
+Robert Morris,6.67,237,2015
+Duquesne,16.67,169,2015
+Wisconsin,39.96,66,2015
+Louisiana Tech,25.93,117,2015
+Butler,36.78,82,2015
+Tulane,33.22,94,2015
+Stanford,55.41,21,2015
+Wisconsin-Milwaukee,6.67,237,2015
+Northern Illinois,30.76,102,2015
+Loyola Chicago,14.6,186,2015
+Old Dominion,17.57,157,2015
+Jacksonville,9.81,229,2015
+LSU,57.93,12,2015
+USC,49.99,39,2015
+Fairfield,17.25,160,2015
+Texas A&M,55.78,18,2015
+Winthrop,16.0,176,2015
+Purdue,54.94,22,2015
+Gardner-Webb,10.12,225,2015
+Northwestern,39.28,70,2015
+Temple,38.03,72,2015
+Richmond,3.33,247,2015
+Washington State,28.48,109,2015
+Notre Dame,52.13,30,2015
+Harvard,28.24,111,2015
+Montana,12.94,206,2015
+Toledo,19.12,149,2015
+Eastern Illinois,13.4,198,2015
+Holy Cross,13.68,194,2015
+Boston University,12.45,209,2015
+Samford,18.01,155,2015
+Chattanooga,11.79,215,2015
+East Tennessee State,16.8,168,2015
+Citadel,21.85,135,2015
+Elon,15.01,181,2015
+Davidson,20.59,141,2015
+Furman,22.13,133,2015
+UNC Greensboro,15.2,180,2015
+Ohio State,55.47,20,2015
+Campbell,3.33,247,2015
+Western Carolina,10.0,227,2015
+South Dakota State,13.33,199,2015
+Northeastern,21.07,138,2015
+Southern Utah,3.33,247,2015
+UNC Asheville,24.45,125,2015
+SIU Edwardsville,2.22,253,2015
+Southeastern Louisiana,8.0,234,2015
+Boston College,29.46,106,2015
+Missouri-Kansas City,16.93,166,2015
+Portland,8.0,234,2015
+Wofford,12.0,213,2015
+Pepperdine,20.5,142,2015
+Stetson,20.28,144,2015
+Maine,11.63,218,2015
+Savannah State,14.0,190,2015
+Arkansas-Little Rock,19.0,151,2015
+Ball State,29.37,107,2015
+Presbyterian,8.0,234,2015
+Northern Kentucky,13.33,199,2015
+Sacred Heart,22.65,132,2015
